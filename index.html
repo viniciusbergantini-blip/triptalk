@@ -98,11 +98,6 @@ margin-top:8px;
 cursor:pointer;
 }
 
-.correct{
-background:#22c55e;
-color:white;
-}
-
 </style>
 
 </head>
@@ -216,6 +211,10 @@ return
 
 app.innerHTML=`
 
+<button class="orange" onclick="screen='modules';render()">
+← Voltar
+</button>
+
 <h3>${module.toUpperCase()}</h3>
 
 <div class="progressDots">
@@ -238,10 +237,6 @@ ${dots}
 
 <button class="purple" onclick="next()">
 Continuar
-</button>
-
-<button class="orange" onclick="screen='modules';render()">
-← Menu
 </button>
 
 `
@@ -307,9 +302,11 @@ ${o}
 function answer(choice,correct){
 
 if(choice==correct){
+
 points+=10
 localStorage.points=points
 alert("Correct! +10 pontos")
+
 }
 
 quizMode=false
