@@ -5,44 +5,67 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TripTalk</title>
-
 <link rel="manifest" href="manifest.json">
-
 <style>
+
+:root{
+--bg1:#2563eb;
+--bg2:#7c3aed;
+--bg3:#ec4899;
+--card:#ffffff;
+--text:#0f172a;
+}
+
+@media (prefers-color-scheme:dark){
+:root{
+--card:#020617;
+--text:#ffffff;
+}
+}
+
 body{
 margin:0;
 font-family:system-ui,-apple-system,Segoe UI,Roboto;
-background:linear-gradient(135deg,#2563eb,#7c3aed);
+background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
-color:white;
+color:var(--text);
 }
 
 .app{
-width:380px;
+width:390px;
 max-width:95vw;
-background:#020617;
+background:var(--card);
 border-radius:26px;
 padding:20px;
-box-shadow:0 30px 80px rgba(0,0,0,.7);
+box-shadow:0 30px 80px rgba(0,0,0,.4);
+text-align:center;
 }
 
-.header{
-font-size:26px;
+.logo{
+font-size:48px;
+}
+
+.title{
+font-size:28px;
 font-weight:700;
-text-align:center;
+margin-bottom:5px;
+}
+
+.subtitle{
+opacity:.7;
+margin-bottom:20px;
 }
 
 .stats{
-text-align:center;
-margin:10px 0;
+margin-bottom:15px;
 }
 
 .progress{
 height:10px;
-background:#1e293b;
+background:#e5e7eb;
 border-radius:20px;
 overflow:hidden;
 margin-bottom:20px;
@@ -54,6 +77,14 @@ background:#22c55e;
 width:0%;
 }
 
+.card{
+background:#f1f5f9;
+padding:18px;
+border-radius:16px;
+margin-bottom:10px;
+font-size:18px;
+}
+
 button{
 width:100%;
 padding:14px;
@@ -61,41 +92,27 @@ margin-top:10px;
 border:none;
 border-radius:14px;
 font-size:16px;
+font-weight:600;
 cursor:pointer;
 }
 
-.primary{background:#3b82f6;color:white}
-.quiz{background:#334155;color:white}
-.audio{background:#2563eb;color:white}
-.speak{background:#16a34a;color:white}
-
-.card{
-background:#1e293b;
-padding:18px;
-border-radius:14px;
-margin-bottom:10px;
-font-size:18px;
+.start{
+background:#3b82f6;
+color:white;
 }
 
-.correct{background:#22c55e!important}
-.wrong{background:#ef4444!important}
-</style>
+.audio{background:#2563eb;color:white}
+.speak{background:#16a34a;color:white}
+.quiz{background:#334155;color:white}
 
+.correct{background:#22c55e!important;color:white}
+
+</style>
 </head>
 
 <body>
 
 <div class="app">
-
-<div class="header">✈️ TripTalk</div>
-
-<div class="stats">
-⭐ Pontos: <span id="points">0</span> | 🔥 Streak: <span id="streak">0</span>
-</div>
-
-<div class="progress">
-<div id="bar" class="bar"></div>
-</div>
 
 <div id="screen"></div>
 
@@ -114,16 +131,16 @@ progress:0,
 lesson:0
 }
 
-const lessons = [
+const lessons=[
 
-{en:"Where is the airport?",pt:"Onde fica o aeroporto?"},
-{en:"Where is my gate?",pt:"Onde é meu portão?"},
-{en:"I have a reservation",pt:"Eu tenho uma reserva"},
-{en:"What time is check-in?",pt:"Que horas é o check-in?"},
-{en:"Can I see the menu?",pt:"Posso ver o menu?"},
-{en:"The bill please",pt:"A conta por favor"},
-{en:"Call a taxi please",pt:"Chame um taxi por favor"},
-{en:"Where is the subway?",pt:"Onde fica o metrô?"}
+{en:"Where is the airport?",pron:"Uér iz dhi érport",pt:"Onde fica o aeroporto?"},
+{en:"Where is my gate?",pron:"Uér iz mai gueit",pt:"Onde é meu portão?"},
+{en:"I have a reservation",pron:"Ai rév a rezervêixon",pt:"Eu tenho uma reserva"},
+{en:"What time is check-in?",pron:"Uót táim iz tchekin",pt:"Que horas é o check-in?"},
+{en:"Can I see the menu?",pron:"Kén ai si dhi menu",pt:"Posso ver o menu?"},
+{en:"The bill please",pron:"Dhi bil plis",pt:"A conta por favor"},
+{en:"Call a taxi please",pron:"Kol a táxi plis",pt:"Chame um taxi por favor"},
+{en:"Where is the subway?",pron:"Uér iz dhi sâbuei",pt:"Onde fica o metrô?"}
 
 ]
 
@@ -131,26 +148,51 @@ function save(){
 localStorage.setItem("triptalk",JSON.stringify(data))
 }
 
-function update(){
-document.getElementById("points").innerText=data.points
-document.getElementById("streak").innerText=data.streak
-document.getElementById("bar").style.width=data.progress+"%"
+function start(){
+
+document.getElementById("screen").innerHTML=`
+
+<div class="logo">🌎</div>
+
+<div class="title">TripTalk</div>
+
+<div class="subtitle">
+Aprenda inglês para sua primeira viagem
+</div>
+
+<div class="stats">
+⭐ ${data.points} | 🔥 ${data.streak}
+</div>
+
+<div class="progress">
+<div class="bar" style="width:${data.progress}%"></div>
+</div>
+
+<button class="start" onclick="lesson()">COMEÇAR</button>
+
+`
+
 }
 
 function speak(text){
+
 let speech=new SpeechSynthesisUtterance(text)
 speech.lang="en-US"
 speech.rate=0.85
 speechSynthesis.speak(speech)
+
 }
 
 function listen(){
+
 let recognition=new(window.SpeechRecognition||window.webkitSpeechRecognition)()
 recognition.lang="en-US"
 recognition.start()
+
 recognition.onresult=function(event){
 alert("Você disse: "+event.results[0][0].transcript)
 }
+
 }
 
 function lesson(){
@@ -160,7 +202,11 @@ let l=lessons[data.lesson]
 document.getElementById("screen").innerHTML=`
 
 <div class="card">
-${l.en}<br><br>${l.pt}
+
+<b>${l.en}</b><br><br>
+${l.pron}<br><br>
+${l.pt}
+
 </div>
 
 <button class="audio" onclick="speak('${l.en}')">🔊 Ouvir</button>
@@ -169,8 +215,6 @@ ${l.en}<br><br>${l.pt}
 <button class="quiz" onclick="quiz()">Continuar</button>
 
 `
-
-update()
 
 }
 
@@ -182,13 +226,14 @@ document.getElementById("screen").innerHTML=`
 
 <div class="card">
 
-Como dizer:<br><br>${l.pt}
+Como dizer:<br><br>
+<b>${l.pt}</b>
 
 </div>
 
 <button class="quiz" onclick="answer(true)"> ${l.en}</button>
-<button class="quiz" onclick="answer(false)"> Wrong option</button>
-<button class="quiz" onclick="answer(false)"> Another wrong</button>
+<button class="quiz" onclick="answer(false)">Wrong option</button>
+<button class="quiz" onclick="answer(false)">Another option</button>
 
 `
 
@@ -197,30 +242,46 @@ Como dizer:<br><br>${l.pt}
 function answer(correct){
 
 if(correct){
+
 data.points+=10
 data.progress+=10
 data.streak+=1
 data.lesson++
+
 save()
 
+confetti()
+
 if(data.lesson>=lessons.length){
-document.getElementById("screen").innerHTML="<div class='card'>🎉 Curso concluído!</div>"
+
+document.getElementById("screen").innerHTML=`
+<div class="card">
+🎉 Módulo concluído!
+</div>
+<button class="start" onclick="start()">Voltar</button>
+`
+
 return
 }
 
 lesson()
 
-}else{
-
-alert("Tente novamente")
+}
 
 }
 
-update()
+function confetti(){
+
+let c=document.createElement("div")
+c.innerHTML="🎉🎉🎉"
+c.style.fontSize="40px"
+document.body.appendChild(c)
+
+setTimeout(()=>c.remove(),1000)
 
 }
 
-lesson()
+start()
 
 </script>
 
