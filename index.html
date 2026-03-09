@@ -2,15 +2,17 @@
 
 <html lang="pt-br">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TripTalk</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial;
 background:linear-gradient(135deg,#0f172a,#1e293b);
 display:flex;
 justify-content:center;
@@ -20,20 +22,28 @@ height:100vh;
 
 .app{
 
-width:360px;
+width:380px;
 background:#111827;
-border-radius:20px;
+border-radius:25px;
 padding:20px;
-box-shadow:0 20px 40px rgba(0,0,0,0.6);
+box-shadow:0 25px 60px rgba(0,0,0,0.6);
 color:white;
+animation:fade 0.5s;
+
+}
+
+@keyframes fade{
+
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1;}
 
 }
 
 .header{
 
 background:#22c55e;
-padding:14px;
-border-radius:12px;
+padding:15px;
+border-radius:14px;
 text-align:center;
 font-size:22px;
 font-weight:bold;
@@ -41,11 +51,11 @@ margin-bottom:20px;
 
 }
 
-.subtitle{
+.points{
 
 text-align:center;
+margin-bottom:10px;
 opacity:0.8;
-margin-bottom:20px;
 
 }
 
@@ -55,7 +65,7 @@ width:100%;
 padding:14px;
 margin-top:12px;
 border:none;
-border-radius:12px;
+border-radius:14px;
 font-size:16px;
 font-weight:bold;
 cursor:pointer;
@@ -65,7 +75,7 @@ transition:0.2s;
 
 button:hover{
 
-transform:scale(1.03);
+transform:scale(1.05);
 
 }
 
@@ -77,6 +87,13 @@ color:white;
 }
 
 .module{
+
+background:#1f2937;
+color:white;
+
+}
+
+.quiz{
 
 background:#374151;
 color:white;
@@ -93,10 +110,23 @@ color:white;
 .card{
 
 background:#1f2937;
-padding:18px;
-border-radius:12px;
+padding:20px;
+border-radius:15px;
 margin-bottom:10px;
-line-height:1.5;
+line-height:1.6;
+font-size:18px;
+
+}
+
+.correct{
+
+background:#22c55e !important;
+
+}
+
+.wrong{
+
+background:#ef4444 !important;
 
 }
 
@@ -110,13 +140,9 @@ line-height:1.5;
 
 <div class="header">✈️ TripTalk</div>
 
+<div class="points">⭐ Pontos: <span id="points">0</span></div>
+
 <div id="screen">
-
-<div class="subtitle">
-
-Aprenda inglês para sua primeira viagem
-
-</div>
 
 <button class="primary" onclick="modules()">Começar</button>
 
@@ -126,11 +152,17 @@ Aprenda inglês para sua primeira viagem
 
 <script>
 
+let points = 0
+
+function updatePoints(){
+
+document.getElementById("points").innerText = points
+
+}
+
 function modules(){
 
-document.getElementById("screen").innerHTML=`
-
-<div class="subtitle">Escolha um módulo</div>
+document.getElementById("screen").innerHTML = `
 
 <button class="module" onclick="airport()">✈️ Aeroporto</button>
 
@@ -140,6 +172,8 @@ document.getElementById("screen").innerHTML=`
 
 <button class="module" onclick="transport()">🚕 Transporte</button>
 
+<button class="module" onclick="quiz()">🧠 Quiz</button>
+
 <button class="back" onclick="home()">⬅ Voltar</button>
 
 `
@@ -148,9 +182,7 @@ document.getElementById("screen").innerHTML=`
 
 function home(){
 
-document.getElementById("screen").innerHTML=`
-
-<div class="subtitle">Aprenda inglês para sua primeira viagem</div>
+document.getElementById("screen").innerHTML = `
 
 <button class="primary" onclick="modules()">Começar</button>
 
@@ -160,13 +192,21 @@ document.getElementById("screen").innerHTML=`
 
 function airport(){
 
-document.getElementById("screen").innerHTML=`
+document.getElementById("screen").innerHTML = `
 
 <div class="card">
 
 Where is the airport?<br><br>
 
 Onde fica o aeroporto?
+
+</div>
+
+<div class="card">
+
+Where is my gate?<br><br>
+
+Onde é meu portão?
 
 </div>
 
@@ -178,13 +218,21 @@ Onde fica o aeroporto?
 
 function hotel(){
 
-document.getElementById("screen").innerHTML=`
+document.getElementById("screen").innerHTML = `
 
 <div class="card">
 
 I have a reservation<br><br>
 
 Eu tenho uma reserva
+
+</div>
+
+<div class="card">
+
+What time is breakfast?<br><br>
+
+Que horas é o café da manhã?
 
 </div>
 
@@ -196,13 +244,21 @@ Eu tenho uma reserva
 
 function restaurant(){
 
-document.getElementById("screen").innerHTML=`
+document.getElementById("screen").innerHTML = `
 
 <div class="card">
 
 Can I see the menu?<br><br>
 
 Posso ver o menu?
+
+</div>
+
+<div class="card">
+
+I would like a coffee<br><br>
+
+Eu gostaria de um café
 
 </div>
 
@@ -214,7 +270,7 @@ Posso ver o menu?
 
 function transport(){
 
-document.getElementById("screen").innerHTML=`
+document.getElementById("screen").innerHTML = `
 
 <div class="card">
 
@@ -224,13 +280,64 @@ Onde fica o metrô?
 
 </div>
 
+<div class="card">
+
+How much is the taxi?<br><br>
+
+Quanto custa o taxi?
+
+</div>
+
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
 `
 
 }
 
+function quiz(){
+
+document.getElementById("screen").innerHTML = `
+
+<div class="card">
+
+Como dizer:<br><br>
+
+Onde fica o aeroporto?
+
+</div>
+
+<button class="quiz" onclick="answer(this,true)">Where is the airport</button>
+
+<button class="quiz" onclick="answer(this,false)">Where is the hotel</button>
+
+<button class="quiz" onclick="answer(this,false)">Where is the taxi</button>
+
+<button class="back" onclick="modules()">⬅ Voltar</button>
+
+`
+
+}
+
+function answer(btn,correct){
+
+if(correct){
+
+btn.classList.add("correct")
+
+points++
+
+updatePoints()
+
+}else{
+
+btn.classList.add("wrong")
+
+}
+
+}
+
 </script>
 
 </body>
+
 </html>
