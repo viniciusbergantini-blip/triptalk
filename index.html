@@ -2,278 +2,196 @@
 
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TripTalk English</title>
-<link rel="manifest" href="manifest.json">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripTalk</title>
+
 <style>
-:root{
-  --bg1:#2563eb; --bg2:#7c3aed; --bg3:#ec4899;
-  --card:#ffffff; --text:#0f172a; --muted:#64748b;
-  --btn:#3b82f6; --ok:#22c55e; --warn:#f97316;
-}
-@media (prefers-color-scheme: dark){
-  :root{ --card:#020617; --text:#ffffff; --muted:#94a3b8; }
-}
-*{box-sizing:border-box}
+
 body{
-  margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-  background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
-  min-height:100vh; display:flex; align-items:center; justify-content:center;
-  color:var(--text);
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#4f46e5,#9333ea);
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
 }
+
 .app{
-  width:420px; max-width:94vw; background:var(--card); border-radius:26px;
-  padding:20px; box-shadow:0 30px 80px rgba(0,0,0,.35);
+width:420px;
+max-width:90%;
+background:white;
+border-radius:20px;
+padding:25px;
+box-shadow:0 20px 50px rgba(0,0,0,.2);
+text-align:center;
 }
-.center{text-align:center}
-.logo{font-size:40px}
-.title{font-size:24px; font-weight:800}
-.subtitle{color:var(--muted); margin-bottom:12px}
-.stats{font-size:14px; margin-bottom:10px}
-.progress{height:10px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:10px 0 16px}
-.bar{height:100%; background:var(--ok); width:0%}
-.grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-.card{
-  background:#f1f5f9; border-radius:16px; padding:16px; text-align:left; cursor:pointer;
+
+button{
+width:100%;
+padding:15px;
+margin-top:10px;
+border:none;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
 }
-.btn{
-  width:100%; border:0; border-radius:14px; padding:14px; font-weight:700; cursor:pointer;
+
+.primary{background:#4f46e5;color:white}
+.listen{background:#2563eb;color:white}
+.speak{background:#16a34a;color:white}
+.menu{background:#fb923c;color:white}
+
+.module{
+background:#eef2ff;
+padding:18px;
+border-radius:12px;
+margin-top:10px;
+cursor:pointer;
 }
-.btn-primary{background:var(--btn); color:#fff}
-.btn-audio{background:#2563eb; color:#fff}
-.btn-speak{background:#16a34a; color:#fff}
-.btn-quiz{background:#334155; color:#fff}
-.btn-back{background:var(--warn); color:#fff}
-.lesson{background:#f1f5f9; border-radius:16px; padding:18px; margin-bottom:10px}
-.pron{color:var(--muted)}
-.row{display:flex; gap:8px; margin-top:10px}
-.row .btn{flex:1}
-.confetti{
-  position:fixed; inset:0; pointer-events:none; display:flex; align-items:center; justify-content:center;
-  font-size:42px; animation:pop .9s ease-out forwards;
+
+.progress{
+height:8px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+margin:15px 0;
 }
-@keyframes pop{0%{transform:scale(.6);opacity:0}40%{opacity:1}100%{transform:scale(1.2);opacity:0}}
-.progressCircle{
-  width:60px;height:60px;border-radius:50%;
-  background:conic-gradient(var(--ok) calc(var(--p)*1%), #e5e7eb 0);
-  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+
+.bar{
+height:8px;
+background:#16a34a;
 }
+
 </style>
+
 </head>
+
 <body>
 
-<div class="app">
-  <div id="screen"></div>
-</div>
-
-<audio id="ding" preload="auto"
-src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7a2f3dff9a.mp3?filename=correct-2-46134.mp3"></audio>
+<div class="app" id="app"></div>
 
 <script>
-// registrar PWA
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
-// dados
-let data = JSON.parse(localStorage.getItem("triptalk_en")) || {
-  name:"", points:0, streak:0, progress:0, lesson:0, module:"airport"
-};
-function save(){ localStorage.setItem("triptalk_en", JSON.stringify(data)); }
+let screen="menu"
+let module="airport"
+let lessonIndex=0
+let points=0
+let streak=0
 
-// módulos
-const modules = [
-  {key:"airport", name:"✈️ Airport"},
-  {key:"hotel", name:"🏨 Hotel"},
-  {key:"restaurant", name:"🍔 Restaurant"},
-  {key:"transport", name:"🚕 Transportation"},
-  {key:"shopping", name:"🛍️ Shopping"},
-  {key:"tourism", name:"🗺️ Tourism"},
-  {key:"conversation", name:"💬 Conversation"},
-  {key:"emergency", name:"🚑 Emergency"},
-];
+const lessons=[
 
-// frases exemplo
-const lessons = 
-{m:"airport", en:"Where is the airport?", pron:"Uér iz dhi érport", pt:"Onde fica o aeroporto?"},
-{m:"airport", en:"Where is my gate?", pron:"Uér iz mai gueit", pt:"Onde é meu portão?"},
-{m:"airport", en:"Where is immigration?", pron:"Uér iz imigreixon", pt:"Onde fica a imigração?"},
-{m:"airport", en:"Where is baggage claim?", pron:"Uér iz béguêj kleim", pt:"Onde retiro a bagagem?"},
-{m:"airport", en:"Where is security?", pron:"Uér iz sicuriti", pt:"Onde é a segurança?"},
-{m:"airport", en:"Where is the restroom?", pron:"Uér iz dhi réstrum", pt:"Onde fica o banheiro?"},
-{m:"airport", en:"My flight is delayed", pron:"Mai flait iz dilêid", pt:"Meu voo está atrasado"},
-{m:"airport", en:"My flight was canceled", pron:"Mai flait uós cênseld", pt:"Meu voo foi cancelado"},
-{m:"airport", en:"I lost my luggage", pron:"Ai lost mai lâguej", pt:"Perdi minha bagagem"},
-{m:"airport", en:"I need help", pron:"Ai nid rélp", pt:"Preciso de ajuda"},
-{m:"airport", en:"Where is the check-in counter?", pron:"Uér iz dhi tchekin cáunter", pt:"Onde é o check-in?"},
-{m:"airport", en:"Where is boarding?", pron:"Uér iz bórding", pt:"Onde é o embarque?"},
-{m:"airport", en:"Here is my passport", pron:"Rír iz mai pásport", pt:"Aqui está meu passaporte"},
-{m:"airport", en:"Can I see your passport?", pron:"Ken ai si iór pásport", pt:"Posso ver seu passaporte?"},
-{m:"airport", en:"I have a connection", pron:"Ai rév a conéction", pt:"Tenho uma conexão"},
-{m:"airport", en:"Where is the exit?", pron:"Uér iz dhi éksit", pt:"Onde é a saída?"},
-{m:"airport", en:"Where can I get a taxi?", pron:"Uér kén ai guét a táxi", pt:"Onde posso pegar um táxi?"},
-{m:"airport", en:"Where is the subway?", pron:"Uér iz dhi sâbuei", pt:"Onde fica o metrô?"},
-{m:"airport", en:"How long is the wait?", pron:"Rau long iz dhi uêit", pt:"Quanto tempo é a espera?"},
-{m:"airport", en:"Thank you for your help", pron:"Thénk iu for iór rélp", pt:"Obrigado pela ajuda"},
+{m:"airport",en:"Where is the airport?",pron:"uer iz dhi erport",pt:"Onde fica o aeroporto"},
+{m:"airport",en:"Where is my gate?",pron:"uer iz mai gueit",pt:"Onde é meu portão"},
+{m:"airport",en:"Where is immigration?",pron:"uer iz imigreixon",pt:"Onde fica a imigração"},
+{m:"airport",en:"Where is baggage claim?",pron:"uer iz baguej cleim",pt:"Onde retiro a bagagem"},
+{m:"airport",en:"Where is security?",pron:"uer iz sicuriti",pt:"Onde é a segurança"},
+{m:"airport",en:"Where is the restroom?",pron:"uer iz dhi restrum",pt:"Onde fica o banheiro"},
+{m:"airport",en:"My flight is delayed",pron:"mai flait iz dileid",pt:"Meu voo está atrasado"},
+{m:"airport",en:"My flight was canceled",pron:"mai flait was cênseld",pt:"Meu voo foi cancelado"},
+{m:"airport",en:"I lost my luggage",pron:"ai lost mai laguedj",pt:"Perdi minha bagagem"},
+{m:"airport",en:"I need help",pron:"ai nid help",pt:"Preciso de ajuda"},
+{m:"airport",en:"Where is check in?",pron:"uer iz tchekin",pt:"Onde é o check in"},
+{m:"airport",en:"Where is boarding?",pron:"uer iz bording",pt:"Onde é o embarque"},
+{m:"airport",en:"Here is my passport",pron:"rir iz mai passport",pt:"Aqui está meu passaporte"},
+{m:"airport",en:"Can I see your passport?",pron:"ken ai si yor passport",pt:"Posso ver seu passaporte"},
+{m:"airport",en:"I have a connection",pron:"ai rev a conection",pt:"Tenho conexão"},
+{m:"airport",en:"Where is the exit?",pron:"uer iz dhi exit",pt:"Onde é a saída"},
+{m:"airport",en:"Where can I get a taxi?",pron:"uer ken ai get a taxi",pt:"Onde pegar um taxi"},
+{m:"airport",en:"Where is the subway?",pron:"uer iz dhi sabuei",pt:"Onde fica o metrô"},
+{m:"airport",en:"How long is the wait?",pron:"rau long iz dhi ueiti",pt:"Quanto tempo de espera"},
+{m:"airport",en:"Thank you for your help",pron:"thank iu for yor help",pt:"Obrigado pela ajuda"}
 
-// splash
-function splash(){
-  screen.innerHTML=`
-  <div class="center">
-  <div class="logo">🌎</div>
-  <div class="title">TripTalk English</div>
-  <div class="subtitle">English for Travel Certification</div>
-  <p>Loading...</p>
-  </div>`;
-  setTimeout(()=>{ data.name?home():askName(); },1200);
+]
+
+function render(){
+
+const app=document.getElementById("app")
+
+if(screen==="menu"){
+
+app.innerHTML=`
+
+<h2>🌍 TripTalk</h2>
+<p>O inglês que pode salvar sua primeira viagem</p>
+
+<div class="module" onclick="start('airport')">✈ Airport</div>
+<div class="module">🏨 Hotel</div>
+<div class="module">🍔 Restaurant</div>
+<div class="module">🚕 Transportation</div>
+
+`
+
 }
 
-// pedir nome
-function askName(){
-  screen.innerHTML=`
-  <div class="center">
-  <div class="logo">🌎</div>
-  <div class="title">TripTalk English</div>
-  <p>Digite seu nome para começar</p>
-  <input id="nameInput" placeholder="Seu nome" style="padding:10px;border-radius:8px;border:1px solid #ccc;width:80%">
-  <br><br>
-  <button class="btn btn-primary" onclick="saveName()">COMEÇAR</button>
-  </div>`;
-}
-function saveName(){
-  data.name=document.getElementById("nameInput").value||"Student";
-  save();
-  home();
+if(screen==="lesson"){
+
+let list=lessons.filter(l=>l.m===module)
+let l=list[lessonIndex]
+
+if(!l){
+lessonIndex=0
+screen="menu"
+render()
+return
 }
 
-// home
-function home(){
-  screen.innerHTML=`
-  <div class="center">
-  <div class="logo">🌎</div>
-  <div class="title">TripTalk English</div>
-  <div class="subtitle">Não passe sufoco na sua primeira viagem ✈️</div>
-  <div class="stats">⭐ ${data.points} 🔥 ${data.streak}</div>
-  <button class="btn btn-primary" onclick="menu()">COMEÇAR A TREINAR</button>
-  <div class="row">
-    <button class="btn btn-quiz" onclick="practice()">PRATICAR AGORA</button>
-    <button class="btn btn-back" onclick="reset()">Reset</button>
-  </div>
-  </div>`;
+app.innerHTML=`
+
+<h3>⭐ ${points} | 🔥 ${streak}</h3>
+
+<div class="progress">
+<div class="bar" style="width:${lessonIndex/list.length*100}%"></div>
+</div>
+
+<h2>🇺🇸 ${l.en}</h2>
+
+<button class="listen" onclick="speak('${l.en}')">🔊 Ouvir</button>
+
+<p><b>Pronúncia</b><br>${l.pron}</p>
+
+<p>🇧🇷 ${l.pt}</p>
+
+<button class="speak" onclick="speak('${l.en}')">🎤 Falar</button>
+
+<button class="primary" onclick="next()">Continuar</button>
+
+<button class="menu" onclick="menu()">← Menu</button>
+
+`
+
 }
 
-// menu módulos
+}
+
+function start(m){
+module=m
+lessonIndex=0
+screen="lesson"
+render()
+}
+
+function next(){
+lessonIndex++
+points+=10
+streak++
+render()
+}
+
 function menu(){
-  let cards="";
-  modules.forEach(m=>{
-    cards+=`
-    <div class="card" onclick="startModule('${m.key}')">
-    <div>${m.name}</div>
-    <div class="progressCircle" style="--p:${data.progress}">${data.progress}%</div>
-    </div>`;
-  });
-  screen.innerHTML=`
-  <div class="title">Escolha um módulo</div>
-  <div class="grid">${cards}</div>
-  <div class="row">
-  <button class="btn btn-back" onclick="home()">← Menu</button>
-  </div>`;
-}
-
-function startModule(key){
-  data.module=key;
-  data.lesson=lessons.findIndex(l=>l.m===key);
-  lesson();
-}
-
-// lição
-function lesson(){
-  let l=lessons[data.lesson];
-  screen.innerHTML=`
-  <div class="lesson">
-  <b>${l.en}</b><br>
-  <div class="pron">${l.pron}</div>
-  <div>${l.pt}</div>
-  </div>
-  <div class="row">
-  <button class="btn btn-audio" onclick="speak('${l.en}')">🔊 Ouvir</button>
-  <button class="btn btn-speak" onclick="listen()">🎤 Falar</button>
-  </div>
-  <button class="btn btn-quiz" onclick="quiz()">Continuar</button>
-  <div class="row">
-  <button class="btn btn-back" onclick="menu()">← Menu</button>
-  </div>`;
+screen="menu"
+render()
 }
 
 function speak(text){
-  let u=new SpeechSynthesisUtterance(text);
-  u.lang="en-US"; speechSynthesis.speak(u);
+let msg=new SpeechSynthesisUtterance(text)
+msg.lang="en-US"
+speechSynthesis.speak(msg)
 }
 
-function listen(){
-  try{
-  let r=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
-  r.lang="en-US"; r.start();
-  r.onresult=e=>alert("Você disse: "+e.results[0][0].transcript);
-  }catch{alert("Seu navegador não suporta microfone");}
-}
+render()
 
-// quiz
-function quiz(){
-  let l=lessons[data.lesson];
-  screen.innerHTML=`
-  <div class="lesson center">
-  Como dizer:<br><b>${l.pt}</b>
-  </div>
-  <button class="btn btn-quiz" onclick="answer(true)">${l.en}</button>
-  <button class="btn btn-quiz" onclick="answer(false)">Where is the hotel?</button>
-  <button class="btn btn-quiz" onclick="answer(false)">Where is the taxi?</button>`;
-}
-
-function answer(correct){
-  if(correct){
-    ding.play();
-    let c=document.createElement("div");
-    c.className="confetti"; c.textContent="🎉";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),900);
-    data.points+=10;
-    data.progress+=10;
-    data.lesson++;
-    save();
-    setTimeout(()=>lesson(),500);
-  }else alert("Tente novamente");
-}
-
-// modo prática
-function practice(){
-  data.lesson=Math.floor(Math.random()*lessons.length);
-  lesson();
-}
-
-// reset
-function reset(){
-  if(confirm("Resetar progresso?")){
-    localStorage.removeItem("triptalk_en");
-    location.reload();
-  }
-}
-
-// certificado
-function certificate(){
-  let html=`
-  <h1>Certificate of Completion</h1>
-  <h2>TripTalk English</h2>
-  <p>English for Travel Certification</p>
-  <p>This certifies that</p>
-  <h3>${data.name}</h3>
-  <p>has completed the course</p>
-  <p>Total workload: 10 hours</p>`;
-  let w=window.open("");
-  w.document.write(html);
-}
-
-let screen=document.getElementById("screen");
-splash();
 </script>
 
 </body>
