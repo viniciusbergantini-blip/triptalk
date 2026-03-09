@@ -2,132 +2,99 @@
 
 <html lang="pt-br">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>TripTalk</title>
 
 <style>
 
+*{box-sizing:border-box}
+
 body{
 margin:0;
-font-family:Arial;
+font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
 background:linear-gradient(135deg,#0f172a,#1e293b);
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+color:white;
 }
 
 .app{
-
 width:380px;
+max-width:95vw;
 background:#111827;
-border-radius:25px;
+border-radius:24px;
 padding:20px;
-box-shadow:0 25px 60px rgba(0,0,0,0.6);
-color:white;
-animation:fade 0.5s;
-
+box-shadow:0 30px 70px rgba(0,0,0,.6);
+animation:fade .4s ease;
 }
 
 @keyframes fade{
-
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1;}
-
+from{opacity:0;transform:translateY(15px)}
+to{opacity:1}
 }
 
 .header{
-
-background:#22c55e;
-padding:15px;
-border-radius:14px;
+font-size:24px;
+font-weight:700;
 text-align:center;
-font-size:22px;
-font-weight:bold;
-margin-bottom:20px;
-
+margin-bottom:10px;
 }
 
 .points{
-
 text-align:center;
-margin-bottom:10px;
-opacity:0.8;
-
+opacity:.7;
+margin-bottom:20px;
 }
 
 button{
-
 width:100%;
 padding:14px;
 margin-top:12px;
 border:none;
 border-radius:14px;
 font-size:16px;
-font-weight:bold;
+font-weight:600;
 cursor:pointer;
-transition:0.2s;
-
+transition:.2s;
 }
 
 button:hover{
-
-transform:scale(1.05);
-
+transform:scale(1.03);
 }
 
-.primary{
-
-background:#3b82f6;
-color:white;
-
-}
-
-.module{
-
-background:#1f2937;
-color:white;
-
-}
-
-.quiz{
-
-background:#374151;
-color:white;
-
-}
-
-.back{
-
-background:#f97316;
-color:white;
-
-}
+.primary{background:#3b82f6;color:white}
+.module{background:#1f2937;color:white}
+.quiz{background:#374151;color:white}
+.back{background:#f97316;color:white}
 
 .card{
-
 background:#1f2937;
-padding:20px;
-border-radius:15px;
-margin-bottom:10px;
-line-height:1.6;
+padding:18px;
+border-radius:16px;
+margin-bottom:12px;
 font-size:18px;
-
+line-height:1.5;
 }
 
-.correct{
+.correct{background:#22c55e!important}
+.wrong{background:#ef4444!important}
 
-background:#22c55e !important;
-
+.progress{
+height:10px;
+background:#374151;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
 }
 
-.wrong{
-
-background:#ef4444 !important;
-
+.progress-bar{
+height:100%;
+background:#22c55e;
+width:0%;
+transition:.3s;
 }
 
 </style>
@@ -139,8 +106,11 @@ background:#ef4444 !important;
 <div class="app">
 
 <div class="header">✈️ TripTalk</div>
-
 <div class="points">⭐ Pontos: <span id="points">0</span></div>
+
+<div class="progress">
+<div id="progressBar" class="progress-bar"></div>
+</div>
 
 <div id="screen">
 
@@ -152,28 +122,23 @@ background:#ef4444 !important;
 
 <script>
 
-let points = 0
+let points=0
+let progress=0
 
-function updatePoints(){
-
-document.getElementById("points").innerText = points
-
+function updateUI(){
+document.getElementById("points").innerText=points
+document.getElementById("progressBar").style.width=progress+"%"
 }
 
 function modules(){
 
-document.getElementById("screen").innerHTML = `
+document.getElementById("screen").innerHTML=`
 
 <button class="module" onclick="airport()">✈️ Aeroporto</button>
-
 <button class="module" onclick="hotel()">🏨 Hotel</button>
-
 <button class="module" onclick="restaurant()">🍔 Restaurante</button>
-
 <button class="module" onclick="transport()">🚕 Transporte</button>
-
 <button class="module" onclick="quiz()">🧠 Quiz</button>
-
 <button class="back" onclick="home()">⬅ Voltar</button>
 
 `
@@ -181,33 +146,22 @@ document.getElementById("screen").innerHTML = `
 }
 
 function home(){
-
-document.getElementById("screen").innerHTML = `
-
-<button class="primary" onclick="modules()">Começar</button>
-
-`
-
+document.getElementById("screen").innerHTML=
+`<button class="primary" onclick="modules()">Começar</button>`
 }
 
 function airport(){
 
-document.getElementById("screen").innerHTML = `
+document.getElementById("screen").innerHTML=`
 
 <div class="card">
-
 Where is the airport?<br><br>
-
 Onde fica o aeroporto?
-
 </div>
 
 <div class="card">
-
 Where is my gate?<br><br>
-
 Onde é meu portão?
-
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -218,22 +172,16 @@ Onde é meu portão?
 
 function hotel(){
 
-document.getElementById("screen").innerHTML = `
+document.getElementById("screen").innerHTML=`
 
 <div class="card">
-
 I have a reservation<br><br>
-
 Eu tenho uma reserva
-
 </div>
 
 <div class="card">
-
 What time is breakfast?<br><br>
-
 Que horas é o café da manhã?
-
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -244,22 +192,16 @@ Que horas é o café da manhã?
 
 function restaurant(){
 
-document.getElementById("screen").innerHTML = `
+document.getElementById("screen").innerHTML=`
 
 <div class="card">
-
 Can I see the menu?<br><br>
-
 Posso ver o menu?
-
 </div>
 
 <div class="card">
-
 I would like a coffee<br><br>
-
 Eu gostaria de um café
-
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -270,22 +212,16 @@ Eu gostaria de um café
 
 function transport(){
 
-document.getElementById("screen").innerHTML = `
+document.getElementById("screen").innerHTML=`
 
 <div class="card">
-
 Where is the subway station?<br><br>
-
 Onde fica o metrô?
-
 </div>
 
 <div class="card">
-
 How much is the taxi?<br><br>
-
 Quanto custa o taxi?
-
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -296,20 +232,15 @@ Quanto custa o taxi?
 
 function quiz(){
 
-document.getElementById("screen").innerHTML = `
+document.getElementById("screen").innerHTML=`
 
 <div class="card">
-
 Como dizer:<br><br>
-
 Onde fica o aeroporto?
-
 </div>
 
 <button class="quiz" onclick="answer(this,true)">Where is the airport</button>
-
 <button class="quiz" onclick="answer(this,false)">Where is the hotel</button>
-
 <button class="quiz" onclick="answer(this,false)">Where is the taxi</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -321,23 +252,18 @@ Onde fica o aeroporto?
 function answer(btn,correct){
 
 if(correct){
-
 btn.classList.add("correct")
-
-points++
-
-updatePoints()
-
+points+=10
+progress+=20
 }else{
-
 btn.classList.add("wrong")
-
 }
+
+updateUI()
 
 }
 
 </script>
 
 </body>
-
 </html>
