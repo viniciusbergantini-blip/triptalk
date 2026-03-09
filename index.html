@@ -368,12 +368,16 @@ recognition.onresult=function(event){
 
 let spoken=event.results[0][0].transcript.toLowerCase()
 
-if(spoken.includes(correct.toLowerCase())){
+alert("Você disse: " + spoken)
 
-alert("Correct pronunciation! 🎉")
+speak(spoken)
+
+if(spoken.includes(correct.toLowerCase())){
 
 points+=10
 localStorage.points=points
+
+alert("Correct pronunciation! +10 🎉")
 
 }else{
 
