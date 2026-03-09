@@ -185,7 +185,6 @@ app.innerHTML=`
 if(screen=="lesson"){
 
 let list=phrases.filter(p=>p.m==module)
-
 let p=list[index]
 
 if(!p){
@@ -193,18 +192,23 @@ if(!p){
 screen="certificate"
 render()
 return
+
 }
 
 let dots=""
 
 for(let i=0;i<10;i++){
+
 dots+=`<div class="dot ${i<=index%10?'active':''}"></div>`
+
 }
 
 if(index>0 && index%3==0 && !quizMode){
+
 quizMode=true
 renderQuiz(p)
 return
+
 }
 
 app.innerHTML=`
@@ -229,7 +233,7 @@ ${dots}
 
 <p>${p.pt}</p>
 
-<button class="green" onclick="speak('${p.en}')">
+<button class="green" onclick="listen('${p.en}')">
 🎤 Falar
 </button>
 
@@ -342,11 +346,42 @@ render()
 
 }
 
-function speak(t){
+function speak(text){
 
-let msg=new SpeechSynthesisUtterance(t)
+let msg=new SpeechSynthesisUtterance(text)
 msg.lang="en-US"
 speechSynthesis.speak(msg)
+
+}
+
+function listen(correct){
+
+let SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition
+
+let recognition=new SpeechRecognition()
+
+recognition.lang="en-US"
+
+recognition.start()
+
+recognition.onresult=function(event){
+
+let spoken=event.results[0][0].transcript.toLowerCase()
+
+if(spoken.includes(correct.toLowerCase())){
+
+alert("Correct pronunciation! 🎉")
+
+points+=10
+localStorage.points=points
+
+}else{
+
+alert("Try again")
+
+}
+
+}
 
 }
 
