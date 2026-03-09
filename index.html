@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TripTalk</title>
 
 <style>
@@ -24,7 +25,7 @@ max-width:90%;
 background:white;
 border-radius:20px;
 padding:25px;
-box-shadow:0 20px 50px rgba(0,0,0,.2);
+box-shadow:0 20px 40px rgba(0,0,0,.2);
 text-align:center;
 }
 
@@ -64,6 +65,14 @@ height:8px;
 background:#16a34a;
 }
 
+.option{
+background:#eef2ff;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+cursor:pointer;
+}
+
 </style>
 
 </head>
@@ -82,26 +91,27 @@ let streak=0
 
 const lessons=[
 
+// AIRPORT
+
 {m:"airport",en:"Where is the airport?",pron:"uer iz dhi erport",pt:"Onde fica o aeroporto"},
 {m:"airport",en:"Where is my gate?",pron:"uer iz mai gueit",pt:"Onde é meu portão"},
 {m:"airport",en:"Where is immigration?",pron:"uer iz imigreixon",pt:"Onde fica a imigração"},
 {m:"airport",en:"Where is baggage claim?",pron:"uer iz baguej cleim",pt:"Onde retiro a bagagem"},
 {m:"airport",en:"Where is security?",pron:"uer iz sicuriti",pt:"Onde é a segurança"},
 {m:"airport",en:"Where is the restroom?",pron:"uer iz dhi restrum",pt:"Onde fica o banheiro"},
+
 {m:"airport",en:"My flight is delayed",pron:"mai flait iz dileid",pt:"Meu voo está atrasado"},
 {m:"airport",en:"My flight was canceled",pron:"mai flait was cênseld",pt:"Meu voo foi cancelado"},
 {m:"airport",en:"I lost my luggage",pron:"ai lost mai laguedj",pt:"Perdi minha bagagem"},
-{m:"airport",en:"I need help",pron:"ai nid help",pt:"Preciso de ajuda"},
-{m:"airport",en:"Where is check in?",pron:"uer iz tchekin",pt:"Onde é o check in"},
-{m:"airport",en:"Where is boarding?",pron:"uer iz bording",pt:"Onde é o embarque"},
-{m:"airport",en:"Here is my passport",pron:"rir iz mai passport",pt:"Aqui está meu passaporte"},
-{m:"airport",en:"Can I see your passport?",pron:"ken ai si yor passport",pt:"Posso ver seu passaporte"},
-{m:"airport",en:"I have a connection",pron:"ai rev a conection",pt:"Tenho conexão"},
-{m:"airport",en:"Where is the exit?",pron:"uer iz dhi exit",pt:"Onde é a saída"},
-{m:"airport",en:"Where can I get a taxi?",pron:"uer ken ai get a taxi",pt:"Onde pegar um taxi"},
-{m:"airport",en:"Where is the subway?",pron:"uer iz dhi sabuei",pt:"Onde fica o metrô"},
-{m:"airport",en:"How long is the wait?",pron:"rau long iz dhi ueiti",pt:"Quanto tempo de espera"},
-{m:"airport",en:"Thank you for your help",pron:"thank iu for yor help",pt:"Obrigado pela ajuda"}
+
+]
+
+// QUIZ
+
+const quiz=[
+
+{pt:"Onde fica o aeroporto",ok:"Where is the airport?",a:"Where is the hotel?",b:"Where is the taxi?"},
+{pt:"Onde é meu portão",ok:"Where is my gate?",a:"Where is the airport?",b:"Where is the restroom?"},
 
 ]
 
@@ -163,6 +173,25 @@ app.innerHTML=`
 
 }
 
+if(screen==="quiz"){
+
+let q=quiz[Math.floor(Math.random()*quiz.length)]
+
+app.innerHTML=`
+
+<h3>⭐ ${points} | 🔥 ${streak}</h3>
+
+<h2>Como dizer:</h2>
+<p>${q.pt}</p>
+
+<div class="option" onclick="check('${q.ok}','${q.ok}')">${q.ok}</div>
+<div class="option" onclick="check('${q.a}','${q.ok}')">${q.a}</div>
+<div class="option" onclick="check('${q.b}','${q.ok}')">${q.b}</div>
+
+`
+
+}
+
 }
 
 function start(m){
@@ -176,7 +205,28 @@ function next(){
 lessonIndex++
 points+=10
 streak++
+
+if(lessonIndex%3===0){
+screen="quiz"
+}else{
+screen="lesson"
+}
+
 render()
+}
+
+function check(ans,ok){
+
+if(ans===ok){
+alert("Correct 🎉")
+points+=10
+}else{
+alert("Tente novamente")
+}
+
+screen="lesson"
+render()
+
 }
 
 function menu(){
