@@ -7,10 +7,11 @@
 <title>TripTalk</title>
 
 <style>
+
 body{
-font-family:Arial, Helvetica, sans-serif;
-background:#0f172a;
 margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(135deg,#0f172a,#1e293b);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -18,70 +19,87 @@ height:100vh;
 }
 
 .app{
-width:380px;
-height:650px;
-background:#1e293b;
+
+width:360px;
+background:#111827;
 border-radius:20px;
-overflow:hidden;
+padding:20px;
+box-shadow:0 20px 40px rgba(0,0,0,0.6);
 color:white;
-display:flex;
-flex-direction:column;
+
 }
 
 .header{
+
 background:#22c55e;
-padding:15px;
+padding:14px;
+border-radius:12px;
 text-align:center;
 font-size:22px;
 font-weight:bold;
+margin-bottom:20px;
+
 }
 
-.screen{
-flex:1;
-overflow:auto;
-padding:20px;
-}
+.subtitle{
 
-.card{
-background:#0f172a;
-padding:15px;
-border-radius:12px;
-margin-bottom:12px;
+text-align:center;
+opacity:0.8;
+margin-bottom:20px;
+
 }
 
 button{
+
 width:100%;
-padding:12px;
+padding:14px;
+margin-top:12px;
 border:none;
-border-radius:10px;
-margin-top:10px;
-font-size:15px;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
 cursor:pointer;
+transition:0.2s;
+
+}
+
+button:hover{
+
+transform:scale(1.03);
+
+}
+
+.primary{
+
+background:#3b82f6;
+color:white;
+
 }
 
 .module{
-background:#38bdf8;
-}
 
-.audio{
-background:#22c55e;
-}
+background:#374151;
+color:white;
 
-.quiz{
-background:#334155;
-}
-
-.correct{
-background:#22c55e;
-}
-
-.wrong{
-background:#ef4444;
 }
 
 .back{
+
 background:#f97316;
+color:white;
+
 }
+
+.card{
+
+background:#1f2937;
+padding:18px;
+border-radius:12px;
+margin-bottom:10px;
+line-height:1.5;
+
+}
+
 </style>
 
 </head>
@@ -90,17 +108,17 @@ background:#f97316;
 
 <div class="app">
 
-<div class="header">
-✈️ TripTalk
+<div class="header">✈️ TripTalk</div>
+
+<div id="screen">
+
+<div class="subtitle">
+
+Aprenda inglês para sua primeira viagem
+
 </div>
 
-<div id="screen" class="screen">
-
-<div class="card">
-Aprenda inglês para sua primeira viagem internacional
-</div>
-
-<button class="module" onclick="modules();return false;">Começar</button>
+<button class="primary" onclick="modules()">Começar</button>
 
 </div>
 
@@ -108,140 +126,111 @@ Aprenda inglês para sua primeira viagem internacional
 
 <script>
 
-let points = 0
+function modules(){
 
-function speak(text){
-let speech=new SpeechSynthesisUtterance(text)
-speech.lang="en-US"
-speechSynthesis.speak(speech)
+document.getElementById("screen").innerHTML=`
+
+<div class="subtitle">Escolha um módulo</div>
+
+<button class="module" onclick="airport()">✈️ Aeroporto</button>
+
+<button class="module" onclick="hotel()">🏨 Hotel</button>
+
+<button class="module" onclick="restaurant()">🍔 Restaurante</button>
+
+<button class="module" onclick="transport()">🚕 Transporte</button>
+
+<button class="back" onclick="home()">⬅ Voltar</button>
+
+`
+
 }
 
 function home(){
-document.getElementById("screen").innerHTML=`
-<div class="card">
-Aprenda inglês para sua primeira viagem internacional
-</div>
-<button class="module" onclick="modules()">Começar</button>
-`
-}
 
-function modules(){
 document.getElementById("screen").innerHTML=`
 
-<div class="card">
-⭐ Pontos: ${points}
-</div>
+<div class="subtitle">Aprenda inglês para sua primeira viagem</div>
 
-<button class="module" onclick="airport()">✈️ Aeroporto</button>
-<button class="module" onclick="hotel()">🏨 Hotel</button>
-<button class="module" onclick="restaurant()">🍔 Restaurante</button>
-<button class="module" onclick="transport()">🚕 Transporte</button>
-<button class="module" onclick="quiz()">🧠 Quiz</button>
+<button class="primary" onclick="modules()">Começar</button>
 
-<button class="back" onclick="home()">⬅ Voltar</button>
 `
+
 }
 
 function airport(){
+
 document.getElementById("screen").innerHTML=`
 
 <div class="card">
+
 Where is the airport?<br><br>
+
 Onde fica o aeroporto?
-<button class="audio" onclick="speak('Where is the airport')">🔊 Ouvir</button>
-</div>
 
-<div class="card">
-Where is the check-in counter?<br><br>
-Onde fica o check-in?
-<button class="audio" onclick="speak('Where is the check in counter')">🔊 Ouvir</button>
-</div>
-
-<div class="card">
-Where is my gate?<br><br>
-Onde é meu portão?
-<button class="audio" onclick="speak('Where is my gate')">🔊 Ouvir</button>
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
+
 `
+
 }
 
 function hotel(){
+
 document.getElementById("screen").innerHTML=`
 
 <div class="card">
-I have a reservation<br><br>
-Eu tenho uma reserva
-<button class="audio" onclick="speak('I have a reservation')">🔊 Ouvir</button>
-</div>
 
-<div class="card">
-What time is breakfast?<br><br>
-Que horas é o café da manhã?
-<button class="audio" onclick="speak('What time is breakfast')">🔊 Ouvir</button>
+I have a reservation<br><br>
+
+Eu tenho uma reserva
+
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
+
 `
+
 }
 
 function restaurant(){
+
 document.getElementById("screen").innerHTML=`
 
 <div class="card">
-Can I see the menu?<br><br>
-Posso ver o menu?
-<button class="audio" onclick="speak('Can I see the menu')">🔊 Ouvir</button>
-</div>
 
-<div class="card">
-I would like a coffee<br><br>
-Eu gostaria de um café
-<button class="audio" onclick="speak('I would like a coffee')">🔊 Ouvir</button>
+Can I see the menu?<br><br>
+
+Posso ver o menu?
+
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
+
 `
+
 }
 
 function transport(){
+
 document.getElementById("screen").innerHTML=`
 
 <div class="card">
-How much is the taxi?<br><br>
-Quanto custa o taxi?
-<button class="audio" onclick="speak('How much is the taxi')">🔊 Ouvir</button>
-</div>
 
-<div class="card">
 Where is the subway station?<br><br>
+
 Onde fica o metrô?
-<button class="audio" onclick="speak('Where is the subway station')">🔊 Ouvir</button>
+
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
+
 `
+
 }
 
-function quiz(){
-document.getElementById("screen").innerHTML=`
+</script>
 
-<div class="card">
-
-Como dizer:<br><br>
-Onde fica o aeroporto?
-
-<button class="quiz" onclick="check(this,false)">Where is the hotel</button>
-<button class="quiz" onclick="check(this,true)">Where is the airport</button>
-<button class="quiz" onclick="check(this,false)">Where is the taxi</button>
-
-</div>
-
-<div class="card">
-
-Como dizer:<br><br>
-Eu tenho uma reserva
-
-<button class="quiz" onclick="check(this,true)">I have a reservation</button>
-<button class="quiz" onclick="check(this,false)">I need a
+</body>
+</html>
