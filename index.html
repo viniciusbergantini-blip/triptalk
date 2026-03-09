@@ -116,7 +116,8 @@ let quizMode=false
 let name=localStorage.name||""
 let points=Number(localStorage.points)||0
 
-let recognition
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+const speechSupported = SpeechRecognition ? true : false
 
 function render(){
 
@@ -235,7 +236,7 @@ ${dots}
 
 <p>${p.pt}</p>
 
-<button class="green" onclick="startListening('${p.en}')">
+<button class="green" onclick="listen('${p.en}')">
 🎤 Falar
 </button>
 
@@ -271,17 +272,23 @@ Voltar
 
 }
 
-function startListening(correct){
+function listen(correct){
 
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+if(!speechSupported){
 
-recognition = new SpeechRecognition()
+alert("Reconhecimento de voz não suportado neste navegador. Use Chrome no computador.")
+
+return
+
+}
+
+let recognition = new SpeechRecognition()
 
 recognition.lang="en-US"
 
 recognition.start()
 
-recognition.onresult = function(event){
+recognition.onresult=function(event){
 
 let spoken = event.results[0][0].transcript.toLowerCase()
 
@@ -298,7 +305,7 @@ alert("Pronúncia correta! +10 🎉")
 
 }else{
 
-alert("Quase! tente novamente")
+alert("Tente novamente")
 
 }
 
