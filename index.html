@@ -75,6 +75,7 @@ cursor:pointer;
 .module{background:#1e293b;color:white}
 .quiz{background:#334155;color:white}
 .back{background:#f97316;color:white}
+.audio{background:#2563eb;color:white}
 
 .card{
 background:#1e293b;
@@ -87,11 +88,6 @@ line-height:1.5;
 
 .correct{background:#22c55e!important}
 .wrong{background:#ef4444!important}
-
-.audio{
-margin-top:10px;
-background:#2563eb;
-}
 
 </style>
 
@@ -131,10 +127,10 @@ document.getElementById("bar").style.width=progress+"%"
 function speak(text){
 
 let speech=new SpeechSynthesisUtterance(text)
+
 speech.lang="en-US"
 speech.rate=0.85
 speech.pitch=1
-speech.volume=1
 
 speechSynthesis.speak(speech)
 
@@ -167,14 +163,16 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 Where is the airport?<br><br>
 Onde fica o aeroporto?
-<button class="audio" onclick="speak('Where is the airport')">🔊 Ouvir</button>
 </div>
+
+<button class="audio" onclick="speak('Where is the airport')">🔊 Ouvir</button>
 
 <div class="card">
 Where is my gate?<br><br>
 Onde é meu portão?
-<button class="audio" onclick="speak('Where is my gate')">🔊 Ouvir</button>
 </div>
+
+<button class="audio" onclick="speak('Where is my gate')">🔊 Ouvir</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
@@ -189,14 +187,16 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 I have a reservation<br><br>
 Eu tenho uma reserva
-<button class="audio" onclick="speak('I have a reservation')">🔊 Ouvir</button>
 </div>
+
+<button class="audio" onclick="speak('I have a reservation')">🔊 Ouvir</button>
 
 <div class="card">
 What time is breakfast?<br><br>
 Que horas é o café da manhã?
-<button class="audio" onclick="speak('What time is breakfast')">🔊 Ouvir</button>
 </div>
+
+<button class="audio" onclick="speak('What time is breakfast')">🔊 Ouvir</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
@@ -211,14 +211,16 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 Can I see the menu?<br><br>
 Posso ver o menu?
-<button class="audio" onclick="speak('Can I see the menu')">🔊 Ouvir</button>
 </div>
+
+<button class="audio" onclick="speak('Can I see the menu')">🔊 Ouvir</button>
 
 <div class="card">
 I would like a coffee<br><br>
 Eu gostaria de um café
-<button class="audio" onclick="speak('I would like a coffee')">🔊 Ouvir</button>
 </div>
+
+<button class="audio" onclick="speak('I would like a coffee')">🔊 Ouvir</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
@@ -233,14 +235,16 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 Where is the subway station?<br><br>
 Onde fica o metrô?
-<button class="audio" onclick="speak('Where is the subway station')">🔊 Ouvir</button>
 </div>
+
+<button class="audio" onclick="speak('Where is the subway station')">🔊 Ouvir</button>
 
 <div class="card">
 How much is the taxi?<br><br>
 Quanto custa o taxi?
-<button class="audio" onclick="speak('How much is the taxi')">🔊 Ouvir</button>
 </div>
+
+<button class="audio" onclick="speak('How much is the taxi')">🔊 Ouvir</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
