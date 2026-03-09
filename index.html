@@ -11,7 +11,7 @@
 body{
 margin:0;
 font-family:system-ui,-apple-system,Segoe UI,Roboto;
-background:linear-gradient(135deg,#1e3a8a,#020617);
+background:linear-gradient(135deg,#2563eb,#7c3aed);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -38,10 +38,10 @@ margin-bottom:5px;
 .sub{
 text-align:center;
 opacity:.7;
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
-.points{
+.stats{
 text-align:center;
 margin-bottom:15px;
 }
@@ -56,7 +56,7 @@ margin-bottom:20px;
 
 .bar{
 height:100%;
-background:#3b82f6;
+background:#22c55e;
 width:0%;
 }
 
@@ -73,6 +73,7 @@ cursor:pointer;
 
 .primary{background:#3b82f6;color:white}
 .module{background:#1e293b;color:white}
+.locked{background:#334155;color:#94a3b8}
 .quiz{background:#334155;color:white}
 .back{background:#f97316;color:white}
 .audio{background:#2563eb;color:white}
@@ -101,7 +102,9 @@ line-height:1.5;
 <div class="header">✈️ TripTalk</div>
 <div class="sub">Inglês para sua primeira viagem</div>
 
-<div class="points">⭐ Pontos: <span id="points">0</span></div>
+<div class="stats">
+⭐ Pontos: <span id="points">0</span> | 🔥 Streak: <span id="streak">0</span>
+</div>
 
 <div class="progress">
 <div id="bar" class="bar"></div>
@@ -119,47 +122,40 @@ line-height:1.5;
 
 let points=0
 let progress=0
+let streak=0
+let unlocked=1
 
 function update(){
 document.getElementById("points").innerText=points
+document.getElementById("streak").innerText=streak
 document.getElementById("bar").style.width=progress+"%"
 }
 
 function speak(text){
-
 let speech=new SpeechSynthesisUtterance(text)
 speech.lang="en-US"
 speech.rate=0.85
-speech.pitch=1
 speechSynthesis.speak(speech)
-
 }
 
 function listen(){
-
 let recognition=new(window.SpeechRecognition||window.webkitSpeechRecognition)()
 recognition.lang="en-US"
-
 recognition.start()
-
 recognition.onresult=function(event){
-
-let result=event.results[0][0].transcript
-alert("Você disse: "+result)
-
+alert("Você disse: "+event.results[0][0].transcript)
 }
-
 }
 
 function modules(){
 
 document.getElementById("screen").innerHTML=`
 
-<button class="module" onclick="airport()">✈️ Aeroporto</button>
-<button class="module" onclick="hotel()">🏨 Hotel</button>
-<button class="module" onclick="restaurant()">🍔 Restaurante</button>
-<button class="module" onclick="transport()">🚕 Transporte</button>
-<button class="module" onclick="quiz()">🧠 Quiz</button>
+<button class="${unlocked>=1?'module':'locked'}" onclick="${unlocked>=1?'airport()':''}">✈️ Aeroporto</button>
+<button class="${unlocked>=2?'module':'locked'}" onclick="${unlocked>=2?'hotel()':''}">🏨 Hotel</button>
+<button class="${unlocked>=3?'module':'locked'}" onclick="${unlocked>=3?'restaurant()':''}">🍔 Restaurante</button>
+<button class="${unlocked>=4?'module':'locked'}" onclick="${unlocked>=4?'transport()':''}">🚕 Transporte</button>
+
 <button class="back" onclick="home()">⬅ Voltar</button>
 
 `
@@ -167,30 +163,22 @@ document.getElementById("screen").innerHTML=`
 }
 
 function home(){
-document.getElementById("screen").innerHTML=
-`<button class="primary" onclick="modules()">Começar</button>`
+document.getElementById("screen").innerHTML=`<button class="primary" onclick="modules()">Começar</button>`
 }
 
 function airport(){
 
 document.getElementById("screen").innerHTML=`
 
-<div class="card">
-Where is the airport?<br><br>
-Onde fica o aeroporto?
-</div>
-
+<div class="card">Where is the airport?<br><br>Onde fica o aeroporto?</div>
 <button class="audio" onclick="speak('Where is the airport')">🔊 Ouvir</button>
 <button class="speak" onclick="listen()">🎤 Falar</button>
 
-<div class="card">
-Where is my gate?<br><br>
-Onde é meu portão?
-</div>
-
+<div class="card">Where is my gate?<br><br>Onde é meu portão?</div>
 <button class="audio" onclick="speak('Where is my gate')">🔊 Ouvir</button>
 <button class="speak" onclick="listen()">🎤 Falar</button>
 
+<button class="quiz" onclick="quiz()">🧠 Quiz</button>
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
 `
@@ -201,19 +189,11 @@ function hotel(){
 
 document.getElementById("screen").innerHTML=`
 
-<div class="card">
-I have a reservation<br><br>
-Eu tenho uma reserva
-</div>
-
+<div class="card">I have a reservation<br><br>Eu tenho uma reserva</div>
 <button class="audio" onclick="speak('I have a reservation')">🔊 Ouvir</button>
 <button class="speak" onclick="listen()">🎤 Falar</button>
 
-<div class="card">
-What time is check-in?<br><br>
-Que horas é o check-in?
-</div>
-
+<div class="card">What time is check-in?<br><br>Que horas é o check-in?</div>
 <button class="audio" onclick="speak('What time is check in')">🔊 Ouvir</button>
 <button class="speak" onclick="listen()">🎤 Falar</button>
 
@@ -227,19 +207,11 @@ function restaurant(){
 
 document.getElementById("screen").innerHTML=`
 
-<div class="card">
-Can I see the menu?<br><br>
-Posso ver o menu?
-</div>
-
+<div class="card">Can I see the menu?<br><br>Posso ver o menu?</div>
 <button class="audio" onclick="speak('Can I see the menu')">🔊 Ouvir</button>
 <button class="speak" onclick="listen()">🎤 Falar</button>
 
-<div class="card">
-The bill please<br><br>
-A conta por favor
-</div>
-
+<div class="card">The bill please<br><br>A conta por favor</div>
 <button class="audio" onclick="speak('The bill please')">🔊 Ouvir</button>
 <button class="speak" onclick="listen()">🎤 Falar</button>
 
@@ -253,19 +225,11 @@ function transport(){
 
 document.getElementById("screen").innerHTML=`
 
-<div class="card">
-Call a taxi please<br><br>
-Chame um taxi por favor
-</div>
-
+<div class="card">Call a taxi please<br><br>Chame um taxi por favor</div>
 <button class="audio" onclick="speak('Call a taxi please')">🔊 Ouvir</button>
 <button class="speak" onclick="listen()">🎤 Falar</button>
 
-<div class="card">
-Where is the subway?<br><br>
-Onde fica o metrô?
-</div>
-
+<div class="card">Where is the subway?<br><br>Onde fica o metrô?</div>
 <button class="audio" onclick="speak('Where is the subway')">🔊 Ouvir</button>
 <button class="speak" onclick="listen()">🎤 Falar</button>
 
@@ -279,16 +243,11 @@ function quiz(){
 
 document.getElementById("screen").innerHTML=`
 
-<div class="card">
+<div class="card">Como dizer:<br><br>Onde fica o aeroporto?</div>
 
-Como dizer:<br><br>
-Eu tenho uma reserva
-
-</div>
-
-<button class="quiz" onclick="answer(this,true)">I have a reservation</button>
-<button class="quiz" onclick="answer(this,false)">I want reservation</button>
-<button class="quiz" onclick="answer(this,false)">My reservation have</button>
+<button class="quiz" onclick="answer(this,true)">Where is the airport</button>
+<button class="quiz" onclick="answer(this,false)">Where is the hotel</button>
+<button class="quiz" onclick="answer(this,false)">Where is the taxi</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
@@ -302,7 +261,9 @@ if(correct){
 
 btn.classList.add("correct")
 points+=10
-progress+=20
+progress+=25
+streak+=1
+unlocked=2
 
 }else{
 
