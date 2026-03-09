@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br">
 
+<html lang="pt-br">
 <head>
 
 <meta charset="UTF-8">
@@ -13,7 +13,7 @@
 body{
 margin:0;
 font-family:system-ui;
-background:linear-gradient(135deg,#4f46e5,#9333ea);
+background:linear-gradient(135deg,#3b82f6,#6366f1);
 height:100vh;
 display:flex;
 align-items:center;
@@ -21,25 +21,16 @@ justify-content:center;
 }
 
 .app{
-width:430px;
+width:420px;
 max-width:95%;
 background:white;
 border-radius:22px;
-padding:28px;
+padding:25px;
 box-shadow:0 20px 50px rgba(0,0,0,.25);
 text-align:center;
 }
 
 h1{margin:10px 0}
-
-input{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #ddd;
-margin-top:10px;
-font-size:16px;
-}
 
 .grid{
 display:grid;
@@ -49,18 +40,21 @@ margin-top:20px;
 }
 
 .card{
-background:#eef2ff;
 padding:18px;
 border-radius:14px;
-cursor:pointer;
+color:white;
 font-weight:600;
-transition:.2s;
+cursor:pointer;
 }
 
-.card:hover{
-transform:scale(1.03);
-background:#e0e7ff;
-}
+.airport{background:#3b82f6}
+.hotel{background:#ef4444}
+.restaurant{background:#22c55e}
+.transport{background:#6366f1}
+.shopping{background:#ec4899}
+.tourism{background:#0ea5e9}
+.conversation{background:#a855f7}
+.emergency{background:#f97316}
 
 button{
 width:100%;
@@ -70,24 +64,43 @@ border-radius:12px;
 margin-top:10px;
 font-size:16px;
 cursor:pointer;
+color:white;
 }
 
-.blue{background:#2563eb;color:white}
-.green{background:#16a34a;color:white}
-.purple{background:#4f46e5;color:white}
-.orange{background:#fb923c;color:white}
+.green{background:#22c55e}
+.blue{background:#3b82f6}
+.orange{background:#fb923c}
+.purple{background:#6366f1}
 
-.progress{
-height:10px;
-background:#eee;
-border-radius:20px;
-overflow:hidden;
-margin:15px 0;
+.progressDots{
+display:flex;
+justify-content:center;
+gap:6px;
+margin:10px 0;
 }
 
-.bar{
+.dot{
+width:10px;
 height:10px;
+border-radius:10px;
+background:#ddd;
+}
+
+.dot.active{
 background:#22c55e;
+}
+
+.quizOption{
+background:#eee;
+padding:12px;
+border-radius:10px;
+margin-top:8px;
+cursor:pointer;
+}
+
+.correct{
+background:#22c55e;
+color:white;
 }
 
 </style>
@@ -105,11 +118,10 @@ background:#22c55e;
 let screen="home"
 let module=""
 let index=0
+let quizMode=false
 
 let name=localStorage.name||""
-
-let points=localStorage.points||0
-let streak=localStorage.streak||0
+let points=Number(localStorage.points)||0
 
 function render(){
 
@@ -121,14 +133,14 @@ app.innerHTML=`
 
 <h1>🌍 TripTalk</h1>
 
-<p>O inglês que pode salvar sua primeira viagem</p>
+<p>Não passe sufoco na sua primeira viagem ✈</p>
 
-<button class="purple" onclick="screen='name';render()">
-COMEÇAR
+<button class="green" onclick="screen='name';render()">
+COMEÇAR A TREINAR
 </button>
 
 <button class="orange" onclick="reset()">
-Resetar progresso
+Reiniciar progresso
 </button>
 
 `
@@ -139,11 +151,11 @@ if(screen=="name"){
 
 app.innerHTML=`
 
-<h1>Seu nome</h1>
+<h2>Digite seu nome</h2>
 
-<input id="nameInput" placeholder="Digite seu nome">
+<input id="nameInput" style="padding:10px;width:90%">
 
-<button class="purple" onclick="saveName()">
+<button class="green" onclick="saveName()">
 Continuar
 </button>
 
@@ -156,25 +168,22 @@ if(screen=="modules"){
 app.innerHTML=`
 
 <h3>👤 ${name}</h3>
-
-<h4>⭐ ${points} | 🔥 ${streak}</h4>
+⭐ ${points} pontos
 
 <div class="grid">
 
-<div class="card" onclick="start('airport')">✈ Airport</div>
-<div class="card" onclick="start('hotel')">🏨 Hotel</div>
-<div class="card" onclick="start('restaurant')">🍔 Restaurant</div>
-<div class="card" onclick="start('transport')">🚕 Transportation</div>
-<div class="card" onclick="start('shopping')">🛍 Shopping</div>
-<div class="card" onclick="start('tourism')">🗺 Tourism</div>
-<div class="card" onclick="start('conversation')">💬 Conversation</div>
-<div class="card" onclick="start('emergency')">🚑 Emergency</div>
+<div class="card airport" onclick="start('airport')">✈ Airport</div>
+<div class="card hotel" onclick="start('hotel')">🏨 Hotel</div>
+<div class="card restaurant" onclick="start('restaurant')">🍔 Restaurant</div>
+<div class="card transport" onclick="start('transport')">🚕 Transport</div>
+<div class="card shopping" onclick="start('shopping')">🛍 Shopping</div>
+<div class="card tourism" onclick="start('tourism')">🗺 Tourism</div>
+<div class="card conversation" onclick="start('conversation')">💬 Conversation</div>
+<div class="card emergency" onclick="start('emergency')">🚑 Emergency</div>
 
 </div>
 
-<button class="orange" onclick="screen='home';render()">
-← Voltar
-</button>
+<button class="orange" onclick="screen='home';render()">Menu</button>
 
 `
 
@@ -183,6 +192,7 @@ app.innerHTML=`
 if(screen=="lesson"){
 
 let list=phrases.filter(p=>p.m==module)
+
 let p=list[index]
 
 if(!p){
@@ -190,19 +200,32 @@ if(!p){
 screen="certificate"
 render()
 return
+}
+
+let dots=""
+
+for(let i=0;i<10;i++){
+
+dots+=`<div class="dot ${i<=index%10?'active':''}"></div>`
 
 }
 
-let pct=Math.floor((index/list.length)*100)
+if(index>0 && index%3==0 && !quizMode){
+
+quizMode=true
+renderQuiz(p)
+return
+
+}
 
 app.innerHTML=`
 
-<h3>👤 ${name}</h3>
+<h3>${module.toUpperCase()}</h3>
 
-<h4>⭐ ${points} | 🔥 ${streak}</h4>
+<div class="progressDots">
 
-<div class="progress">
-<div class="bar" style="width:${pct}%"></div>
+${dots}
+
 </div>
 
 <h2>${p.en}</h2>
@@ -211,12 +234,7 @@ app.innerHTML=`
 🔊 Ouvir
 </button>
 
-<p>
-
-<b>Pronúncia</b><br>
-${p.pron}
-
-</p>
+<p><b>Pronúncia</b><br>${p.pron}</p>
 
 <p>${p.pt}</p>
 
@@ -226,10 +244,6 @@ ${p.pron}
 
 <button class="purple" onclick="next()">
 Continuar
-</button>
-
-<button class="orange" onclick="screen='modules';render()">
-← Menu
 </button>
 
 `
@@ -242,34 +256,16 @@ app.innerHTML=`
 
 <h1>🎓 Certificado</h1>
 
-<p>
-
-Este certificado confirma que
-
-</p>
-
 <h2>${name}</h2>
 
-<p>
-
-concluiu o curso
-
-</p>
+<p>Concluiu o curso</p>
 
 <h2>TripTalk Travel English</h2>
 
-<p>
-
 ⭐ Pontos obtidos: ${points}
 
-</p>
-
-<button class="purple" onclick="screen='modules';render()">
-Voltar aos módulos
-</button>
-
-<button class="orange" onclick="reset()">
-Resetar progresso
+<button class="green" onclick="screen='modules';render()">
+Voltar
 </button>
 
 `
@@ -278,14 +274,60 @@ Resetar progresso
 
 }
 
+function renderQuiz(p){
+
+const app=document.getElementById("app")
+
+let correct=p.pt
+
+let options=[
+
+correct,
+"Opção errada 1",
+"Opção errada 2"
+
+].sort(()=>Math.random()-0.5)
+
+app.innerHTML=`
+
+<h2>Quiz</h2>
+
+<p>${p.en}</p>
+
+${options.map(o=>`
+
+<div class="quizOption" onclick="answer('${o}','${correct}')">
+
+${o}
+
+</div>
+
+`).join("")}
+
+`
+
+}
+
+function answer(choice,correct){
+
+if(choice==correct){
+
+points+=10
+localStorage.points=points
+alert("Correct! +10 pontos")
+
+}
+
+quizMode=false
+render()
+
+}
+
 function saveName(){
 
 name=document.getElementById("nameInput").value
-
 localStorage.name=name
-
 screen="modules"
-
 render()
 
 }
@@ -295,7 +337,6 @@ function start(m){
 module=m
 index=0
 screen="lesson"
-
 render()
 
 }
@@ -303,10 +344,6 @@ render()
 function next(){
 
 index++
-points++
-
-localStorage.points=points
-
 render()
 
 }
@@ -324,15 +361,9 @@ speechSynthesis.speak(msg)
 function reset(){
 
 localStorage.clear()
-
-name=""
 points=0
-streak=0
-
-alert("Progresso resetado")
-
+name=""
 screen="home"
-
 render()
 
 }
