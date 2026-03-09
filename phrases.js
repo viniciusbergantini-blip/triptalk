@@ -1,4 +1,4 @@
-const phrases=[
+const phrases = [
 
 // AIRPORT
 {m:"airport",en:"Where is the airport?",pron:"uer iz dhi erport",pt:"Onde fica o aeroporto"},
