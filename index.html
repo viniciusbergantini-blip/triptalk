@@ -10,8 +10,8 @@
 
 body{
 margin:0;
-font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-background:linear-gradient(135deg,#1e3a8a,#1e293b);
+font-family:system-ui,-apple-system,Segoe UI,Roboto;
+background:linear-gradient(135deg,#1e3a8a,#020617);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -22,14 +22,14 @@ color:white;
 .app{
 width:380px;
 max-width:95vw;
-background:#0f172a;
+background:#020617;
 border-radius:26px;
 padding:20px;
-box-shadow:0 25px 70px rgba(0,0,0,.6);
+box-shadow:0 30px 80px rgba(0,0,0,.7);
 }
 
 .header{
-font-size:26px;
+font-size:28px;
 font-weight:700;
 text-align:center;
 margin-bottom:5px;
@@ -38,7 +38,7 @@ margin-bottom:5px;
 .sub{
 text-align:center;
 opacity:.7;
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
 .points{
@@ -76,6 +76,7 @@ cursor:pointer;
 .quiz{background:#334155;color:white}
 .back{background:#f97316;color:white}
 .audio{background:#2563eb;color:white}
+.speak{background:#16a34a;color:white}
 
 .card{
 background:#1e293b;
@@ -127,12 +128,26 @@ document.getElementById("bar").style.width=progress+"%"
 function speak(text){
 
 let speech=new SpeechSynthesisUtterance(text)
-
 speech.lang="en-US"
 speech.rate=0.85
 speech.pitch=1
-
 speechSynthesis.speak(speech)
+
+}
+
+function listen(){
+
+let recognition=new(window.SpeechRecognition||window.webkitSpeechRecognition)()
+recognition.lang="en-US"
+
+recognition.start()
+
+recognition.onresult=function(event){
+
+let result=event.results[0][0].transcript
+alert("Você disse: "+result)
+
+}
 
 }
 
@@ -166,6 +181,7 @@ Onde fica o aeroporto?
 </div>
 
 <button class="audio" onclick="speak('Where is the airport')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
 
 <div class="card">
 Where is my gate?<br><br>
@@ -173,6 +189,7 @@ Onde é meu portão?
 </div>
 
 <button class="audio" onclick="speak('Where is my gate')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
@@ -190,13 +207,15 @@ Eu tenho uma reserva
 </div>
 
 <button class="audio" onclick="speak('I have a reservation')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
 
 <div class="card">
-What time is breakfast?<br><br>
-Que horas é o café da manhã?
+What time is check-in?<br><br>
+Que horas é o check-in?
 </div>
 
-<button class="audio" onclick="speak('What time is breakfast')">🔊 Ouvir</button>
+<button class="audio" onclick="speak('What time is check in')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
@@ -214,13 +233,15 @@ Posso ver o menu?
 </div>
 
 <button class="audio" onclick="speak('Can I see the menu')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
 
 <div class="card">
-I would like a coffee<br><br>
-Eu gostaria de um café
+The bill please<br><br>
+A conta por favor
 </div>
 
-<button class="audio" onclick="speak('I would like a coffee')">🔊 Ouvir</button>
+<button class="audio" onclick="speak('The bill please')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
@@ -233,18 +254,20 @@ function transport(){
 document.getElementById("screen").innerHTML=`
 
 <div class="card">
-Where is the subway station?<br><br>
+Call a taxi please<br><br>
+Chame um taxi por favor
+</div>
+
+<button class="audio" onclick="speak('Call a taxi please')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
+
+<div class="card">
+Where is the subway?<br><br>
 Onde fica o metrô?
 </div>
 
-<button class="audio" onclick="speak('Where is the subway station')">🔊 Ouvir</button>
-
-<div class="card">
-How much is the taxi?<br><br>
-Quanto custa o taxi?
-</div>
-
-<button class="audio" onclick="speak('How much is the taxi')">🔊 Ouvir</button>
+<button class="audio" onclick="speak('Where is the subway')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
@@ -259,13 +282,13 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 
 Como dizer:<br><br>
-Onde fica o aeroporto?
+Eu tenho uma reserva
 
 </div>
 
-<button class="quiz" onclick="answer(this,true)">Where is the airport</button>
-<button class="quiz" onclick="answer(this,false)">Where is the hotel</button>
-<button class="quiz" onclick="answer(this,false)">Where is the taxi</button>
+<button class="quiz" onclick="answer(this,true)">I have a reservation</button>
+<button class="quiz" onclick="answer(this,false)">I want reservation</button>
+<button class="quiz" onclick="answer(this,false)">My reservation have</button>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
 
