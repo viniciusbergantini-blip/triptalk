@@ -8,12 +8,10 @@
 
 <style>
 
-*{box-sizing:border-box}
-
 body{
 margin:0;
 font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-background:linear-gradient(135deg,#0f172a,#1e293b);
+background:linear-gradient(135deg,#1e3a8a,#1e293b);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -24,57 +22,65 @@ color:white;
 .app{
 width:380px;
 max-width:95vw;
-background:#111827;
-border-radius:24px;
+background:#0f172a;
+border-radius:26px;
 padding:20px;
-box-shadow:0 30px 70px rgba(0,0,0,.6);
-animation:fade .4s ease;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(15px)}
-to{opacity:1}
+box-shadow:0 25px 70px rgba(0,0,0,.6);
 }
 
 .header{
-font-size:24px;
+font-size:26px;
 font-weight:700;
 text-align:center;
-margin-bottom:10px;
+margin-bottom:5px;
+}
+
+.sub{
+text-align:center;
+opacity:.7;
+margin-bottom:15px;
 }
 
 .points{
 text-align:center;
-opacity:.7;
+margin-bottom:15px;
+}
+
+.progress{
+height:10px;
+background:#1e293b;
+border-radius:20px;
+overflow:hidden;
 margin-bottom:20px;
+}
+
+.bar{
+height:100%;
+background:#3b82f6;
+width:0%;
 }
 
 button{
 width:100%;
 padding:14px;
-margin-top:12px;
+margin-top:10px;
 border:none;
 border-radius:14px;
 font-size:16px;
 font-weight:600;
 cursor:pointer;
-transition:.2s;
-}
-
-button:hover{
-transform:scale(1.03);
 }
 
 .primary{background:#3b82f6;color:white}
-.module{background:#1f2937;color:white}
-.quiz{background:#374151;color:white}
+.module{background:#1e293b;color:white}
+.quiz{background:#334155;color:white}
 .back{background:#f97316;color:white}
 
 .card{
-background:#1f2937;
+background:#1e293b;
 padding:18px;
-border-radius:16px;
-margin-bottom:12px;
+border-radius:14px;
+margin-bottom:10px;
 font-size:18px;
 line-height:1.5;
 }
@@ -82,19 +88,9 @@ line-height:1.5;
 .correct{background:#22c55e!important}
 .wrong{background:#ef4444!important}
 
-.progress{
-height:10px;
-background:#374151;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:20px;
-}
-
-.progress-bar{
-height:100%;
-background:#22c55e;
-width:0%;
-transition:.3s;
+.audio{
+margin-top:10px;
+background:#2563eb;
 }
 
 </style>
@@ -106,10 +102,12 @@ transition:.3s;
 <div class="app">
 
 <div class="header">✈️ TripTalk</div>
+<div class="sub">Inglês para sua primeira viagem</div>
+
 <div class="points">⭐ Pontos: <span id="points">0</span></div>
 
 <div class="progress">
-<div id="progressBar" class="progress-bar"></div>
+<div id="bar" class="bar"></div>
 </div>
 
 <div id="screen">
@@ -125,9 +123,21 @@ transition:.3s;
 let points=0
 let progress=0
 
-function updateUI(){
+function update(){
 document.getElementById("points").innerText=points
-document.getElementById("progressBar").style.width=progress+"%"
+document.getElementById("bar").style.width=progress+"%"
+}
+
+function speak(text){
+
+let speech=new SpeechSynthesisUtterance(text)
+speech.lang="en-US"
+speech.rate=0.85
+speech.pitch=1
+speech.volume=1
+
+speechSynthesis.speak(speech)
+
 }
 
 function modules(){
@@ -157,11 +167,13 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 Where is the airport?<br><br>
 Onde fica o aeroporto?
+<button class="audio" onclick="speak('Where is the airport')">🔊 Ouvir</button>
 </div>
 
 <div class="card">
 Where is my gate?<br><br>
 Onde é meu portão?
+<button class="audio" onclick="speak('Where is my gate')">🔊 Ouvir</button>
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -177,11 +189,13 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 I have a reservation<br><br>
 Eu tenho uma reserva
+<button class="audio" onclick="speak('I have a reservation')">🔊 Ouvir</button>
 </div>
 
 <div class="card">
 What time is breakfast?<br><br>
 Que horas é o café da manhã?
+<button class="audio" onclick="speak('What time is breakfast')">🔊 Ouvir</button>
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -197,11 +211,13 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 Can I see the menu?<br><br>
 Posso ver o menu?
+<button class="audio" onclick="speak('Can I see the menu')">🔊 Ouvir</button>
 </div>
 
 <div class="card">
 I would like a coffee<br><br>
 Eu gostaria de um café
+<button class="audio" onclick="speak('I would like a coffee')">🔊 Ouvir</button>
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -217,11 +233,13 @@ document.getElementById("screen").innerHTML=`
 <div class="card">
 Where is the subway station?<br><br>
 Onde fica o metrô?
+<button class="audio" onclick="speak('Where is the subway station')">🔊 Ouvir</button>
 </div>
 
 <div class="card">
 How much is the taxi?<br><br>
 Quanto custa o taxi?
+<button class="audio" onclick="speak('How much is the taxi')">🔊 Ouvir</button>
 </div>
 
 <button class="back" onclick="modules()">⬅ Voltar</button>
@@ -235,8 +253,10 @@ function quiz(){
 document.getElementById("screen").innerHTML=`
 
 <div class="card">
+
 Como dizer:<br><br>
 Onde fica o aeroporto?
+
 </div>
 
 <button class="quiz" onclick="answer(this,true)">Where is the airport</button>
@@ -252,14 +272,18 @@ Onde fica o aeroporto?
 function answer(btn,correct){
 
 if(correct){
+
 btn.classList.add("correct")
 points+=10
 progress+=20
+
 }else{
+
 btn.classList.add("wrong")
+
 }
 
-updateUI()
+update()
 
 }
 
