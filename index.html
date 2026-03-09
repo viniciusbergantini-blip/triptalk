@@ -133,7 +133,7 @@ app.innerHTML=`
 
 <h1>🌍 TripTalk</h1>
 
-<p>Não passe sufoco na sua primeira viagem ✈</p>
+<p>O inglês que pode salvar sua primeira viagem ✈</p>
 
 <button class="green" onclick="screen='name';render()">
 COMEÇAR A TREINAR
@@ -205,17 +205,13 @@ return
 let dots=""
 
 for(let i=0;i<10;i++){
-
 dots+=`<div class="dot ${i<=index%10?'active':''}"></div>`
-
 }
 
 if(index>0 && index%3==0 && !quizMode){
-
 quizMode=true
 renderQuiz(p)
 return
-
 }
 
 app.innerHTML=`
@@ -223,9 +219,7 @@ app.innerHTML=`
 <h3>${module.toUpperCase()}</h3>
 
 <div class="progressDots">
-
 ${dots}
-
 </div>
 
 <h2>${p.en}</h2>
@@ -244,6 +238,10 @@ ${dots}
 
 <button class="purple" onclick="next()">
 Continuar
+</button>
+
+<button class="orange" onclick="screen='modules';render()">
+← Menu
 </button>
 
 `
@@ -297,9 +295,7 @@ app.innerHTML=`
 ${options.map(o=>`
 
 <div class="quizOption" onclick="answer('${o}','${correct}')">
-
 ${o}
-
 </div>
 
 `).join("")}
@@ -311,11 +307,9 @@ ${o}
 function answer(choice,correct){
 
 if(choice==correct){
-
 points+=10
 localStorage.points=points
 alert("Correct! +10 pontos")
-
 }
 
 quizMode=false
@@ -351,9 +345,7 @@ render()
 function speak(t){
 
 let msg=new SpeechSynthesisUtterance(t)
-
 msg.lang="en-US"
-
 speechSynthesis.speak(msg)
 
 }
