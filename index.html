@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
+
 <head>
 
 <meta charset="UTF-8">
@@ -13,7 +13,7 @@
 body{
 margin:0;
 font-family:system-ui;
-background:linear-gradient(135deg,#3b82f6,#6366f1);
+background:linear-gradient(135deg,#4f46e5,#3b82f6);
 height:100vh;
 display:flex;
 align-items:center;
@@ -24,42 +24,18 @@ justify-content:center;
 width:420px;
 max-width:95%;
 background:white;
-border-radius:22px;
+border-radius:25px;
 padding:25px;
-box-shadow:0 20px 50px rgba(0,0,0,.25);
+box-shadow:0 20px 40px rgba(0,0,0,.2);
 text-align:center;
 }
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:20px;
-}
-
-.card{
-padding:18px;
-border-radius:14px;
-color:white;
-font-weight:600;
-cursor:pointer;
-}
-
-.airport{background:#3b82f6}
-.hotel{background:#ef4444}
-.restaurant{background:#22c55e}
-.transport{background:#6366f1}
-.shopping{background:#ec4899}
-.tourism{background:#0ea5e9}
-.conversation{background:#a855f7}
-.emergency{background:#f97316}
 
 button{
 width:100%;
 padding:14px;
+margin-top:10px;
 border:none;
 border-radius:12px;
-margin-top:10px;
 font-size:16px;
 cursor:pointer;
 color:white;
@@ -70,11 +46,36 @@ color:white;
 .orange{background:#fb923c}
 .purple{background:#6366f1}
 
-.progressDots{
-display:flex;
-justify-content:center;
-gap:6px;
-margin:10px 0;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:20px;
+}
+
+.card{
+padding:18px;
+border-radius:12px;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.airport{background:#3b82f6}
+.hotel{background:#ef4444}
+.restaurant{background:#22c55e}
+.transport{background:#6366f1}
+.shopping{background:#ec4899}
+.tourism{background:#06b6d4}
+.conversation{background:#a855f7}
+.emergency{background:#f97316}
+
+.quizOption{
+background:#eee;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+cursor:pointer;
 }
 
 .dot{
@@ -82,18 +83,12 @@ width:10px;
 height:10px;
 border-radius:10px;
 background:#ddd;
+display:inline-block;
+margin:3px;
 }
 
-.dot.active{
+.active{
 background:#22c55e;
-}
-
-.quizOption{
-background:#eee;
-padding:12px;
-border-radius:10px;
-margin-top:8px;
-cursor:pointer;
 }
 
 </style>
@@ -132,7 +127,7 @@ app.innerHTML=`
 <p>O inglês que pode salvar sua primeira viagem ✈</p>
 
 <button class="green" onclick="screen='name';render()">
-COMEÇAR A TREINAR
+COMEÇAR
 </button>
 
 <button class="orange" onclick="reset()">
@@ -147,7 +142,7 @@ if(screen=="name"){
 
 app.innerHTML=`
 
-<h2>Digite seu nome</h2>
+<h2>Seu nome</h2>
 
 <input id="nameInput" style="padding:10px;width:90%">
 
@@ -163,7 +158,7 @@ if(screen=="modules"){
 
 app.innerHTML=`
 
-<h3>👤 ${name}</h3>
+<h3>${name}</h3>
 ⭐ ${points} pontos
 
 <div class="grid">
@@ -179,7 +174,9 @@ app.innerHTML=`
 
 </div>
 
-<button class="orange" onclick="screen='home';render()">Menu</button>
+<button class="orange" onclick="screen='home';render()">
+Menu
+</button>
 
 `
 
@@ -202,7 +199,7 @@ let dots=""
 
 for(let i=0;i<10;i++){
 
-dots+=`<div class="dot ${i<=index%10?'active':''}"></div>`
+dots+=`<span class="dot ${i<=index%10?'active':''}"></span>`
 
 }
 
@@ -222,9 +219,7 @@ app.innerHTML=`
 
 <h3>${module.toUpperCase()}</h3>
 
-<div class="progressDots">
-${dots}
-</div>
+<div>${dots}</div>
 
 <h2>${p.en}</h2>
 
@@ -256,58 +251,15 @@ app.innerHTML=`
 
 <h2>${name}</h2>
 
-<p>Concluiu o curso</p>
+<p>Concluiu o treinamento TripTalk</p>
 
-<h2>TripTalk Travel English</h2>
-
-⭐ Pontos obtidos: ${points}
+⭐ ${points} pontos
 
 <button class="green" onclick="screen='modules';render()">
 Voltar
 </button>
 
 `
-
-}
-
-}
-
-function listen(correct){
-
-if(!speechSupported){
-
-alert("Reconhecimento de voz não suportado neste navegador. Use Chrome no computador.")
-
-return
-
-}
-
-let recognition = new SpeechRecognition()
-
-recognition.lang="en-US"
-
-recognition.start()
-
-recognition.onresult=function(event){
-
-let spoken = event.results[0][0].transcript.toLowerCase()
-
-alert("Você disse: " + spoken)
-
-speak(spoken)
-
-if(spoken.includes(correct.toLowerCase())){
-
-points+=10
-localStorage.points=points
-
-alert("Pronúncia correta! +10 🎉")
-
-}else{
-
-alert("Tente novamente")
-
-}
 
 }
 
@@ -365,31 +317,6 @@ render()
 
 }
 
-function saveName(){
-
-name=document.getElementById("nameInput").value
-localStorage.name=name
-screen="modules"
-render()
-
-}
-
-function start(m){
-
-module=m
-index=0
-screen="lesson"
-render()
-
-}
-
-function next(){
-
-index++
-render()
-
-}
-
 function speak(text){
 
 let msg=new SpeechSynthesisUtterance(text)
@@ -398,12 +325,95 @@ speechSynthesis.speak(msg)
 
 }
 
+function listen(correct){
+
+if(!speechSupported){
+
+alert("Use Chrome no computador para treinar pronúncia")
+
+return
+
+}
+
+let recognition = new SpeechRecognition()
+
+recognition.lang="en-US"
+
+recognition.start()
+
+recognition.onresult=function(event){
+
+let spoken = event.results[0][0].transcript.toLowerCase()
+
+let words = correct.toLowerCase().split(" ")
+
+let score=0
+
+words.forEach(w=>{
+
+if(spoken.includes(w)){
+score++
+}
+
+})
+
+if(score >= words.length-1){
+
+points+=10
+localStorage.points=points
+
+alert("Pronúncia correta! +10 🎉")
+
+}else{
+
+alert("Tente novamente")
+
+}
+
+}
+
+}
+
+function saveName(){
+
+name=document.getElementById("nameInput").value
+localStorage.name=name
+
+screen="modules"
+
+render()
+
+}
+
+function start(m){
+
+module=m
+index=0
+quizMode=false
+
+screen="lesson"
+
+render()
+
+}
+
+function next(){
+
+index++
+
+render()
+
+}
+
 function reset(){
 
 localStorage.clear()
+
 points=0
 name=""
+
 screen="home"
+
 render()
 
 }
@@ -413,4 +423,5 @@ render()
 </script>
 
 </body>
+
 </html>
