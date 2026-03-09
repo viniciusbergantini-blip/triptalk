@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TripTalk</title>
 
 <style>
@@ -22,13 +24,22 @@ justify-content:center;
 width:430px;
 max-width:95%;
 background:white;
-border-radius:20px;
-padding:25px;
-box-shadow:0 20px 40px rgba(0,0,0,.2);
+border-radius:22px;
+padding:28px;
+box-shadow:0 20px 50px rgba(0,0,0,.25);
 text-align:center;
 }
 
 h1{margin:10px 0}
+
+input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #ddd;
+margin-top:10px;
+font-size:16px;
+}
 
 .grid{
 display:grid;
@@ -39,10 +50,16 @@ margin-top:20px;
 
 .card{
 background:#eef2ff;
-padding:16px;
-border-radius:12px;
+padding:18px;
+border-radius:14px;
 cursor:pointer;
 font-weight:600;
+transition:.2s;
+}
+
+.card:hover{
+transform:scale(1.03);
+background:#e0e7ff;
 }
 
 button{
@@ -61,15 +78,15 @@ cursor:pointer;
 .orange{background:#fb923c;color:white}
 
 .progress{
-height:8px;
-background:#ddd;
-border-radius:10px;
+height:10px;
+background:#eee;
+border-radius:20px;
 overflow:hidden;
 margin:15px 0;
 }
 
 .bar{
-height:8px;
+height:10px;
 background:#22c55e;
 }
 
@@ -89,6 +106,8 @@ let screen="home"
 let module=""
 let index=0
 
+let name=localStorage.name||""
+
 let points=localStorage.points||0
 let streak=localStorage.streak||0
 
@@ -96,17 +115,15 @@ function render(){
 
 const app=document.getElementById("app")
 
-if(screen==="home"){
+if(screen=="home"){
 
 app.innerHTML=`
 
 <h1>🌍 TripTalk</h1>
 
-<p>
-O inglês que pode salvar sua primeira viagem
-</p>
+<p>O inglês que pode salvar sua primeira viagem</p>
 
-<button class="purple" onclick="screen='modules';render()">
+<button class="purple" onclick="screen='name';render()">
 COMEÇAR
 </button>
 
@@ -118,11 +135,29 @@ Resetar progresso
 
 }
 
-if(screen==="modules"){
+if(screen=="name"){
 
 app.innerHTML=`
 
-<h3>⭐ ${points} | 🔥 ${streak}</h3>
+<h1>Seu nome</h1>
+
+<input id="nameInput" placeholder="Digite seu nome">
+
+<button class="purple" onclick="saveName()">
+Continuar
+</button>
+
+`
+
+}
+
+if(screen=="modules"){
+
+app.innerHTML=`
+
+<h3>👤 ${name}</h3>
+
+<h4>⭐ ${points} | 🔥 ${streak}</h4>
 
 <div class="grid">
 
@@ -145,23 +180,26 @@ app.innerHTML=`
 
 }
 
-if(screen==="lesson"){
+if(screen=="lesson"){
 
-let list=phrases.filter(p=>p.m===module)
+let list=phrases.filter(p=>p.m==module)
 let p=list[index]
 
 if(!p){
-screen="modules"
-index=0
+
+screen="certificate"
 render()
 return
+
 }
 
 let pct=Math.floor((index/list.length)*100)
 
 app.innerHTML=`
 
-<h3>⭐ ${points} | 🔥 ${streak}</h3>
+<h3>👤 ${name}</h3>
+
+<h4>⭐ ${points} | 🔥 ${streak}</h4>
 
 <div class="progress">
 <div class="bar" style="width:${pct}%"></div>
@@ -174,8 +212,10 @@ app.innerHTML=`
 </button>
 
 <p>
+
 <b>Pronúncia</b><br>
 ${p.pron}
+
 </p>
 
 <p>${p.pt}</p>
@@ -196,6 +236,58 @@ Continuar
 
 }
 
+if(screen=="certificate"){
+
+app.innerHTML=`
+
+<h1>🎓 Certificado</h1>
+
+<p>
+
+Este certificado confirma que
+
+</p>
+
+<h2>${name}</h2>
+
+<p>
+
+concluiu o curso
+
+</p>
+
+<h2>TripTalk Travel English</h2>
+
+<p>
+
+⭐ Pontos obtidos: ${points}
+
+</p>
+
+<button class="purple" onclick="screen='modules';render()">
+Voltar aos módulos
+</button>
+
+<button class="orange" onclick="reset()">
+Resetar progresso
+</button>
+
+`
+
+}
+
+}
+
+function saveName(){
+
+name=document.getElementById("nameInput").value
+
+localStorage.name=name
+
+screen="modules"
+
+render()
+
 }
 
 function start(m){
@@ -203,6 +295,7 @@ function start(m){
 module=m
 index=0
 screen="lesson"
+
 render()
 
 }
@@ -221,7 +314,9 @@ render()
 function speak(t){
 
 let msg=new SpeechSynthesisUtterance(t)
+
 msg.lang="en-US"
+
 speechSynthesis.speak(msg)
 
 }
@@ -230,10 +325,15 @@ function reset(){
 
 localStorage.clear()
 
+name=""
 points=0
 streak=0
 
 alert("Progresso resetado")
+
+screen="home"
+
+render()
 
 }
 
