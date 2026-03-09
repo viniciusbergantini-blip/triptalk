@@ -3,14 +3,14 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>TripTalk</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:system-ui;
 background:linear-gradient(135deg,#4f46e5,#9333ea);
 height:100vh;
 display:flex;
@@ -19,39 +19,46 @@ justify-content:center;
 }
 
 .app{
-width:420px;
-max-width:92%;
+width:430px;
+max-width:95%;
 background:white;
 border-radius:20px;
 padding:25px;
-box-shadow:0 20px 40px rgba(0,0,0,.25);
+box-shadow:0 20px 40px rgba(0,0,0,.2);
 text-align:center;
+}
+
+h1{margin:10px 0}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:20px;
+}
+
+.card{
+background:#eef2ff;
+padding:16px;
+border-radius:12px;
+cursor:pointer;
+font-weight:600;
 }
 
 button{
 width:100%;
-padding:15px;
-margin-top:10px;
+padding:14px;
 border:none;
 border-radius:12px;
+margin-top:10px;
 font-size:16px;
 cursor:pointer;
 }
 
-.primary{background:#4f46e5;color:white}
-.listen{background:#2563eb;color:white}
-.speak{background:#16a34a;color:white}
-.menu{background:#fb923c;color:white}
-
-.module{
-background:#eef2ff;
-padding:16px;
-border-radius:12px;
-margin-top:10px;
-cursor:pointer;
-display:flex;
-justify-content:space-between;
-}
+.blue{background:#2563eb;color:white}
+.green{background:#16a34a;color:white}
+.purple{background:#4f46e5;color:white}
+.orange{background:#fb923c;color:white}
 
 .progress{
 height:8px;
@@ -63,15 +70,7 @@ margin:15px 0;
 
 .bar{
 height:8px;
-background:#16a34a;
-}
-
-.option{
-background:#eef2ff;
-padding:12px;
-margin-top:10px;
-border-radius:10px;
-cursor:pointer;
+background:#22c55e;
 }
 
 </style>
@@ -82,127 +81,65 @@ cursor:pointer;
 
 <div class="app" id="app"></div>
 
+<script src="phrases.js"></script>
+
 <script>
 
-let screen="splash"
-let module="airport"
-let lessonIndex=0
-let points=0
-let streak=0
-let userName=""
+let screen="home"
+let module=""
+let index=0
 
-let progress={
-airport:0,
-hotel:0,
-restaurant:0,
-transport:0
-}
-
-const lessons=[
-
-// AIRPORT
-{m:"airport",en:"Where is the airport?",pron:"uer iz dhi erport",pt:"Onde fica o aeroporto"},
-{m:"airport",en:"Where is my gate?",pron:"uer iz mai gueit",pt:"Onde é meu portão"},
-{m:"airport",en:"Where is immigration?",pron:"uer iz imigreixon",pt:"Onde fica a imigração"},
-{m:"airport",en:"Where is baggage claim?",pron:"uer iz baguej cleim",pt:"Onde retiro a bagagem"},
-{m:"airport",en:"Where is security?",pron:"uer iz sicuriti",pt:"Onde é a segurança"},
-{m:"airport",en:"Where is the restroom?",pron:"uer iz dhi restrum",pt:"Onde fica o banheiro"},
-
-// HOTEL
-{m:"hotel",en:"I have a reservation",pron:"ai hev a reserveyshon",pt:"Eu tenho uma reserva"},
-{m:"hotel",en:"What time is check in?",pron:"uat taim iz tchekin",pt:"Que horas é o check in"},
-{m:"hotel",en:"Is breakfast included?",pron:"iz brekfast included",pt:"Café da manhã está incluído"},
-
-// RESTAURANT
-{m:"restaurant",en:"Can I see the menu?",pron:"ken ai si dhi menu",pt:"Posso ver o cardápio"},
-{m:"restaurant",en:"Can I get the check?",pron:"ken ai get dhi tchek",pt:"A conta por favor"},
-{m:"restaurant",en:"Water please",pron:"uóter plis",pt:"Água por favor"},
-
-// TRANSPORT
-{m:"transport",en:"Where is the bus stop?",pron:"uer iz dhi bus stop",pt:"Onde é o ponto de ônibus"},
-{m:"transport",en:"How much is the ticket?",pron:"rau mach iz dhi ticket",pt:"Quanto custa a passagem"},
-{m:"transport",en:"Take me to the airport",pron:"teik mi tu dhi erport",pt:"Me leve ao aeroporto"}
-
-]
-
-const quiz=[
-
-{pt:"Onde fica o aeroporto",ok:"Where is the airport?",a:"Where is the hotel?",b:"Where is the taxi?"},
-{pt:"Eu tenho uma reserva",ok:"I have a reservation",a:"I need a taxi",b:"Where is the airport?"},
-{pt:"A conta por favor",ok:"Can I get the check?",a:"Can I see the menu?",b:"Water please"}
-
-]
+let points=localStorage.points||0
+let streak=localStorage.streak||0
 
 function render(){
 
 const app=document.getElementById("app")
 
-if(screen==="splash"){
-
-app.innerHTML=`
-
-<h2>🌍 TripTalk</h2>
-<p>English for Travel Certification</p>
-<p>Loading...</p>
-
-`
-
-setTimeout(()=>{screen="name";render()},1500)
-
-}
-
-if(screen==="name"){
-
-app.innerHTML=`
-
-<h2>Digite seu nome</h2>
-
-<input id="nameInput" placeholder="Seu nome" style="padding:10px;width:90%">
-
-<button class="primary" onclick="saveName()">COMEÇAR</button>
-
-`
-
-}
-
 if(screen==="home"){
 
 app.innerHTML=`
 
-<h2>🌍 TripTalk</h2>
-<p>O inglês que pode salvar sua primeira viagem</p>
+<h1>🌍 TripTalk</h1>
 
-<button class="primary" onclick="screen='menu';render()">COMEÇAR A TREINAR</button>
+<p>
+O inglês que pode salvar sua primeira viagem
+</p>
+
+<button class="purple" onclick="screen='modules';render()">
+COMEÇAR
+</button>
+
+<button class="orange" onclick="reset()">
+Resetar progresso
+</button>
 
 `
 
 }
 
-if(screen==="menu"){
+if(screen==="modules"){
 
 app.innerHTML=`
 
 <h3>⭐ ${points} | 🔥 ${streak}</h3>
 
-<div class="module" onclick="start('airport')">
-<span>✈ Airport</span>
-<span>${progress.airport}%</span>
+<div class="grid">
+
+<div class="card" onclick="start('airport')">✈ Airport</div>
+<div class="card" onclick="start('hotel')">🏨 Hotel</div>
+<div class="card" onclick="start('restaurant')">🍔 Restaurant</div>
+<div class="card" onclick="start('transport')">🚕 Transportation</div>
+<div class="card" onclick="start('shopping')">🛍 Shopping</div>
+<div class="card" onclick="start('tourism')">🗺 Tourism</div>
+<div class="card" onclick="start('conversation')">💬 Conversation</div>
+<div class="card" onclick="start('emergency')">🚑 Emergency</div>
+
 </div>
 
-<div class="module" onclick="start('hotel')">
-<span>🏨 Hotel</span>
-<span>${progress.hotel}%</span>
-</div>
-
-<div class="module" onclick="start('restaurant')">
-<span>🍔 Restaurant</span>
-<span>${progress.restaurant}%</span>
-</div>
-
-<div class="module" onclick="start('transport')">
-<span>🚕 Transportation</span>
-<span>${progress.transport}%</span>
-</div>
+<button class="orange" onclick="screen='home';render()">
+← Voltar
+</button>
 
 `
 
@@ -210,18 +147,17 @@ app.innerHTML=`
 
 if(screen==="lesson"){
 
-let list=lessons.filter(l=>l.m===module)
-let l=list[lessonIndex]
+let list=phrases.filter(p=>p.m===module)
+let p=list[index]
 
-if(!l){
-lessonIndex=0
-screen="menu"
+if(!p){
+screen="modules"
+index=0
 render()
 return
 }
 
-let pct=Math.floor((lessonIndex/list.length)*100)
-progress[module]=pct
+let pct=Math.floor((index/list.length)*100)
 
 app.innerHTML=`
 
@@ -231,92 +167,74 @@ app.innerHTML=`
 <div class="bar" style="width:${pct}%"></div>
 </div>
 
-<h2>🇺🇸 ${l.en}</h2>
+<h2>${p.en}</h2>
 
-<button class="listen" onclick="speak('${l.en}')">🔊 Ouvir</button>
+<button class="blue" onclick="speak('${p.en}')">
+🔊 Ouvir
+</button>
 
-<p><b>Pronúncia</b><br>${l.pron}</p>
+<p>
+<b>Pronúncia</b><br>
+${p.pron}
+</p>
 
-<p>🇧🇷 ${l.pt}</p>
+<p>${p.pt}</p>
 
-<button class="speak" onclick="speak('${l.en}')">🎤 Falar</button>
+<button class="green" onclick="speak('${p.en}')">
+🎤 Falar
+</button>
 
-<button class="primary" onclick="next()">Continuar</button>
+<button class="purple" onclick="next()">
+Continuar
+</button>
 
-<button class="menu" onclick="screen='menu';render()">← Menu</button>
-
-`
-
-}
-
-if(screen==="quiz"){
-
-let q=quiz[Math.floor(Math.random()*quiz.length)]
-
-app.innerHTML=`
-
-<h3>⭐ ${points} | 🔥 ${streak}</h3>
-
-<h2>Como dizer:</h2>
-<p>${q.pt}</p>
-
-<div class="option" onclick="check('${q.ok}','${q.ok}')">${q.ok}</div>
-<div class="option" onclick="check('${q.a}','${q.ok}')">${q.a}</div>
-<div class="option" onclick="check('${q.b}','${q.ok}')">${q.b}</div>
+<button class="orange" onclick="screen='modules';render()">
+← Menu
+</button>
 
 `
 
 }
 
-}
-
-function saveName(){
-userName=document.getElementById("nameInput").value
-screen="home"
-render()
 }
 
 function start(m){
+
 module=m
-lessonIndex=0
+index=0
 screen="lesson"
 render()
+
 }
 
 function next(){
 
-lessonIndex++
-points+=10
-streak++
+index++
+points++
 
-if(lessonIndex%3===0){
-screen="quiz"
-}else{
-screen="lesson"
-}
+localStorage.points=points
 
 render()
 
 }
 
-function check(ans,ok){
+function speak(t){
 
-if(ans===ok){
-alert("Correct 🎉")
-points+=10
-}else{
-alert("Try again")
-}
-
-screen="lesson"
-render()
-
-}
-
-function speak(text){
-let msg=new SpeechSynthesisUtterance(text)
+let msg=new SpeechSynthesisUtterance(t)
 msg.lang="en-US"
 speechSynthesis.speak(msg)
+
+}
+
+function reset(){
+
+localStorage.clear()
+
+points=0
+streak=0
+
+alert("Progresso resetado")
+
 }
 
 render()
