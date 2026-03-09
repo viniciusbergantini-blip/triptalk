@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripTalk</title>
+
+<style>
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#0f172a;
+margin:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.app{
+width:380px;
+height:650px;
+background:#1e293b;
+border-radius:20px;
+overflow:hidden;
+color:white;
+display:flex;
+flex-direction:column;
+}
+
+.header{
+background:#22c55e;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.screen{
+flex:1;
+overflow:auto;
+padding:20px;
+}
+
+.card{
+background:#0f172a;
+padding:15px;
+border-radius:12px;
+margin-bottom:12px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+margin-top:10px;
+font-size:15px;
+cursor:pointer;
+}
+
+.module{
+background:#38bdf8;
+}
+
+.audio{
+background:#22c55e;
+}
+
+.quiz{
+background:#334155;
+}
+
+.correct{
+background:#22c55e;
+}
+
+.wrong{
+background:#ef4444;
+}
+
+.back{
+background:#f97316;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">
+✈️ TripTalk
+</div>
+
+<div id="screen" class="screen">
+
+<div class="card">
+Aprenda inglês para sua primeira viagem internacional
+</div>
+
+<button class="module" onclick="modules()">Começar</button>
+
+</div>
+
+</div>
+
+<script>
+
+let points = 0
+
+function speak(text){
+let speech=new SpeechSynthesisUtterance(text)
+speech.lang="en-US"
+speechSynthesis.speak(speech)
+}
+
+function home(){
+document.getElementById("screen").innerHTML=`
+<div class="card">
+Aprenda inglês para sua primeira viagem internacional
+</div>
+<button class="module" onclick="modules()">Começar</button>
+`
+}
+
+function modules(){
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+⭐ Pontos: ${points}
+</div>
+
+<button class="module" onclick="airport()">✈️ Aeroporto</button>
+<button class="module" onclick="hotel()">🏨 Hotel</button>
+<button class="module" onclick="restaurant()">🍔 Restaurante</button>
+<button class="module" onclick="transport()">🚕 Transporte</button>
+<button class="module" onclick="quiz()">🧠 Quiz</button>
+
+<button class="back" onclick="home()">⬅ Voltar</button>
+`
+}
+
+function airport(){
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+Where is the airport?<br><br>
+Onde fica o aeroporto?
+<button class="audio" onclick="speak('Where is the airport')">🔊 Ouvir</button>
+</div>
+
+<div class="card">
+Where is the check-in counter?<br><br>
+Onde fica o check-in?
+<button class="audio" onclick="speak('Where is the check in counter')">🔊 Ouvir</button>
+</div>
+
+<div class="card">
+Where is my gate?<br><br>
+Onde é meu portão?
+<button class="audio" onclick="speak('Where is my gate')">🔊 Ouvir</button>
+</div>
+
+<button class="back" onclick="modules()">⬅ Voltar</button>
+`
+}
+
+function hotel(){
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+I have a reservation<br><br>
+Eu tenho uma reserva
+<button class="audio" onclick="speak('I have a reservation')">🔊 Ouvir</button>
+</div>
+
+<div class="card">
+What time is breakfast?<br><br>
+Que horas é o café da manhã?
+<button class="audio" onclick="speak('What time is breakfast')">🔊 Ouvir</button>
+</div>
+
+<button class="back" onclick="modules()">⬅ Voltar</button>
+`
+}
+
+function restaurant(){
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+Can I see the menu?<br><br>
+Posso ver o menu?
+<button class="audio" onclick="speak('Can I see the menu')">🔊 Ouvir</button>
+</div>
+
+<div class="card">
+I would like a coffee<br><br>
+Eu gostaria de um café
+<button class="audio" onclick="speak('I would like a coffee')">🔊 Ouvir</button>
+</div>
+
+<button class="back" onclick="modules()">⬅ Voltar</button>
+`
+}
+
+function transport(){
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+How much is the taxi?<br><br>
+Quanto custa o taxi?
+<button class="audio" onclick="speak('How much is the taxi')">🔊 Ouvir</button>
+</div>
+
+<div class="card">
+Where is the subway station?<br><br>
+Onde fica o metrô?
+<button class="audio" onclick="speak('Where is the subway station')">🔊 Ouvir</button>
+</div>
+
+<button class="back" onclick="modules()">⬅ Voltar</button>
+`
+}
+
+function quiz(){
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+
+Como dizer:<br><br>
+Onde fica o aeroporto?
+
+<button class="quiz" onclick="check(this,false)">Where is the hotel</button>
+<button class="quiz" onclick="check(this,true)">Where is the airport</button>
+<button class="quiz" onclick="check(this,false)">Where is the taxi</button>
+
+</div>
+
+<div class="card">
+
+Como dizer:<br><br>
+Eu tenho uma reserva
+
+<button class="quiz" onclick="check(this,true)">I have a reservation</button>
+<button class="quiz" onclick="check(this,false)">I need a
