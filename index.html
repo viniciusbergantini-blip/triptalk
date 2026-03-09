@@ -26,10 +26,8 @@ body{
   width:420px; max-width:94vw; background:var(--card); border-radius:26px;
   padding:20px; box-shadow:0 30px 80px rgba(0,0,0,.35);
 }
-.top{
-  display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;
-}
-.logo{font-size:36px}
+.center{text-align:center}
+.logo{font-size:40px}
 .title{font-size:24px; font-weight:800}
 .subtitle{color:var(--muted); margin-bottom:12px}
 .stats{font-size:14px; margin-bottom:10px}
@@ -39,9 +37,6 @@ body{
 .card{
   background:#f1f5f9; border-radius:16px; padding:16px; text-align:left; cursor:pointer;
 }
-.card b{display:block; margin-bottom:4px}
-.big{font-size:18px}
-.center{text-align:center}
 .btn{
   width:100%; border:0; border-radius:14px; padding:14px; font-weight:700; cursor:pointer;
 }
@@ -50,17 +45,20 @@ body{
 .btn-speak{background:#16a34a; color:#fff}
 .btn-quiz{background:#334155; color:#fff}
 .btn-back{background:var(--warn); color:#fff}
-.row{display:flex; gap:8px; margin-top:10px}
-.row .btn{flex:1}
 .lesson{background:#f1f5f9; border-radius:16px; padding:18px; margin-bottom:10px}
 .pron{color:var(--muted)}
-.small{font-size:13px; color:var(--muted)}
-.badge{font-size:12px; padding:4px 8px; border-radius:999px; background:#eef2ff}
+.row{display:flex; gap:8px; margin-top:10px}
+.row .btn{flex:1}
 .confetti{
   position:fixed; inset:0; pointer-events:none; display:flex; align-items:center; justify-content:center;
   font-size:42px; animation:pop .9s ease-out forwards;
 }
 @keyframes pop{0%{transform:scale(.6);opacity:0}40%{opacity:1}100%{transform:scale(1.2);opacity:0}}
+.progressCircle{
+  width:60px;height:60px;border-radius:50%;
+  background:conic-gradient(var(--ok) calc(var(--p)*1%), #e5e7eb 0);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+}
 </style>
 </head>
 <body>
@@ -69,184 +67,198 @@ body{
   <div id="screen"></div>
 </div>
 
-<!-- som de acerto -->
-
 <audio id="ding" preload="auto"
 src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7a2f3dff9a.mp3?filename=correct-2-46134.mp3"></audio>
 
 <script>
-// registrar SW (PWA)
+// registrar PWA
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
-// dados salvos
+// dados
 let data = JSON.parse(localStorage.getItem("triptalk_en")) || {
-  points:0, streak:0, progress:0, lesson:0, module:0
+  name:"", points:0, streak:0, progress:0, lesson:0, module:"airport"
 };
 function save(){ localStorage.setItem("triptalk_en", JSON.stringify(data)); }
 
 // módulos
 const modules = [
-  {key:"airport", name:"Airport", icon:"✈️"},
-  {key:"hotel", name:"Hotel", icon:"🏨"},
-  {key:"restaurant", name:"Restaurant", icon:"🍔"},
-  {key:"transport", name:"Transportation", icon:"🚕"},
-  {key:"shopping", name:"Shopping", icon:"🛍️"},
-  {key:"tourism", name:"Tourism", icon:"🗺️"},
-  {key:"conversation", name:"Conversation", icon:"💬"},
-  {key:"emergency", name:"Emergency", icon:"🚑"},
+  {key:"airport", name:"✈️ Airport"},
+  {key:"hotel", name:"🏨 Hotel"},
+  {key:"restaurant", name:"🍔 Restaurant"},
+  {key:"transport", name:"🚕 Transportation"},
+  {key:"shopping", name:"🛍️ Shopping"},
+  {key:"tourism", name:"🗺️ Tourism"},
+  {key:"conversation", name:"💬 Conversation"},
+  {key:"emergency", name:"🚑 Emergency"},
 ];
 
-// frases (estrutura pronta p/ expandir até 160)
+// frases exemplo
 const lessons = [
   {m:"airport", en:"Where is the airport?", pron:"Uér iz dhi érport", pt:"Onde fica o aeroporto?"},
   {m:"airport", en:"Where is my gate?", pron:"Uér iz mai gueit", pt:"Onde é meu portão?"},
-  {m:"restaurant", en:"Can I get the check please?", pron:"Ken ai guét dhi tchek plis", pt:"Posso pedir a conta?"},
-  {m:"hotel", en:"I have a reservation.", pron:"Ai rév a rezervêixon", pt:"Eu tenho uma reserva."},
-  {m:"transport", en:"Could you call a taxi?", pron:"Kud iu kól a táxi", pt:"Você pode chamar um táxi?"},
-  {m:"shopping", en:"How much is this?", pron:"Rau match iz dís", pt:"Quanto custa isso?"},
-  {m:"tourism", en:"Where is the museum?", pron:"Uér iz dhi miuziam", pt:"Onde fica o museu?"},
-  {m:"conversation", en:"Could you help me?", pron:"Kud iu rélp mi", pt:"Você pode me ajudar?"},
-  {m:"emergency", en:"I need a doctor.", pron:"Ai nid a dóctor", pt:"Eu preciso de um médico."},
+  {m:"airport", en:"Where is immigration?", pron:"Uér iz imigreixon", pt:"Onde fica a imigração?"},
+  {m:"airport", en:"Where is baggage claim?", pron:"Uér iz béguêj kleim", pt:"Onde retiro a bagagem?"}
 ];
 
-// util
-function statsBar(){
-  return `
-  <div class="top">
-    <div class="logo">🌎</div>
-    <div class="badge">TripTalk English</div>
-  </div>
-  <div class="stats">⭐ ${data.points} &nbsp; 🔥 ${data.streak}</div>
-  <div class="progress"><div class="bar" style="width:${Math.min(data.progress,100)}%"></div></div>
-  `;
+// splash
+function splash(){
+  screen.innerHTML=`
+  <div class="center">
+  <div class="logo">🌎</div>
+  <div class="title">TripTalk English</div>
+  <div class="subtitle">English for Travel Certification</div>
+  <p>Loading...</p>
+  </div>`;
+  setTimeout(()=>{ data.name?home():askName(); },1200);
 }
 
+// pedir nome
+function askName(){
+  screen.innerHTML=`
+  <div class="center">
+  <div class="logo">🌎</div>
+  <div class="title">TripTalk English</div>
+  <p>Digite seu nome para começar</p>
+  <input id="nameInput" placeholder="Seu nome" style="padding:10px;border-radius:8px;border:1px solid #ccc;width:80%">
+  <br><br>
+  <button class="btn btn-primary" onclick="saveName()">COMEÇAR</button>
+  </div>`;
+}
+function saveName(){
+  data.name=document.getElementById("nameInput").value||"Student";
+  save();
+  home();
+}
+
+// home
 function home(){
-  document.getElementById("screen").innerHTML = `
-    ${statsBar()}
-    <div class="center">
-      <div class="title">TripTalk English</div>
-      <div class="subtitle">Não passe sufoco na sua primeira viagem ✈️</div>
-      <div class="small">⭐ 160 frases &nbsp; 🎧 Áudio americano &nbsp; 🎤 Pronúncia</div>
-      <br/>
-      <button class="btn btn-primary big" onclick="menu()">COMEÇAR A TREINAR</button>
-      <div class="row">
-        <button class="btn btn-back" onclick="resetProgress()">Reiniciar progresso</button>
-      </div>
-    </div>
-  `;
+  screen.innerHTML=`
+  <div class="center">
+  <div class="logo">🌎</div>
+  <div class="title">TripTalk English</div>
+  <div class="subtitle">Não passe sufoco na sua primeira viagem ✈️</div>
+  <div class="stats">⭐ ${data.points} 🔥 ${data.streak}</div>
+  <button class="btn btn-primary" onclick="menu()">COMEÇAR A TREINAR</button>
+  <div class="row">
+    <button class="btn btn-quiz" onclick="practice()">PRATICAR AGORA</button>
+    <button class="btn btn-back" onclick="reset()">Reset</button>
+  </div>
+  </div>`;
 }
 
+// menu módulos
 function menu(){
-  const cards = modules.map(m => `
+  let cards="";
+  modules.forEach(m=>{
+    cards+=`
     <div class="card" onclick="startModule('${m.key}')">
-      <b>${m.icon} ${m.name}</b>
-      <span class="small">Frases de viagem</span>
-    </div>
-  `).join("");
-  document.getElementById("screen").innerHTML = `
-    ${statsBar()}
-    <div class="grid">${cards}</div>
-    <div class="row">
-      <button class="btn btn-back" onclick="home()">← Menu</button>
-    </div>
-  `;
+    <div>${m.name}</div>
+    <div class="progressCircle" style="--p:${data.progress}">${data.progress}%</div>
+    </div>`;
+  });
+  screen.innerHTML=`
+  <div class="title">Escolha um módulo</div>
+  <div class="grid">${cards}</div>
+  <div class="row">
+  <button class="btn btn-back" onclick="home()">← Menu</button>
+  </div>`;
 }
 
 function startModule(key){
-  data.module = key;
-  // pega primeira lição do módulo
-  data.lesson = lessons.findIndex(l => l.m===key);
-  if(data.lesson < 0) data.lesson = 0;
-  save();
+  data.module=key;
+  data.lesson=lessons.findIndex(l=>l.m===key);
   lesson();
 }
 
+// lição
+function lesson(){
+  let l=lessons[data.lesson];
+  screen.innerHTML=`
+  <div class="lesson">
+  <b>${l.en}</b><br>
+  <div class="pron">${l.pron}</div>
+  <div>${l.pt}</div>
+  </div>
+  <div class="row">
+  <button class="btn btn-audio" onclick="speak('${l.en}')">🔊 Ouvir</button>
+  <button class="btn btn-speak" onclick="listen()">🎤 Falar</button>
+  </div>
+  <button class="btn btn-quiz" onclick="quiz()">Continuar</button>
+  <div class="row">
+  <button class="btn btn-back" onclick="menu()">← Menu</button>
+  </div>`;
+}
+
 function speak(text){
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang="en-US"; u.rate=0.9;
-  speechSynthesis.speak(u);
+  let u=new SpeechSynthesisUtterance(text);
+  u.lang="en-US"; speechSynthesis.speak(u);
 }
 
 function listen(){
   try{
-    const rec = new (window.SpeechRecognition||window.webkitSpeechRecognition)();
-    rec.lang="en-US"; rec.start();
-    rec.onresult = e => alert("Você disse: " + e.results[0][0].transcript);
-  }catch(e){
-    alert("Seu navegador não suporta reconhecimento de voz.");
-  }
+  let r=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+  r.lang="en-US"; r.start();
+  r.onresult=e=>alert("Você disse: "+e.results[0][0].transcript);
+  }catch{alert("Seu navegador não suporta microfone");}
 }
 
-function lesson(){
-  const l = lessons[data.lesson];
-  document.getElementById("screen").innerHTML = `
-    ${statsBar()}
-    <div class="lesson">
-      <div class="big"><b>${l.en}</b></div>
-      <div class="pron">${l.pron}</div>
-      <div>${l.pt}</div>
-    </div>
-    <div class="row">
-      <button class="btn btn-audio" onclick="speak('${l.en.replaceAll("'","")}')">🔊 Ouvir</button>
-      <button class="btn btn-speak" onclick="listen()">🎤 Falar</button>
-    </div>
-    <button class="btn btn-quiz" onclick="quiz()">Continuar</button>
-    <div class="row">
-      <button class="btn btn-back" onclick="menu()">← Menu</button>
-    </div>
-  `;
-}
-
+// quiz
 function quiz(){
-  const l = lessons[data.lesson];
-  const wrong1 = "Where is the hotel?";
-  const wrong2 = "Where is the taxi?";
-  document.getElementById("screen").innerHTML = `
-    ${statsBar()}
-    <div class="lesson center">
-      <div class="small">Como dizer:</div>
-      <div class="big"><b>${l.pt}</b></div>
-    </div>
-    <button class="btn btn-quiz" onclick="answer(true)">${l.en}</button>
-    <button class="btn btn-quiz" onclick="answer(false)">${wrong1}</button>
-    <button class="btn btn-quiz" onclick="answer(false)">${wrong2}</button>
-    <div class="row">
-      <button class="btn btn-back" onclick="lesson()">← Voltar</button>
-    </div>
-  `;
+  let l=lessons[data.lesson];
+  screen.innerHTML=`
+  <div class="lesson center">
+  Como dizer:<br><b>${l.pt}</b>
+  </div>
+  <button class="btn btn-quiz" onclick="answer(true)">${l.en}</button>
+  <button class="btn btn-quiz" onclick="answer(false)">Where is the hotel?</button>
+  <button class="btn btn-quiz" onclick="answer(false)">Where is the taxi?</button>`;
 }
 
 function answer(correct){
   if(correct){
-    // som + confete
-    document.getElementById("ding").currentTime = 0;
-    document.getElementById("ding").play().catch(()=>{});
-    const c = document.createElement("div");
+    ding.play();
+    let c=document.createElement("div");
     c.className="confetti"; c.textContent="🎉";
-    document.body.appendChild(c); setTimeout(()=>c.remove(),900);
-
-    data.points += 10;
-    data.streak += 1;
-    data.progress += 5;
-    data.lesson = Math.min(data.lesson+1, lessons.length-1);
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),900);
+    data.points+=10;
+    data.progress+=10;
+    data.lesson++;
     save();
-    setTimeout(()=>lesson(), 500);
-  }else{
-    alert("Quase! Tente novamente.");
-  }
+    setTimeout(()=>lesson(),500);
+  }else alert("Tente novamente");
 }
 
-function resetProgress(){
-  if(confirm("Tem certeza que deseja reiniciar o progresso?")){
+// modo prática
+function practice(){
+  data.lesson=Math.floor(Math.random()*lessons.length);
+  lesson();
+}
+
+// reset
+function reset(){
+  if(confirm("Resetar progresso?")){
     localStorage.removeItem("triptalk_en");
-    data = {points:0, streak:0, progress:0, lesson:0, module:0};
-    home();
+    location.reload();
   }
 }
 
-// start
-home();
+// certificado
+function certificate(){
+  let html=`
+  <h1>Certificate of Completion</h1>
+  <h2>TripTalk English</h2>
+  <p>English for Travel Certification</p>
+  <p>This certifies that</p>
+  <h3>${data.name}</h3>
+  <p>has completed the course</p>
+  <p>Total workload: 10 hours</p>`;
+  let w=window.open("");
+  w.document.write(html);
+}
+
+let screen=document.getElementById("screen");
+splash();
 </script>
 
 </body>
