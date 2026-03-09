@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>TripTalk</title>
 
 <style>
@@ -21,11 +20,11 @@ justify-content:center;
 
 .app{
 width:420px;
-max-width:90%;
+max-width:92%;
 background:white;
 border-radius:20px;
 padding:25px;
-box-shadow:0 20px 40px rgba(0,0,0,.2);
+box-shadow:0 20px 40px rgba(0,0,0,.25);
 text-align:center;
 }
 
@@ -46,10 +45,12 @@ cursor:pointer;
 
 .module{
 background:#eef2ff;
-padding:18px;
+padding:16px;
 border-radius:12px;
 margin-top:10px;
 cursor:pointer;
+display:flex;
+justify-content:space-between;
 }
 
 .progress{
@@ -89,6 +90,13 @@ let lessonIndex=0
 let points=0
 let streak=0
 
+let progress={
+airport:0,
+hotel:0,
+restaurant:0,
+transport:0
+}
+
 const lessons=[
 
 // AIRPORT
@@ -99,19 +107,53 @@ const lessons=[
 {m:"airport",en:"Where is baggage claim?",pron:"uer iz baguej cleim",pt:"Onde retiro a bagagem"},
 {m:"airport",en:"Where is security?",pron:"uer iz sicuriti",pt:"Onde é a segurança"},
 {m:"airport",en:"Where is the restroom?",pron:"uer iz dhi restrum",pt:"Onde fica o banheiro"},
-
 {m:"airport",en:"My flight is delayed",pron:"mai flait iz dileid",pt:"Meu voo está atrasado"},
 {m:"airport",en:"My flight was canceled",pron:"mai flait was cênseld",pt:"Meu voo foi cancelado"},
 {m:"airport",en:"I lost my luggage",pron:"ai lost mai laguedj",pt:"Perdi minha bagagem"},
+{m:"airport",en:"I need help",pron:"ai nid help",pt:"Preciso de ajuda"},
+
+// HOTEL
+
+{m:"hotel",en:"I have a reservation",pron:"ai hev a reserveyshon",pt:"Eu tenho uma reserva"},
+{m:"hotel",en:"What time is check in?",pron:"uat taim iz tchekin",pt:"Que horas é o check in"},
+{m:"hotel",en:"What time is checkout?",pron:"uat taim iz tchekaut",pt:"Que horas é o checkout"},
+{m:"hotel",en:"Is breakfast included?",pron:"iz brekfast included",pt:"Café da manhã está incluído"},
+{m:"hotel",en:"I need a taxi",pron:"ai nid a taxi",pt:"Eu preciso de um taxi"},
+{m:"hotel",en:"The air conditioner is not working",pron:"dhi er conditioner iz not uorking",pt:"O ar condicionado não está funcionando"},
+{m:"hotel",en:"Can I get another towel?",pron:"ken ai get anader tauel",pt:"Pode trazer outra toalha"},
+{m:"hotel",en:"Where is the elevator?",pron:"uer iz dhi elevêitor",pt:"Onde fica o elevador"},
+
+// RESTAURANT
+
+{m:"restaurant",en:"Can I see the menu?",pron:"ken ai si dhi menu",pt:"Posso ver o cardápio"},
+{m:"restaurant",en:"What do you recommend?",pron:"uat du iu recomênd",pt:"O que você recomenda"},
+{m:"restaurant",en:"I am vegetarian",pron:"ai am vegeterian",pt:"Sou vegetariano"},
+{m:"restaurant",en:"Can I get the check?",pron:"ken ai get dhi tchek",pt:"A conta por favor"},
+{m:"restaurant",en:"Water please",pron:"uóter plis",pt:"Água por favor"},
+{m:"restaurant",en:"No ice please",pron:"nou ais plis",pt:"Sem gelo por favor"},
+{m:"restaurant",en:"This is delicious",pron:"dis iz dilíshas",pt:"Isso está delicioso"},
+{m:"restaurant",en:"Can I pay with card?",pron:"ken ai pei uith card",pt:"Posso pagar com cartão"},
+
+// TRANSPORT
+
+{m:"transport",en:"Where is the bus stop?",pron:"uer iz dhi bus stop",pt:"Onde é o ponto de ônibus"},
+{m:"transport",en:"How much is the ticket?",pron:"rau mach iz dhi ticket",pt:"Quanto custa a passagem"},
+{m:"transport",en:"Where is the subway?",pron:"uer iz dhi sabuei",pt:"Onde fica o metrô"},
+{m:"transport",en:"I need a taxi",pron:"ai nid a taxi",pt:"Eu preciso de um taxi"},
+{m:"transport",en:"Take me to the airport",pron:"teik mi tu dhi erport",pt:"Me leve ao aeroporto"},
+{m:"transport",en:"Stop here please",pron:"stop rir plis",pt:"Pare aqui por favor"},
+{m:"transport",en:"How long does it take?",pron:"rau long das it teik",pt:"Quanto tempo demora"},
+{m:"transport",en:"Is it far?",pron:"iz it far",pt:"É longe"}
 
 ]
-
-// QUIZ
 
 const quiz=[
 
 {pt:"Onde fica o aeroporto",ok:"Where is the airport?",a:"Where is the hotel?",b:"Where is the taxi?"},
-{pt:"Onde é meu portão",ok:"Where is my gate?",a:"Where is the airport?",b:"Where is the restroom?"},
+
+{pt:"Eu tenho uma reserva",ok:"I have a reservation",a:"I need a taxi",b:"Where is the airport?"},
+
+{pt:"A conta por favor",ok:"Can I get the check?",a:"Can I see the menu?",b:"Water please"}
 
 ]
 
@@ -126,10 +168,25 @@ app.innerHTML=`
 <h2>🌍 TripTalk</h2>
 <p>O inglês que pode salvar sua primeira viagem</p>
 
-<div class="module" onclick="start('airport')">✈ Airport</div>
-<div class="module">🏨 Hotel</div>
-<div class="module">🍔 Restaurant</div>
-<div class="module">🚕 Transportation</div>
+<div class="module" onclick="start('airport')">
+<span>✈ Airport</span>
+<span>${progress.airport}%</span>
+</div>
+
+<div class="module" onclick="start('hotel')">
+<span>🏨 Hotel</span>
+<span>${progress.hotel}%</span>
+</div>
+
+<div class="module" onclick="start('restaurant')">
+<span>🍔 Restaurant</span>
+<span>${progress.restaurant}%</span>
+</div>
+
+<div class="module" onclick="start('transport')">
+<span>🚕 Transportation</span>
+<span>${progress.transport}%</span>
+</div>
 
 `
 
@@ -147,12 +204,15 @@ render()
 return
 }
 
+let pct=Math.floor((lessonIndex/list.length)*100)
+progress[module]=pct
+
 app.innerHTML=`
 
 <h3>⭐ ${points} | 🔥 ${streak}</h3>
 
 <div class="progress">
-<div class="bar" style="width:${lessonIndex/list.length*100}%"></div>
+<div class="bar" style="width:${pct}%"></div>
 </div>
 
 <h2>🇺🇸 ${l.en}</h2>
@@ -202,6 +262,7 @@ render()
 }
 
 function next(){
+
 lessonIndex++
 points+=10
 streak++
@@ -213,6 +274,7 @@ screen="lesson"
 }
 
 render()
+
 }
 
 function check(ans,ok){
@@ -221,7 +283,7 @@ if(ans===ok){
 alert("Correct 🎉")
 points+=10
 }else{
-alert("Tente novamente")
+alert("Try again")
 }
 
 screen="lesson"
