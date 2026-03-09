@@ -6,8 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TripTalk</title>
 
-<style>
+<link rel="manifest" href="manifest.json">
 
+<style>
 body{
 margin:0;
 font-family:system-ui,-apple-system,Segoe UI,Roboto;
@@ -29,21 +30,14 @@ box-shadow:0 30px 80px rgba(0,0,0,.7);
 }
 
 .header{
-font-size:28px;
+font-size:26px;
 font-weight:700;
 text-align:center;
-margin-bottom:5px;
-}
-
-.sub{
-text-align:center;
-opacity:.7;
-margin-bottom:15px;
 }
 
 .stats{
 text-align:center;
-margin-bottom:15px;
+margin:10px 0;
 }
 
 .progress{
@@ -67,15 +61,11 @@ margin-top:10px;
 border:none;
 border-radius:14px;
 font-size:16px;
-font-weight:600;
 cursor:pointer;
 }
 
 .primary{background:#3b82f6;color:white}
-.module{background:#1e293b;color:white}
-.locked{background:#334155;color:#94a3b8}
 .quiz{background:#334155;color:white}
-.back{background:#f97316;color:white}
 .audio{background:#2563eb;color:white}
 .speak{background:#16a34a;color:white}
 
@@ -85,12 +75,10 @@ padding:18px;
 border-radius:14px;
 margin-bottom:10px;
 font-size:18px;
-line-height:1.5;
 }
 
 .correct{background:#22c55e!important}
 .wrong{background:#ef4444!important}
-
 </style>
 
 </head>
@@ -100,7 +88,6 @@ line-height:1.5;
 <div class="app">
 
 <div class="header">✈️ TripTalk</div>
-<div class="sub">Inglês para sua primeira viagem</div>
 
 <div class="stats">
 ⭐ Pontos: <span id="points">0</span> | 🔥 Streak: <span id="streak">0</span>
@@ -110,25 +97,44 @@ line-height:1.5;
 <div id="bar" class="bar"></div>
 </div>
 
-<div id="screen">
-
-<button class="primary" onclick="modules()">Começar</button>
-
-</div>
+<div id="screen"></div>
 
 </div>
 
 <script>
 
-let points=0
-let progress=0
-let streak=0
-let unlocked=1
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('sw.js')
+}
+
+let data = JSON.parse(localStorage.getItem("triptalk")) || {
+points:0,
+streak:0,
+progress:0,
+lesson:0
+}
+
+const lessons = [
+
+{en:"Where is the airport?",pt:"Onde fica o aeroporto?"},
+{en:"Where is my gate?",pt:"Onde é meu portão?"},
+{en:"I have a reservation",pt:"Eu tenho uma reserva"},
+{en:"What time is check-in?",pt:"Que horas é o check-in?"},
+{en:"Can I see the menu?",pt:"Posso ver o menu?"},
+{en:"The bill please",pt:"A conta por favor"},
+{en:"Call a taxi please",pt:"Chame um taxi por favor"},
+{en:"Where is the subway?",pt:"Onde fica o metrô?"}
+
+]
+
+function save(){
+localStorage.setItem("triptalk",JSON.stringify(data))
+}
 
 function update(){
-document.getElementById("points").innerText=points
-document.getElementById("streak").innerText=streak
-document.getElementById("bar").style.width=progress+"%"
+document.getElementById("points").innerText=data.points
+document.getElementById("streak").innerText=data.streak
+document.getElementById("bar").style.width=data.progress+"%"
 }
 
 function speak(text){
@@ -147,133 +153,74 @@ alert("Você disse: "+event.results[0][0].transcript)
 }
 }
 
-function modules(){
+function lesson(){
+
+let l=lessons[data.lesson]
 
 document.getElementById("screen").innerHTML=`
 
-<button class="${unlocked>=1?'module':'locked'}" onclick="${unlocked>=1?'airport()':''}">✈️ Aeroporto</button>
-<button class="${unlocked>=2?'module':'locked'}" onclick="${unlocked>=2?'hotel()':''}">🏨 Hotel</button>
-<button class="${unlocked>=3?'module':'locked'}" onclick="${unlocked>=3?'restaurant()':''}">🍔 Restaurante</button>
-<button class="${unlocked>=4?'module':'locked'}" onclick="${unlocked>=4?'transport()':''}">🚕 Transporte</button>
+<div class="card">
+${l.en}<br><br>${l.pt}
+</div>
 
-<button class="back" onclick="home()">⬅ Voltar</button>
+<button class="audio" onclick="speak('${l.en}')">🔊 Ouvir</button>
+<button class="speak" onclick="listen()">🎤 Falar</button>
+
+<button class="quiz" onclick="quiz()">Continuar</button>
 
 `
 
-}
-
-function home(){
-document.getElementById("screen").innerHTML=`<button class="primary" onclick="modules()">Começar</button>`
-}
-
-function airport(){
-
-document.getElementById("screen").innerHTML=`
-
-<div class="card">Where is the airport?<br><br>Onde fica o aeroporto?</div>
-<button class="audio" onclick="speak('Where is the airport')">🔊 Ouvir</button>
-<button class="speak" onclick="listen()">🎤 Falar</button>
-
-<div class="card">Where is my gate?<br><br>Onde é meu portão?</div>
-<button class="audio" onclick="speak('Where is my gate')">🔊 Ouvir</button>
-<button class="speak" onclick="listen()">🎤 Falar</button>
-
-<button class="quiz" onclick="quiz()">🧠 Quiz</button>
-<button class="back" onclick="modules()">⬅ Voltar</button>
-
-`
-
-}
-
-function hotel(){
-
-document.getElementById("screen").innerHTML=`
-
-<div class="card">I have a reservation<br><br>Eu tenho uma reserva</div>
-<button class="audio" onclick="speak('I have a reservation')">🔊 Ouvir</button>
-<button class="speak" onclick="listen()">🎤 Falar</button>
-
-<div class="card">What time is check-in?<br><br>Que horas é o check-in?</div>
-<button class="audio" onclick="speak('What time is check in')">🔊 Ouvir</button>
-<button class="speak" onclick="listen()">🎤 Falar</button>
-
-<button class="back" onclick="modules()">⬅ Voltar</button>
-
-`
-
-}
-
-function restaurant(){
-
-document.getElementById("screen").innerHTML=`
-
-<div class="card">Can I see the menu?<br><br>Posso ver o menu?</div>
-<button class="audio" onclick="speak('Can I see the menu')">🔊 Ouvir</button>
-<button class="speak" onclick="listen()">🎤 Falar</button>
-
-<div class="card">The bill please<br><br>A conta por favor</div>
-<button class="audio" onclick="speak('The bill please')">🔊 Ouvir</button>
-<button class="speak" onclick="listen()">🎤 Falar</button>
-
-<button class="back" onclick="modules()">⬅ Voltar</button>
-
-`
-
-}
-
-function transport(){
-
-document.getElementById("screen").innerHTML=`
-
-<div class="card">Call a taxi please<br><br>Chame um taxi por favor</div>
-<button class="audio" onclick="speak('Call a taxi please')">🔊 Ouvir</button>
-<button class="speak" onclick="listen()">🎤 Falar</button>
-
-<div class="card">Where is the subway?<br><br>Onde fica o metrô?</div>
-<button class="audio" onclick="speak('Where is the subway')">🔊 Ouvir</button>
-<button class="speak" onclick="listen()">🎤 Falar</button>
-
-<button class="back" onclick="modules()">⬅ Voltar</button>
-
-`
+update()
 
 }
 
 function quiz(){
 
+let l=lessons[data.lesson]
+
 document.getElementById("screen").innerHTML=`
 
-<div class="card">Como dizer:<br><br>Onde fica o aeroporto?</div>
+<div class="card">
 
-<button class="quiz" onclick="answer(this,true)">Where is the airport</button>
-<button class="quiz" onclick="answer(this,false)">Where is the hotel</button>
-<button class="quiz" onclick="answer(this,false)">Where is the taxi</button>
+Como dizer:<br><br>${l.pt}
 
-<button class="back" onclick="modules()">⬅ Voltar</button>
+</div>
+
+<button class="quiz" onclick="answer(true)"> ${l.en}</button>
+<button class="quiz" onclick="answer(false)"> Wrong option</button>
+<button class="quiz" onclick="answer(false)"> Another wrong</button>
 
 `
 
 }
 
-function answer(btn,correct){
+function answer(correct){
 
 if(correct){
+data.points+=10
+data.progress+=10
+data.streak+=1
+data.lesson++
+save()
 
-btn.classList.add("correct")
-points+=10
-progress+=25
-streak+=1
-unlocked=2
+if(data.lesson>=lessons.length){
+document.getElementById("screen").innerHTML="<div class='card'>🎉 Curso concluído!</div>"
+return
+}
+
+lesson()
 
 }else{
 
-btn.classList.add("wrong")
+alert("Tente novamente")
 
 }
 
 update()
 
 }
+
+lesson()
 
 </script>
 
