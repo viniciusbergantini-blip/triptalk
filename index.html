@@ -8,6 +8,8 @@
 
 <title>TripTalk</title>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <style>
 
 body{
@@ -39,6 +41,11 @@ border-radius:12px;
 font-size:16px;
 cursor:pointer;
 color:white;
+transition:.2s;
+}
+
+button:hover{
+transform:scale(1.03);
 }
 
 .green{background:#22c55e}
@@ -59,6 +66,11 @@ border-radius:12px;
 color:white;
 font-weight:600;
 cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+transform:scale(1.05);
 }
 
 .airport{background:#3b82f6}
@@ -76,6 +88,11 @@ padding:12px;
 border-radius:10px;
 margin-top:10px;
 cursor:pointer;
+transition:.2s;
+}
+
+.quizOption:hover{
+background:#ddd;
 }
 
 .dot{
@@ -89,6 +106,20 @@ margin:3px;
 
 .active{
 background:#22c55e;
+}
+
+.progressBar{
+width:100%;
+background:#eee;
+height:12px;
+border-radius:10px;
+margin-top:10px;
+}
+
+.progressFill{
+height:12px;
+background:#22c55e;
+border-radius:10px;
 }
 
 </style>
@@ -192,20 +223,18 @@ return
 
 }
 
+let progress=(index/list.length)*100
+
 let dots=""
 
 for(let i=0;i<10;i++){
-
 dots+=`<span class="dot ${i<=index%10?'active':''}"></span>`
-
 }
 
 if(index>0 && index%3==0 && !quizMode){
-
 quizMode=true
 renderQuiz(p)
 return
-
 }
 
 app.innerHTML=`
@@ -217,6 +246,10 @@ app.innerHTML=`
 <h3>${module.toUpperCase()}</h3>
 
 <div>${dots}</div>
+
+<div class="progressBar">
+<div class="progressFill" style="width:${progress}%"></div>
+</div>
 
 <h2>${p.en}</h2>
 
@@ -298,6 +331,12 @@ if(choice==correct){
 
 points+=10
 localStorage.points=points
+
+confetti({
+particleCount:120,
+spread:70,
+origin:{y:0.6}
+})
 
 alert("Correct! +10 pontos 🎉")
 
