@@ -104,6 +104,18 @@ background:#22c55e;
 border-radius:10px;
 }
 
+.certTitle{
+font-size:26px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.certName{
+font-size:28px;
+font-weight:bold;
+margin:15px 0;
+}
+
 </style>
 
 </head>
@@ -202,11 +214,11 @@ app.innerHTML=`
 
 <h2>Ajuda TripTalk</h2>
 
-<p>Se tiver dúvidas ou problemas com o app:</p>
+<p>Se tiver dúvidas ou problemas:</p>
 
 <h3>triptalkenglish@gmail.com</h3>
 
-<p>Respondemos normalmente em até 24 horas.</p>
+<p>Respondemos em até 24h.</p>
 
 <button class="purple" onclick="screen='modules';render()">
 Voltar
@@ -271,18 +283,26 @@ Continuar
 
 if(screen=="certificate"){
 
+let year=new Date().getFullYear()
+
 app.innerHTML=`
 
-<h1>🎓 Certificado</h1>
+<div class="certTitle">🎓 CERTIFICADO</div>
 
-<h2>${name}</h2>
+<p>Este certificado confirma que</p>
 
-<p>Concluiu o treinamento TripTalk</p>
+<div class="certName">${name}</div>
 
-⭐ ${points} pontos
+<p>concluiu com sucesso o curso</p>
+
+<h3>TripTalk Travel English</h3>
+
+<p>Pontuação final: ⭐ ${points}</p>
+
+<p>Data: ${year}</p>
 
 <button class="green" onclick="screen='modules';render()">
-Voltar
+Voltar para módulos
 </button>
 
 `
