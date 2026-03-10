@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 
 <head>
@@ -183,7 +184,33 @@ app.innerHTML=`
 
 </div>
 
-<button class="orange" onclick="screen='home';render()">Menu</button>
+<button class="blue" onclick="screen='help';render()">
+AJUDA / SUPORTE
+</button>
+
+<button class="orange" onclick="screen='home';render()">
+Menu
+</button>
+
+`
+
+}
+
+if(screen=="help"){
+
+app.innerHTML=`
+
+<h2>Ajuda TripTalk</h2>
+
+<p>Se tiver dúvidas ou problemas com o app:</p>
+
+<h3>triptalkenglish@gmail.com</h3>
+
+<p>Respondemos normalmente em até 24 horas.</p>
+
+<button class="purple" onclick="screen='modules';render()">
+Voltar
+</button>
 
 `
 
@@ -214,7 +241,9 @@ return
 
 app.innerHTML=`
 
-<button class="orange" onclick="screen='modules';render()">← Voltar</button>
+<button class="orange" onclick="screen='modules';render()">
+← Voltar
+</button>
 
 <h3>${module.toUpperCase()}</h3>
 
@@ -224,13 +253,17 @@ app.innerHTML=`
 
 <h2>${p.en}</h2>
 
-<button class="blue" onclick="speak('${p.en}')">🔊 Ouvir</button>
+<button class="blue" onclick="speak('${p.en}')">
+🔊 Ouvir
+</button>
 
 <p><b>Pronúncia</b><br>${p.pron}</p>
 
 <p>${p.pt}</p>
 
-<button class="purple" onclick="next()">Continuar</button>
+<button class="purple" onclick="next()">
+Continuar
+</button>
 
 `
 
@@ -248,7 +281,9 @@ app.innerHTML=`
 
 ⭐ ${points} pontos
 
-<button class="green" onclick="screen='modules';render()">Voltar</button>
+<button class="green" onclick="screen='modules';render()">
+Voltar
+</button>
 
 `
 
