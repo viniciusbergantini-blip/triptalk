@@ -41,11 +41,6 @@ border-radius:12px;
 font-size:16px;
 cursor:pointer;
 color:white;
-transition:.2s;
-}
-
-button:hover{
-transform:scale(1.03);
 }
 
 .green{background:#22c55e}
@@ -88,36 +83,22 @@ padding:12px;
 border-radius:10px;
 margin-top:10px;
 cursor:pointer;
-transition:.2s;
 }
 
 .quizOption:hover{
 background:#ddd;
 }
 
-.dot{
-width:10px;
-height:10px;
-border-radius:10px;
-background:#ddd;
-display:inline-block;
-margin:3px;
-}
-
-.active{
-background:#22c55e;
-}
-
 .progressBar{
 width:100%;
+height:10px;
 background:#eee;
-height:12px;
 border-radius:10px;
-margin-top:10px;
+margin:10px 0;
 }
 
 .progressFill{
-height:12px;
+height:10px;
 background:#22c55e;
 border-radius:10px;
 }
@@ -202,9 +183,7 @@ app.innerHTML=`
 
 </div>
 
-<button class="orange" onclick="screen='home';render()">
-Menu
-</button>
+<button class="orange" onclick="screen='home';render()">Menu</button>
 
 `
 
@@ -225,27 +204,19 @@ return
 
 let progress=(index/list.length)*100
 
-let dots=""
-
-for(let i=0;i<10;i++){
-dots+=`<span class="dot ${i<=index%10?'active':''}"></span>`
-}
-
 if(index>0 && index%3==0 && !quizMode){
+
 quizMode=true
 renderQuiz(p)
 return
+
 }
 
 app.innerHTML=`
 
-<button class="orange" onclick="screen='modules';render()">
-← Voltar
-</button>
+<button class="orange" onclick="screen='modules';render()">← Voltar</button>
 
 <h3>${module.toUpperCase()}</h3>
-
-<div>${dots}</div>
 
 <div class="progressBar">
 <div class="progressFill" style="width:${progress}%"></div>
@@ -253,17 +224,13 @@ app.innerHTML=`
 
 <h2>${p.en}</h2>
 
-<button class="blue" onclick="speak('${p.en}')">
-🔊 Ouvir
-</button>
+<button class="blue" onclick="speak('${p.en}')">🔊 Ouvir</button>
 
 <p><b>Pronúncia</b><br>${p.pron}</p>
 
 <p>${p.pt}</p>
 
-<button class="purple" onclick="next()">
-Continuar
-</button>
+<button class="purple" onclick="next()">Continuar</button>
 
 `
 
@@ -281,9 +248,7 @@ app.innerHTML=`
 
 ⭐ ${points} pontos
 
-<button class="green" onclick="screen='modules';render()">
-Voltar
-</button>
+<button class="green" onclick="screen='modules';render()">Voltar</button>
 
 `
 
@@ -327,6 +292,8 @@ ${o}
 
 function answer(choice,correct){
 
+const app=document.getElementById("app")
+
 if(choice==correct){
 
 points+=10
@@ -338,9 +305,39 @@ spread:70,
 origin:{y:0.6}
 })
 
-alert("Correct! +10 pontos 🎉")
+app.innerHTML=`
+
+<h1 style="color:#22c55e">✅ Correct!</h1>
+
+<h2>+10 pontos 🎉</h2>
+
+<button class="blue" onclick="continueLesson()">
+Continuar
+</button>
+
+`
+
+}else{
+
+app.innerHTML=`
+
+<h1 style="color:#ef4444">❌ Errado</h1>
+
+<p>Resposta correta:</p>
+
+<h3>${correct}</h3>
+
+<button class="blue" onclick="continueLesson()">
+Continuar
+</button>
+
+`
 
 }
+
+}
+
+function continueLesson(){
 
 quizMode=false
 index++
@@ -363,7 +360,6 @@ name=document.getElementById("nameInput").value
 localStorage.name=name
 
 screen="modules"
-
 render()
 
 }
@@ -375,7 +371,6 @@ index=0
 quizMode=false
 
 screen="lesson"
-
 render()
 
 }
@@ -383,7 +378,6 @@ render()
 function next(){
 
 index++
-
 render()
 
 }
@@ -396,7 +390,6 @@ points=0
 name=""
 
 screen="home"
-
 render()
 
 }
