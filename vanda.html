@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 
 <meta charset="UTF-8">
@@ -10,11 +9,16 @@
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
 background:#0f172a;
 color:white;
+line-height:1.6;
 }
 
 .container{
@@ -25,16 +29,16 @@ padding:40px 20px;
 
 .hero{
 text-align:center;
-padding:80px 20px;
+padding:100px 20px;
 }
 
-.hero img{
-width:130px;
+.logo{
+width:120px;
 margin-bottom:20px;
 }
 
 h1{
-font-size:48px;
+font-size:46px;
 margin-bottom:20px;
 }
 
@@ -45,10 +49,6 @@ max-width:700px;
 margin:auto;
 }
 
-.cta{
-margin-top:40px;
-}
-
 .btn{
 background:#22c55e;
 padding:18px 40px;
@@ -57,6 +57,7 @@ font-size:20px;
 color:white;
 text-decoration:none;
 display:inline-block;
+margin-top:35px;
 transition:.2s;
 }
 
@@ -68,6 +69,11 @@ transform:scale(1.05);
 .section{
 padding:80px 20px;
 text-align:center;
+}
+
+.section h2{
+font-size:36px;
+margin-bottom:20px;
 }
 
 .features{
@@ -83,9 +89,23 @@ padding:30px;
 border-radius:12px;
 }
 
+.screens{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+margin-top:40px;
+}
+
+.screens img{
+width:100%;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
 .price{
-font-size:42px;
+font-size:48px;
 margin:30px 0;
+font-weight:bold;
 }
 
 .guarantee{
@@ -110,69 +130,98 @@ color:#94a3b8;
 
 <div class="hero container">
 
-<img src="icon.png">
+<img src="icon.png" class="logo">
 
 <h1>O inglês que pode salvar sua primeira viagem ✈️</h1>
 
 <p class="subtitle">
-Viajar para outro país sem saber inglês pode gerar situações constrangedoras
+Viajar sem saber inglês pode gerar situações constrangedoras
 no aeroporto, hotel ou restaurante.
 
-O TripTalk ensina exatamente as frases que você precisa para se virar em qualquer viagem.
+O TripTalk ensina exatamente as frases que você precisa
+para se virar com segurança em qualquer viagem.
 </p>
 
-<div class="cta">
 <a class="btn" href="https://pay.kiwify.com.br/pPCzEYj">
 Quero acessar o TripTalk
 </a>
-</div>
 
 </div>
+
 
 <div class="section container">
 
-<h2>O que você aprende no TripTalk</h2>
+<h2>Problemas que muitos brasileiros enfrentam</h2>
 
 <div class="features">
 
 <div class="card">
-<h3>✈️ Aeroporto</h3>
-<p>Check-in, imigração, portão de embarque e problemas com bagagem.</p>
+✈️ Não saber falar no aeroporto
 </div>
 
 <div class="card">
-<h3>🏨 Hotel</h3>
-<p>Check-in, pedir toalhas, resolver problemas no quarto.</p>
+🏨 Não conseguir fazer check-in no hotel
 </div>
 
 <div class="card">
-<h3>🍔 Restaurante</h3>
-<p>Pedir comida, entender o menu e pagar a conta.</p>
+🍔 Dificuldade para pedir comida
 </div>
 
 <div class="card">
-<h3>🚕 Transporte</h3>
-<p>Táxi, Uber, metrô e pedir direções.</p>
+🚕 Não conseguir pedir informações
 </div>
 
 </div>
 
 </div>
+
 
 <div class="section container">
 
-<h2>Como funciona</h2>
+<h2>A solução: TripTalk</h2>
 
 <p>
-Depois da compra você recebe acesso imediato ao aplicativo TripTalk.
+Um aplicativo simples com as frases essenciais que realmente
+salvam você em situações reais de viagem.
 </p>
 
-<p>
-Dentro do app você encontra frases essenciais organizadas por situações reais de viagem,
-com áudio para aprender a pronúncia correta.
-</p>
+<div class="features">
+
+<div class="card">
+✈️ Frases para aeroporto
+</div>
+
+<div class="card">
+🏨 Frases para hotel
+</div>
+
+<div class="card">
+🍔 Frases para restaurante
+</div>
+
+<div class="card">
+🚕 Frases para transporte
+</div>
 
 </div>
+
+</div>
+
+
+<div class="section container">
+
+<h2>Veja o TripTalk por dentro</h2>
+
+<div class="screens">
+
+<img src="icon.png">
+<img src="icon.png">
+<img src="icon.png">
+
+</div>
+
+</div>
+
 
 <div class="section container">
 
@@ -190,6 +239,7 @@ Começar agora
 
 </div>
 
+
 <div class="section container">
 
 <div class="guarantee">
@@ -205,6 +255,7 @@ basta pedir reembolso dentro de 7 dias e devolvemos 100% do seu dinheiro.
 
 </div>
 
+
 <div class="footer container">
 
 <p>TripTalk © 2026</p>
@@ -212,5 +263,4 @@ basta pedir reembolso dentro de 7 dias e devolvemos 100% do seu dinheiro.
 </div>
 
 </body>
-
 </html>
