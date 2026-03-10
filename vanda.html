@@ -10,20 +10,23 @@
 
 body{
 font-family: Arial, sans-serif;
-background: linear-gradient(135deg,#4a6cf7,#6a8dff);
+background: linear-gradient(135deg,#3b82f6,#6366f1);
 margin:0;
 padding:0;
-text-align:center;
-color:#333;
 }
 
 .container{
+max-width:800px;
+margin:auto;
+padding:40px 20px;
+text-align:center;
+}
+
+.card{
 background:white;
-max-width:700px;
-margin:40px auto;
+border-radius:20px;
 padding:40px;
-border-radius:16px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+box-shadow:0 20px 40px rgba(0,0,0,0.15);
 }
 
 .logo{
@@ -32,40 +35,51 @@ margin-bottom:20px;
 }
 
 h1{
-font-size:32px;
+font-size:36px;
 margin-bottom:10px;
 }
 
 .subtitle{
-font-size:18px;
+font-size:20px;
+color:#555;
 margin-bottom:30px;
 }
 
 .features{
 text-align:left;
+max-width:450px;
 margin:30px auto;
-max-width:400px;
 font-size:18px;
+line-height:1.8;
 }
 
 .price{
-font-size:28px;
+font-size:32px;
 font-weight:bold;
 margin:30px 0;
+color:#111;
 }
 
-button{
-background:#4CAF50;
-border:none;
+.buy{
+background:#22c55e;
 color:white;
+border:none;
 padding:18px 40px;
 font-size:20px;
-border-radius:10px;
+border-radius:12px;
 cursor:pointer;
+transition:0.2s;
 }
 
-button:hover{
-background:#45a049;
+.buy:hover{
+background:#16a34a;
+transform:scale(1.03);
+}
+
+.small{
+margin-top:20px;
+color:#777;
+font-size:14px;
 }
 
 </style>
@@ -75,7 +89,9 @@ background:#45a049;
 
 <div class="container">
 
-<img src="icon.svg" class="logo">
+<div class="card">
+
+<img src="icon.png" class="logo">
 
 <h1>TripTalk</h1>
 
@@ -84,13 +100,13 @@ O inglês que pode salvar sua primeira viagem ✈️
 </p>
 
 <p>
-Viajar sem saber inglês pode gerar situações difíceis no aeroporto,
-hotel ou restaurante.
+Viajar para outro país sem saber inglês pode gerar situações difíceis
+no aeroporto, hotel ou restaurante.
 </p>
 
 <p>
 O <b>TripTalk</b> é um aplicativo simples que ensina
-as frases essenciais para se virar em qualquer viagem.
+as frases essenciais para você se virar em qualquer viagem.
 </p>
 
 <div class="features">
@@ -99,7 +115,7 @@ as frases essenciais para se virar em qualquer viagem.
 ✔ Frases para hotel<br>
 ✔ Frases para restaurante<br>
 ✔ Frases para transporte<br>
-✔ Áudios para pronúncia
+✔ Áudio para treinar pronúncia
 
 </div>
 
@@ -109,8 +125,14 @@ R$27,90
 </div>
 
 <a href="https://pay.kiwify.com.br/pPCzEyj">
-<button>QUERO ACESSAR O TRIPTALK</button>
+<button class="buy">QUERO ACESSAR O TRIPTALK</button>
 </a>
+
+<p class="small">
+Acesso imediato após o pagamento
+</p>
+
+</div>
 
 </div>
 
