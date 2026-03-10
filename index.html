@@ -33,6 +33,11 @@ box-shadow:0 20px 40px rgba(0,0,0,.2);
 text-align:center;
 }
 
+.logo{
+font-size:32px;
+margin-bottom:10px;
+}
+
 button{
 width:100%;
 padding:14px;
@@ -104,18 +109,6 @@ background:#22c55e;
 border-radius:10px;
 }
 
-.certTitle{
-font-size:26px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.certName{
-font-size:28px;
-font-weight:bold;
-margin:15px 0;
-}
-
 </style>
 
 </head>
@@ -144,7 +137,9 @@ if(screen=="home"){
 
 app.innerHTML=`
 
-<h1>🌍 TripTalk</h1>
+<div class="logo">🌍✈️</div>
+
+<h1>TripTalk</h1>
 
 <p>O inglês que pode salvar sua primeira viagem ✈</p>
 
@@ -179,6 +174,10 @@ Continuar
 if(screen=="modules"){
 
 app.innerHTML=`
+
+<div class="logo">🌍✈️</div>
+
+<h2>TripTalk</h2>
 
 <h3>${name}</h3>
 ⭐ ${points} pontos
@@ -235,7 +234,7 @@ let p=list[index]
 
 if(!p){
 
-screen="certificate"
+screen="modules"
 render()
 return
 
@@ -275,34 +274,6 @@ app.innerHTML=`
 
 <button class="purple" onclick="next()">
 Continuar
-</button>
-
-`
-
-}
-
-if(screen=="certificate"){
-
-let year=new Date().getFullYear()
-
-app.innerHTML=`
-
-<div class="certTitle">🎓 CERTIFICADO</div>
-
-<p>Este certificado confirma que</p>
-
-<div class="certName">${name}</div>
-
-<p>concluiu com sucesso o curso</p>
-
-<h3>TripTalk Travel English</h3>
-
-<p>Pontuação final: ⭐ ${points}</p>
-
-<p>Data: ${year}</p>
-
-<button class="green" onclick="screen='modules';render()">
-Voltar para módulos
 </button>
 
 `
