@@ -55,7 +55,7 @@ display:none;
 }
 
 .logo{
-font-size:34px;
+width:120px;
 margin-bottom:10px;
 }
 
@@ -138,7 +138,7 @@ border-radius:10px;
 
 <div class="splash" id="splash">
 
-<div style="font-size:50px">🌍✈️</div>
+<img src="logo.png" style="width:140px">
 
 TripTalk
 
@@ -175,7 +175,7 @@ if(screen=="home"){
 
 app.innerHTML=`
 
-<div class="logo">🌍✈️</div>
+<img src="logo.png" class="logo">
 
 <h1>TripTalk</h1>
 
@@ -213,11 +213,10 @@ if(screen=="modules"){
 
 app.innerHTML=`
 
-<div class="logo">🌍✈️</div>
+<img src="logo.png" class="logo">
 
-<h2>TripTalk</h2>
+<h2>${name}</h2>
 
-<h3>${name}</h3>
 ⭐ ${points} pontos
 
 <div class="grid">
@@ -234,7 +233,7 @@ app.innerHTML=`
 </div>
 
 <button class="blue" onclick="screen='help';render()">
-AJUDA / SUPORTE
+Ajuda / Suporte
 </button>
 
 <button class="orange" onclick="screen='home';render()">
@@ -249,13 +248,11 @@ if(screen=="help"){
 
 app.innerHTML=`
 
-<h2>Ajuda TripTalk</h2>
+<h2>Suporte</h2>
 
-<p>Se tiver dúvidas ou problemas:</p>
+<p>Dúvidas ou problemas:</p>
 
 <h3>triptalkenglish@gmail.com</h3>
-
-<p>Respondemos em até 24h.</p>
 
 <button class="purple" onclick="screen='modules';render()">
 Voltar
@@ -371,7 +368,7 @@ origin:{y:0.6}
 
 app.innerHTML=`
 
-<h1 style="color:#22c55e">✅ Correct!</h1>
+<h1 style="color:#22c55e">Correct!</h1>
 
 <h2>+10 pontos 🎉</h2>
 
@@ -385,7 +382,7 @@ Continuar
 
 app.innerHTML=`
 
-<h1 style="color:#ef4444">❌ Errado</h1>
+<h1 style="color:#ef4444">Errado</h1>
 
 <p>Resposta correta:</p>
 
@@ -405,7 +402,6 @@ function continueLesson(){
 
 quizMode=false
 index++
-
 render()
 
 }
