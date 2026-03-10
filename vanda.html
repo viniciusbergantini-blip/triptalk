@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,132 +11,206 @@
 <style>
 
 body{
-font-family: Arial, sans-serif;
-background: linear-gradient(135deg,#3b82f6,#6366f1);
 margin:0;
-padding:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#0f172a;
+color:white;
 }
 
 .container{
-max-width:800px;
+max-width:1100px;
 margin:auto;
 padding:40px 20px;
+}
+
+.hero{
 text-align:center;
+padding:80px 20px;
 }
 
-.card{
-background:white;
-border-radius:20px;
-padding:40px;
-box-shadow:0 20px 40px rgba(0,0,0,0.15);
-}
-
-.logo{
-width:120px;
+.hero img{
+width:130px;
 margin-bottom:20px;
 }
 
 h1{
-font-size:36px;
-margin-bottom:10px;
+font-size:48px;
+margin-bottom:20px;
 }
 
 .subtitle{
 font-size:20px;
-color:#555;
-margin-bottom:30px;
+color:#cbd5e1;
+max-width:700px;
+margin:auto;
+}
+
+.cta{
+margin-top:40px;
+}
+
+.btn{
+background:#22c55e;
+padding:18px 40px;
+border-radius:12px;
+font-size:20px;
+color:white;
+text-decoration:none;
+display:inline-block;
+transition:.2s;
+}
+
+.btn:hover{
+background:#16a34a;
+transform:scale(1.05);
+}
+
+.section{
+padding:80px 20px;
+text-align:center;
 }
 
 .features{
-text-align:left;
-max-width:450px;
-margin:30px auto;
-font-size:18px;
-line-height:1.8;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+margin-top:40px;
+}
+
+.card{
+background:#1e293b;
+padding:30px;
+border-radius:12px;
 }
 
 .price{
-font-size:32px;
-font-weight:bold;
+font-size:42px;
 margin:30px 0;
-color:#111;
 }
 
-.buy{
-background:#22c55e;
-color:white;
-border:none;
-padding:18px 40px;
-font-size:20px;
+.guarantee{
+background:#1e293b;
+padding:40px;
 border-radius:12px;
-cursor:pointer;
-transition:0.2s;
+max-width:700px;
+margin:auto;
 }
 
-.buy:hover{
-background:#16a34a;
-transform:scale(1.03);
-}
-
-.small{
-margin-top:20px;
-color:#777;
-font-size:14px;
+.footer{
+margin-top:80px;
+text-align:center;
+color:#94a3b8;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="hero container">
 
-<div class="card">
+<img src="icon.png">
 
-<img src="icon.png" class="logo">
-
-<h1>TripTalk</h1>
+<h1>O inglês que pode salvar sua primeira viagem ✈️</h1>
 
 <p class="subtitle">
-O inglês que pode salvar sua primeira viagem ✈️
-</p>
-
-<p>
-Viajar para outro país sem saber inglês pode gerar situações difíceis
+Viajar para outro país sem saber inglês pode gerar situações constrangedoras
 no aeroporto, hotel ou restaurante.
+
+O TripTalk ensina exatamente as frases que você precisa para se virar em qualquer viagem.
 </p>
 
-<p>
-O <b>TripTalk</b> é um aplicativo simples que ensina
-as frases essenciais para você se virar em qualquer viagem.
-</p>
+<div class="cta">
+<a class="btn" href="https://pay.kiwify.com.br/pPCzEYj">
+Quero acessar o TripTalk
+</a>
+</div>
+
+</div>
+
+<div class="section container">
+
+<h2>O que você aprende no TripTalk</h2>
 
 <div class="features">
 
-✔ Frases para aeroporto<br>
-✔ Frases para hotel<br>
-✔ Frases para restaurante<br>
-✔ Frases para transporte<br>
-✔ Áudio para treinar pronúncia
+<div class="card">
+<h3>✈️ Aeroporto</h3>
+<p>Check-in, imigração, portão de embarque e problemas com bagagem.</p>
+</div>
+
+<div class="card">
+<h3>🏨 Hotel</h3>
+<p>Check-in, pedir toalhas, resolver problemas no quarto.</p>
+</div>
+
+<div class="card">
+<h3>🍔 Restaurante</h3>
+<p>Pedir comida, entender o menu e pagar a conta.</p>
+</div>
+
+<div class="card">
+<h3>🚕 Transporte</h3>
+<p>Táxi, Uber, metrô e pedir direções.</p>
+</div>
 
 </div>
 
-<div class="price">
-Acesso completo por apenas<br>
-R$27,90
 </div>
 
-<a href="https://pay.kiwify.com.br/pPCzEyj">
-<button class="buy">QUERO ACESSAR O TRIPTALK</button>
-</a>
+<div class="section container">
 
-<p class="small">
-Acesso imediato após o pagamento
+<h2>Como funciona</h2>
+
+<p>
+Depois da compra você recebe acesso imediato ao aplicativo TripTalk.
+</p>
+
+<p>
+Dentro do app você encontra frases essenciais organizadas por situações reais de viagem,
+com áudio para aprender a pronúncia correta.
 </p>
 
 </div>
+
+<div class="section container">
+
+<h2>Quanto custa?</h2>
+
+<p>Menos que um lanche no aeroporto.</p>
+
+<div class="price">
+R$27,90
+</div>
+
+<a class="btn" href="https://pay.kiwify.com.br/pPCzEYj">
+Começar agora
+</a>
+
+</div>
+
+<div class="section container">
+
+<div class="guarantee">
+
+<h2>Garantia de 7 dias</h2>
+
+<p>
+Se você comprar e achar que o TripTalk não te ajuda na sua viagem,
+basta pedir reembolso dentro de 7 dias e devolvemos 100% do seu dinheiro.
+</p>
+
+</div>
+
+</div>
+
+<div class="footer container">
+
+<p>TripTalk © 2026</p>
 
 </div>
 
 </body>
+
 </html>
