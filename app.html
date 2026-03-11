@@ -268,10 +268,13 @@ let list=phrases.filter(p=>p.m==module)
 let p=list[index]
 
 if(!p){
-
-screen="modules"
-render()
+app.innerHTML = `
+<h2>🎉 TripTalk Completed</h2>
+<p>You survived travel English.</p>
+<button class="orange" onclick="screen='modules';index=0;render()">Back to modules</button>
+`
 return
+}
 
 }
 
