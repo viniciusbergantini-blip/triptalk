@@ -1,6 +1,6 @@
 const phrases = [
 
-/* AIRPORT /
+/* AIRPORT */
 
 {m:"airport",en:"Where is the airport?",pron:"uer iz dhi erport",pt:"Onde fica o aeroporto"},
 {m:"airport",en:"Where is my gate?",pron:"uer iz mai gueit",pt:"Onde é meu portão"},
@@ -55,7 +55,7 @@ const phrases = [
 {m:"airport",en:"Flight is ready.",pron:"flait redi",pt:"Voo pronto"},
 {m:"airport",en:"Welcome aboard.",pron:"uelcom aboard",pt:"Bem-vindo a bordo"},
 
-/ HOTEL */
+/* HOTEL */
 
 {m:"hotel",en:"I have a reservation.",pron:"ai rezervêixon",pt:"Tenho reserva"},
 {m:"hotel",en:"I need a room.",pron:"ai nid rum",pt:"Preciso de quarto"},
@@ -106,7 +106,7 @@ const phrases = [
 {m:"hotel",en:"Extra blanket please.",pron:"extra blenket",pt:"Mais cobertor"},
 {m:"hotel",en:"I forgot my key.",pron:"forgot ki",pt:"Esqueci chave"},
 {m:"hotel",en:"I need a new key.",pron:"nu ki",pt:"Preciso nova chave"},
-{m:"hotel",en:"Can someone help me?",pron:"samuan help",pt:"Alguém ajuda"}
+{m:"hotel",en:"Can someone help me?",pron:"samuan help",pt:"Alguém ajuda"},
 
 /* RESTAURANT */
 
@@ -158,7 +158,7 @@ const phrases = [
 {m:"restaurant",en:"Everything is great.",pron:"evriting greit",pt:"Tudo ótimo"},
 {m:"restaurant",en:"The service is great.",pron:"service greit",pt:"Serviço ótimo"},
 {m:"restaurant",en:"We loved the food.",pron:"lavd de fud",pt:"Adoramos comida"},
-{m:"restaurant",en:"See you next time.",pron:"si iu nekst",pt:"Até a próxima"}
+{m:"restaurant",en:"See you next time.",pron:"si iu nekst",pt:"Até a próxima"},
 
 /* TRANSPORT */
 
@@ -210,7 +210,7 @@ const phrases = [
 {m:"transport",en:"Can I pay here?",pron:"pei rir",pt:"Posso pagar aqui"},
 {m:"transport",en:"Is this seat free?",pron:"sit fri",pt:"Esse assento está livre"},
 {m:"transport",en:"Excuse me.",pron:"excuse mi",pt:"Com licença"},
-{m:"transport",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"}
+{m:"transport",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
 
 /* SHOPPING */
 
@@ -260,7 +260,7 @@ const phrases = [
 {m:"shopping",en:"Thank you very much.",pron:"thenk iu veri",pt:"Muito obrigado"},
 {m:"shopping",en:"Have a good day.",pron:"gud dei",pt:"Tenha um bom dia"},
 {m:"shopping",en:"See you later.",pron:"si iu later",pt:"Até mais"},
-{m:"shopping",en:"Goodbye.",pron:"gud bai",pt:"Tchau"}
+{m:"shopping",en:"Goodbye.",pron:"gud bai",pt:"Tchau"},
 
 /* TOURISM */
 
@@ -313,7 +313,7 @@ const phrases = [
 {m:"tourism",en:"Let's take a picture.",pron:"lets pikcher",pt:"Vamos tirar foto"},
 {m:"tourism",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
 {m:"tourism",en:"See you later.",pron:"si iu later",pt:"Até mais"},
-{m:"tourism",en:"Goodbye.",pron:"gud bai",pt:"Tchau"}
+{m:"tourism",en:"Goodbye.",pron:"gud bai",pt:"Tchau"},
 
 /* CONVERSATION */
 
@@ -327,7 +327,6 @@ const phrases = [
 {m:"conversation",en:"I am tired.",pron:"ai am taiard",pt:"Estou cansado"},
 {m:"conversation",en:"I am hungry.",pron:"ai am rangri",pt:"Estou com fome"},
 {m:"conversation",en:"I am thirsty.",pron:"ai am thârsti",pt:"Estou com sede"},
-
 {m:"conversation",en:"Nice to meet you.",pron:"nais tu mit iu",pt:"Prazer em conhecer você"},
 {m:"conversation",en:"Nice to see you.",pron:"nais tu sii iu",pt:"Prazer em te ver"},
 {m:"conversation",en:"Where are you from?",pron:"uer ar iu from",pt:"De onde você é"},
@@ -338,7 +337,6 @@ const phrases = [
 {m:"conversation",en:"I love this city.",pron:"ai lav dis siti",pt:"Eu amo essa cidade"},
 {m:"conversation",en:"This place is great.",pron:"dis pleis greit",pt:"Esse lugar é ótimo"},
 {m:"conversation",en:"This place is beautiful.",pron:"dis pleis biutiful",pt:"Esse lugar é lindo"},
-
 {m:"conversation",en:"Do you live here?",pron:"du iu liv rir",pt:"Você mora aqui"},
 {m:"conversation",en:"Do you work here?",pron:"du iu uork rir",pt:"Você trabalha aqui"},
 {m:"conversation",en:"How long are you here?",pron:"rau long iu rir",pt:"Quanto tempo você está aqui"},
@@ -349,7 +347,6 @@ const phrases = [
 {m:"conversation",en:"I like this place.",pron:"ai laik dis pleis",pt:"Eu gosto desse lugar"},
 {m:"conversation",en:"This city is amazing.",pron:"siti ameizing",pt:"Essa cidade é incrível"},
 {m:"conversation",en:"This food is amazing.",pron:"fud ameizing",pt:"Essa comida é incrível"},
-
 {m:"conversation",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
 {m:"conversation",en:"Thank you very much.",pron:"thenk iu veri match",pt:"Muito obrigado"},
 {m:"conversation",en:"You're welcome.",pron:"ior uelcom",pt:"De nada"},
@@ -360,7 +357,6 @@ const phrases = [
 {m:"conversation",en:"Of course.",pron:"of cors",pt:"Claro"},
 {m:"conversation",en:"Maybe.",pron:"meibi",pt:"Talvez"},
 {m:"conversation",en:"I think so.",pron:"ai think sou",pt:"Eu acho que sim"},
-
 {m:"conversation",en:"I don't think so.",pron:"ai dont think sou",pt:"Eu acho que não"},
 {m:"conversation",en:"Just a moment.",pron:"djast moment",pt:"Só um momento"},
 {m:"conversation",en:"One second.",pron:"uan second",pt:"Um segundo"},
@@ -370,7 +366,7 @@ const phrases = [
 {m:"conversation",en:"Let's go there.",pron:"lets gou der",pt:"Vamos lá"},
 {m:"conversation",en:"See you later.",pron:"si iu later",pt:"Até mais"},
 {m:"conversation",en:"See you tomorrow.",pron:"si iu tumoro",pt:"Até amanhã"},
-{m:"conversation",en:"Goodbye.",pron:"gud bai",pt:"Tchau"}
+{m:"conversation",en:"Goodbye.",pron:"gud bai",pt:"Tchau"},
 
 /* EMERGENCY */
 
