@@ -265,7 +265,7 @@ Voltar
 if(screen=="lesson"){
 
 let list=phrases.filter(p=>p.m==module)
-let p=list[index]
+let p=list[index] || list[0]
 
 if(!p){
 
