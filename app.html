@@ -95,12 +95,7 @@ body {
     0 0 0 1px rgba(255,255,255,0.08);
   text-align: center;
   display: none;
-  animation: cardIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
-}
-
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(20px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 /* ── TYPOGRAPHY ── */
@@ -135,7 +130,6 @@ p {
   margin: 6px 0;
 }
 
-/* ── LOGO ── */
 .logo {
   width: 120px;
   margin-bottom: 10px;
@@ -170,20 +164,14 @@ button::after {
   pointer-events: none;
 }
 
-button:active {
-  transform: scale(0.97);
-  filter: brightness(0.92);
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-}
+button:active  { transform: scale(0.97); filter: brightness(0.92); }
+button:hover   { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
 
 .green  { background: linear-gradient(160deg, #22c55e, #16a34a); box-shadow: 0 4px 15px rgba(34,197,94,0.35); }
 .blue   { background: linear-gradient(160deg, #3b82f6, #2563eb); box-shadow: 0 4px 15px rgba(59,130,246,0.35); }
 .orange { background: linear-gradient(160deg, #fb923c, #ea580c); box-shadow: 0 4px 15px rgba(251,146,60,0.35); }
 .purple { background: linear-gradient(160deg, #6366f1, #4338ca); box-shadow: 0 4px 15px rgba(99,102,241,0.35); }
+.gold   { background: linear-gradient(160deg, #f59e0b, #d97706); box-shadow: 0 4px 15px rgba(245,158,11,0.35); }
 
 /* ── GRID ── */
 .grid {
@@ -215,6 +203,15 @@ button:hover {
   background: rgba(255,255,255,0.15);
   border-radius: 16px 16px 50% 50%;
   pointer-events: none;
+}
+
+.resume-badge {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.9;
+  margin-top: 5px;
+  letter-spacing: 0.03em;
 }
 
 .card:hover  { transform: scale(1.06) translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
@@ -256,10 +253,8 @@ input {
   color: #1e1b4b;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
-  margin-top: 8px;
+  margin: 12px auto 0;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 input:focus {
@@ -273,7 +268,7 @@ input:focus {
   height: 8px;
   background: #f3f4f6;
   border-radius: 999px;
-  margin: 10px 0;
+  margin: 6px 0 2px;
   overflow: hidden;
 }
 
@@ -285,13 +280,22 @@ input:focus {
   box-shadow: 0 0 8px rgba(34,197,94,0.4);
 }
 
-/* ── LESSON PHRASE ── */
+.phrase-counter {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-align: right;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+/* ── LESSON ── */
 .phrase-box {
   background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   border: 1.5px solid #bae6fd;
   border-radius: 18px;
   padding: 20px 16px;
-  margin: 12px 0;
+  margin: 8px 0;
 }
 
 .phrase-en {
@@ -300,7 +304,6 @@ input:focus {
   color: #1e1b4b;
   letter-spacing: -0.02em;
   line-height: 1.3;
-  margin-bottom: 0;
 }
 
 .pron-box {
@@ -308,7 +311,8 @@ input:focus {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 10px 14px;
-  margin: 10px 0;
+  margin: 8px 0;
+  text-align: left;
 }
 
 .pron-label {
@@ -330,10 +334,9 @@ input:focus {
   font-size: 15px;
   font-weight: 700;
   color: #6b7280;
-  margin: 4px 0 10px;
+  margin: 4px 0 8px;
 }
 
-/* ── MODULE TITLE BADGE ── */
 .module-title {
   display: inline-block;
   font-size: 11px;
@@ -344,10 +347,10 @@ input:focus {
   background: #eef2ff;
   padding: 4px 12px;
   border-radius: 999px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
-/* ── QUIZ OPTIONS ── */
+/* ── QUIZ ── */
 .quizOption {
   background: #f9fafb;
   border: 2px solid #e5e7eb;
@@ -361,6 +364,8 @@ input:focus {
   font-family: 'Nunito', system-ui, sans-serif;
   transition: all 0.15s;
   text-align: left;
+  width: 100%;
+  display: block;
 }
 
 .quizOption:hover {
@@ -370,11 +375,7 @@ input:focus {
   transform: translateX(3px);
 }
 
-.quizOption:active {
-  transform: scale(0.98);
-}
-
-/* ── RESULT SCREENS ── */
+/* ── RESULTS ── */
 .result-correct {
   background: linear-gradient(135deg, #f0fdf4, #dcfce7);
   border: 2px solid #86efac;
@@ -391,6 +392,21 @@ input:focus {
   margin: 10px 0;
 }
 
+/* ── COMPLETION ── */
+.completion-box {
+  background: linear-gradient(135deg, #fefce8, #fef9c3);
+  border: 2px solid #fde047;
+  border-radius: 24px;
+  padding: 24px 20px;
+  margin: 8px 0;
+}
+
+.completion-stars {
+  font-size: 36px;
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+
 /* ── DIVIDER ── */
 .divider {
   height: 1px;
@@ -399,9 +415,7 @@ input:focus {
 }
 
 </style>
-
 </head>
-
 <body>
 
 <div class="splash" id="splash">
@@ -412,323 +426,698 @@ input:focus {
 
 <div class="app" id="app"></div>
 
-<script src="phrases.js"></script>
+<script>
+const phrases = [
+
+/* AIRPORT */
+
+{m:"airport",en:"Where is the airport?",pron:"uer iz dhi erport",pt:"Onde fica o aeroporto"},
+{m:"airport",en:"Where is my gate?",pron:"uer iz mai gueit",pt:"Onde é meu portão"},
+{m:"airport",en:"Where is boarding?",pron:"uer iz bording",pt:"Onde é o embarque"},
+{m:"airport",en:"Where is security?",pron:"uer iz sicuriti",pt:"Onde é a segurança"},
+{m:"airport",en:"Where is check in?",pron:"uer iz tchek in",pt:"Onde faço check in"},
+{m:"airport",en:"Where is baggage claim?",pron:"uer iz baguedj cleim",pt:"Onde retiro bagagem"},
+{m:"airport",en:"Where is immigration?",pron:"uer iz imigreixon",pt:"Onde é imigração"},
+{m:"airport",en:"Where is customs?",pron:"uer iz câstoms",pt:"Onde é alfândega"},
+{m:"airport",en:"Where is the restroom?",pron:"uer iz de restrum",pt:"Onde é o banheiro"},
+{m:"airport",en:"Where is the exit?",pron:"uer iz de exit",pt:"Onde é a saída"},
+{m:"airport",en:"Which terminal?",pron:"uich terminal",pt:"Qual terminal"},
+{m:"airport",en:"Which gate?",pron:"uich gueit",pt:"Qual portão"},
+{m:"airport",en:"What time is boarding?",pron:"uat taim iz bording",pt:"Que horas embarca"},
+{m:"airport",en:"What time is the flight?",pron:"uat taim iz de flait",pt:"Que horas é o voo"},
+{m:"airport",en:"Is the flight delayed?",pron:"iz de flait dileid",pt:"O voo está atrasado"},
+{m:"airport",en:"Is the flight canceled?",pron:"iz de flait kenseld",pt:"O voo foi cancelado"},
+{m:"airport",en:"My flight is delayed.",pron:"mai flait iz dileid",pt:"Meu voo atrasou"},
+{m:"airport",en:"My gate changed.",pron:"mai gueit tcheindj",pt:"Meu portão mudou"},
+{m:"airport",en:"I missed my flight.",pron:"ai mist mai flait",pt:"Perdi meu voo"},
+{m:"airport",en:"I lost my luggage.",pron:"ai lost mai laguedj",pt:"Perdi minha mala"},
+{m:"airport",en:"My bag is missing.",pron:"mai bag iz mising",pt:"Minha mala sumiu"},
+{m:"airport",en:"I only have carry on.",pron:"ai ounli rav keri on",pt:"Só tenho bagagem de mão"},
+{m:"airport",en:"I have two bags.",pron:"ai rav tu bags",pt:"Tenho duas malas"},
+{m:"airport",en:"Can you help me?",pron:"ken iu relp mi",pt:"Pode me ajudar"},
+{m:"airport",en:"I need help.",pron:"ai nid relp",pt:"Preciso de ajuda"},
+{m:"airport",en:"I don't understand.",pron:"ai dont anderstend",pt:"Não entendo"},
+{m:"airport",en:"Please speak slowly.",pron:"pliz spik slouli",pt:"Fale devagar"},
+{m:"airport",en:"Can you repeat?",pron:"ken iu ripit",pt:"Pode repetir"},
+{m:"airport",en:"Where is the taxi?",pron:"uer iz de taxi",pt:"Onde tem taxi"},
+{m:"airport",en:"Where is Uber pickup?",pron:"uer iz uber picap",pt:"Onde pega Uber"},
+{m:"airport",en:"Where is the bus?",pron:"uer iz de bâs",pt:"Onde é o ônibus"},
+{m:"airport",en:"Where is the train?",pron:"uer iz de trein",pt:"Onde é o trem"},
+{m:"airport",en:"Where can I buy tickets?",pron:"uer ken ai bai tikets",pt:"Onde compro passagem"},
+{m:"airport",en:"Where is the ATM?",pron:"uer iz de ei ti em",pt:"Onde é caixa eletrônico"},
+{m:"airport",en:"Where can I exchange money?",pron:"uer ken ai exchêinj mâni",pt:"Onde troco dinheiro"},
+{m:"airport",en:"Where is the lounge?",pron:"uer iz de launj",pt:"Onde é o lounge"},
+{m:"airport",en:"Can I charge my phone?",pron:"ken ai tcharj mai foun",pt:"Posso carregar celular"},
+{m:"airport",en:"Where is free wifi?",pron:"uer iz fri uaifai",pt:"Onde tem wifi grátis"},
+{m:"airport",en:"What is the wifi password?",pron:"uat iz de uaifai pasuord",pt:"Qual senha wifi"},
+{m:"airport",en:"Can I sit here?",pron:"ken ai sit rir",pt:"Posso sentar aqui"},
+{m:"airport",en:"Is this seat free?",pron:"iz dis sit fri",pt:"Esse assento está livre"},
+{m:"airport",en:"Excuse me.",pron:"excus mi",pt:"Com licença"},
+{m:"airport",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
+{m:"airport",en:"Thank you very much.",pron:"thenk iu veri mâtch",pt:"Muito obrigado"},
+{m:"airport",en:"Have a good flight.",pron:"rav a gud flait",pt:"Bom voo"},
+{m:"airport",en:"Safe travels.",pron:"seif travels",pt:"Boa viagem"},
+{m:"airport",en:"See you soon.",pron:"si iu sun",pt:"Até breve"},
+{m:"airport",en:"Goodbye.",pron:"gud bai",pt:"Tchau"},
+{m:"airport",en:"Boarding started.",pron:"bording startid",pt:"Embarque começou"},
+{m:"airport",en:"Last call.",pron:"last col",pt:"Última chamada"},
+{m:"airport",en:"Flight is ready.",pron:"flait iz redi",pt:"Voo pronto"},
+{m:"airport",en:"Welcome aboard.",pron:"uelcom abord",pt:"Bem-vindo a bordo"},
+
+/* HOTEL */
+
+{m:"hotel",en:"I have a reservation.",pron:"ai rav a rezerveixon",pt:"Tenho reserva"},
+{m:"hotel",en:"I need a room.",pron:"ai nid a rum",pt:"Preciso de quarto"},
+{m:"hotel",en:"Do you have rooms?",pron:"du iu rav rums",pt:"Tem quartos"},
+{m:"hotel",en:"Is breakfast included?",pron:"iz brekfast inclúdid",pt:"Café incluso"},
+{m:"hotel",en:"Is wifi included?",pron:"iz uaifai inclúdid",pt:"Wifi incluso"},
+{m:"hotel",en:"What time is check in?",pron:"uat taim iz tchek in",pt:"Hora do check-in"},
+{m:"hotel",en:"What time is checkout?",pron:"uat taim iz tchek aut",pt:"Hora checkout"},
+{m:"hotel",en:"Can I check in early?",pron:"ken ai tchek in ârli",pt:"Entrar mais cedo"},
+{m:"hotel",en:"Can I check out late?",pron:"ken ai tchek aut leit",pt:"Sair mais tarde"},
+{m:"hotel",en:"Where is my room?",pron:"uer iz mai rum",pt:"Onde é meu quarto"},
+{m:"hotel",en:"What floor?",pron:"uat flor",pt:"Qual andar"},
+{m:"hotel",en:"Where is the elevator?",pron:"uer iz de elevêitor",pt:"Onde elevador"},
+{m:"hotel",en:"Where is the lobby?",pron:"uer iz de lobi",pt:"Onde lobby"},
+{m:"hotel",en:"Where is the pool?",pron:"uer iz de pul",pt:"Onde piscina"},
+{m:"hotel",en:"Where is the gym?",pron:"uer iz de djim",pt:"Onde academia"},
+{m:"hotel",en:"Do you have wifi?",pron:"du iu rav uaifai",pt:"Tem wifi"},
+{m:"hotel",en:"What is the wifi password?",pron:"uat iz de uaifai pasuord",pt:"Senha wifi"},
+{m:"hotel",en:"Can you call a taxi?",pron:"ken iu col a taxi",pt:"Pode chamar taxi"},
+{m:"hotel",en:"Can you wake me up?",pron:"ken iu ueik mi ap",pt:"Pode me acordar"},
+{m:"hotel",en:"I need towels.",pron:"ai nid tauels",pt:"Preciso toalhas"},
+{m:"hotel",en:"I need soap.",pron:"ai nid soup",pt:"Preciso sabonete"},
+{m:"hotel",en:"I need toilet paper.",pron:"ai nid toilet peiper",pt:"Preciso papel"},
+{m:"hotel",en:"The room is cold.",pron:"de rum iz could",pt:"Quarto frio"},
+{m:"hotel",en:"The room is hot.",pron:"de rum iz hot",pt:"Quarto quente"},
+{m:"hotel",en:"The shower is broken.",pron:"de xauer iz broukn",pt:"Chuveiro quebrado"},
+{m:"hotel",en:"The TV is not working.",pron:"de ti vi iz not uorking",pt:"TV não funciona"},
+{m:"hotel",en:"Can I change rooms?",pron:"ken ai tcheinj rums",pt:"Trocar quarto"},
+{m:"hotel",en:"Can I get another room?",pron:"ken ai get anâder rum",pt:"Outro quarto"},
+{m:"hotel",en:"Can I leave my luggage?",pron:"ken ai liv mai laguedj",pt:"Deixar mala"},
+{m:"hotel",en:"Can you store my bags?",pron:"ken iu stor mai bags",pt:"Guardar malas"},
+{m:"hotel",en:"I will come back later.",pron:"ai uil cam bak leiter",pt:"Volto depois"},
+{m:"hotel",en:"I am checking out.",pron:"ai am tcheking aut",pt:"Estou saindo"},
+{m:"hotel",en:"Can I pay now?",pron:"ken ai pei nau",pt:"Posso pagar"},
+{m:"hotel",en:"Can I pay with card?",pron:"ken ai pei uith card",pt:"Pagar cartão"},
+{m:"hotel",en:"Can I pay cash?",pron:"ken ai pei kash",pt:"Pagar dinheiro"},
+{m:"hotel",en:"Do you accept credit cards?",pron:"du iu aksept kredit cards",pt:"Aceitam cartão"},
+{m:"hotel",en:"Can I get a receipt?",pron:"ken ai get a risit",pt:"Recibo"},
+{m:"hotel",en:"Everything is fine.",pron:"evriting iz fain",pt:"Tudo bem"},
+{m:"hotel",en:"The room is perfect.",pron:"de rum iz pârfect",pt:"Quarto perfeito"},
+{m:"hotel",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
+{m:"hotel",en:"Thank you very much.",pron:"thenk iu veri mâtch",pt:"Muito obrigado"},
+{m:"hotel",en:"Have a good day.",pron:"rav a gud dei",pt:"Bom dia"},
+{m:"hotel",en:"See you tomorrow.",pron:"si iu tumórou",pt:"Até amanhã"},
+{m:"hotel",en:"Goodbye.",pron:"gud bai",pt:"Tchau"},
+{m:"hotel",en:"Room service please.",pron:"rum sârvis pliz",pt:"Serviço quarto"},
+{m:"hotel",en:"Extra pillows please.",pron:"extra pilous pliz",pt:"Mais travesseiros"},
+{m:"hotel",en:"Extra blanket please.",pron:"extra blenket pliz",pt:"Mais cobertor"},
+{m:"hotel",en:"I forgot my key.",pron:"ai forgot mai ki",pt:"Esqueci chave"},
+{m:"hotel",en:"I need a new key.",pron:"ai nid a nu ki",pt:"Preciso nova chave"},
+{m:"hotel",en:"Can someone help me?",pron:"ken sâmuan relp mi",pt:"Alguém ajuda"},
+
+/* RESTAURANT */
+
+{m:"restaurant",en:"Can I see the menu?",pron:"ken ai si de meniu",pt:"Posso ver o cardápio"},
+{m:"restaurant",en:"Do you have an English menu?",pron:"du iu rav an inglish meniu",pt:"Tem menu em inglês"},
+{m:"restaurant",en:"What do you recommend?",pron:"uat du iu recoménd",pt:"O que você recomenda"},
+{m:"restaurant",en:"I want this.",pron:"ai uant dis",pt:"Eu quero isso"},
+{m:"restaurant",en:"I will have this.",pron:"ai uil rav dis",pt:"Vou querer isso"},
+{m:"restaurant",en:"Water please.",pron:"uóter pliz",pt:"Água por favor"},
+{m:"restaurant",en:"No ice please.",pron:"nou ais pliz",pt:"Sem gelo"},
+{m:"restaurant",en:"Another water please.",pron:"anâder uóter pliz",pt:"Outra água"},
+{m:"restaurant",en:"One beer please.",pron:"uan bir pliz",pt:"Uma cerveja"},
+{m:"restaurant",en:"Two beers please.",pron:"tu birs pliz",pt:"Duas cervejas"},
+{m:"restaurant",en:"A coffee please.",pron:"a cófi pliz",pt:"Um café"},
+{m:"restaurant",en:"Do you have wine?",pron:"du iu rav uain",pt:"Tem vinho"},
+{m:"restaurant",en:"Do you have beer?",pron:"du iu rav bir",pt:"Tem cerveja"},
+{m:"restaurant",en:"Do you have dessert?",pron:"du iu rav dizârt",pt:"Tem sobremesa"},
+{m:"restaurant",en:"Is this spicy?",pron:"iz dis spaisi",pt:"Isso é apimentado"},
+{m:"restaurant",en:"Not spicy please.",pron:"not spaisi pliz",pt:"Sem pimenta"},
+{m:"restaurant",en:"This is delicious.",pron:"dis iz delíshus",pt:"Está delicioso"},
+{m:"restaurant",en:"This is very good.",pron:"dis iz veri gud",pt:"Muito bom"},
+{m:"restaurant",en:"The food is amazing.",pron:"de fud iz ameizing",pt:"A comida é incrível"},
+{m:"restaurant",en:"Can I get the check?",pron:"ken ai get de tchek",pt:"Pode trazer a conta"},
+{m:"restaurant",en:"The check please.",pron:"de tchek pliz",pt:"A conta por favor"},
+{m:"restaurant",en:"Can we split the check?",pron:"ken ui split de tchek",pt:"Dividir a conta"},
+{m:"restaurant",en:"Separate checks please.",pron:"séperet tcheks pliz",pt:"Contas separadas"},
+{m:"restaurant",en:"Can I pay now?",pron:"ken ai pei nau",pt:"Posso pagar"},
+{m:"restaurant",en:"Can I pay with card?",pron:"ken ai pei uith card",pt:"Pagar com cartão"},
+{m:"restaurant",en:"Can I pay cash?",pron:"ken ai pei kash",pt:"Pagar em dinheiro"},
+{m:"restaurant",en:"Do you accept credit cards?",pron:"du iu aksept kredit cards",pt:"Aceitam cartão"},
+{m:"restaurant",en:"Is tip included?",pron:"iz tip inclúdid",pt:"Gorjeta incluída"},
+{m:"restaurant",en:"Keep the change.",pron:"kip de tcheinj",pt:"Fique com troco"},
+{m:"restaurant",en:"A table for two.",pron:"a teibol for tu",pt:"Mesa para dois"},
+{m:"restaurant",en:"A table for three.",pron:"a teibol for thri",pt:"Mesa para três"},
+{m:"restaurant",en:"Is there a table?",pron:"iz der a teibol",pt:"Tem mesa"},
+{m:"restaurant",en:"How long is the wait?",pron:"rau long iz de ueit",pt:"Quanto tempo espera"},
+{m:"restaurant",en:"Can we sit here?",pron:"ken ui sit rir",pt:"Podemos sentar aqui"},
+{m:"restaurant",en:"Can we sit outside?",pron:"ken ui sit autsaid",pt:"Sentar fora"},
+{m:"restaurant",en:"Can we sit inside?",pron:"ken ui sit insaid",pt:"Sentar dentro"},
+{m:"restaurant",en:"I am ready to order.",pron:"ai am redi tu order",pt:"Pronto para pedir"},
+{m:"restaurant",en:"We are ready to order.",pron:"ui ar redi tu order",pt:"Estamos prontos"},
+{m:"restaurant",en:"Just a minute.",pron:"djâst a mínit",pt:"Só um minuto"},
+{m:"restaurant",en:"Give me a minute.",pron:"giv mi a mínit",pt:"Me dê um minuto"},
+{m:"restaurant",en:"I need more time.",pron:"ai nid mor taim",pt:"Preciso de tempo"},
+{m:"restaurant",en:"Excuse me.",pron:"excus mi",pt:"Com licença"},
+{m:"restaurant",en:"Sorry.",pron:"sóri",pt:"Desculpa"},
+{m:"restaurant",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
+{m:"restaurant",en:"Thank you very much.",pron:"thenk iu veri mâtch",pt:"Muito obrigado"},
+{m:"restaurant",en:"Everything is great.",pron:"evriting iz greit",pt:"Tudo ótimo"},
+{m:"restaurant",en:"The service is great.",pron:"de sârvis iz greit",pt:"Serviço ótimo"},
+{m:"restaurant",en:"We loved the food.",pron:"ui lavd de fud",pt:"Adoramos comida"},
+{m:"restaurant",en:"See you next time.",pron:"si iu nekst taim",pt:"Até a próxima"},
+
+/* TRANSPORT */
+
+{m:"transport",en:"Where is the subway?",pron:"uer iz de sâbuei",pt:"Onde fica o metrô"},
+{m:"transport",en:"Where is the metro?",pron:"uer iz de metrou",pt:"Onde fica o metrô"},
+{m:"transport",en:"Where is the bus stop?",pron:"uer iz de bâs stop",pt:"Onde é o ponto de ônibus"},
+{m:"transport",en:"Where is the train station?",pron:"uer iz de trein steixon",pt:"Onde é a estação de trem"},
+{m:"transport",en:"Where can I get a taxi?",pron:"uer ken ai get a taxi",pt:"Onde pego taxi"},
+{m:"transport",en:"Call a taxi please.",pron:"col a taxi pliz",pt:"Chame um taxi"},
+{m:"transport",en:"I need a taxi.",pron:"ai nid a taxi",pt:"Preciso de taxi"},
+{m:"transport",en:"I need an Uber.",pron:"ai nid an uber",pt:"Preciso de Uber"},
+{m:"transport",en:"Take me downtown.",pron:"teik mi daun taun",pt:"Me leve ao centro"},
+{m:"transport",en:"Take me to the airport.",pron:"teik mi tu de erport",pt:"Me leve ao aeroporto"},
+{m:"transport",en:"Take me to this address.",pron:"teik mi tu dis adres",pt:"Me leve para este endereço"},
+{m:"transport",en:"Stop here please.",pron:"stop rir pliz",pt:"Pare aqui"},
+{m:"transport",en:"Stop there please.",pron:"stop der pliz",pt:"Pare ali"},
+{m:"transport",en:"Please stop here.",pron:"pliz stop rir",pt:"Pare aqui por favor"},
+{m:"transport",en:"How much is the ticket?",pron:"rau mâtch iz de tiket",pt:"Quanto custa a passagem"},
+{m:"transport",en:"How much is the fare?",pron:"rau mâtch iz de fer",pt:"Quanto custa a corrida"},
+{m:"transport",en:"How long does it take?",pron:"rau long dâz it teik",pt:"Quanto tempo demora"},
+{m:"transport",en:"Is it far?",pron:"iz it far",pt:"É longe"},
+{m:"transport",en:"Is it near?",pron:"iz it nir",pt:"É perto"},
+{m:"transport",en:"Turn left.",pron:"târn left",pt:"Vire à esquerda"},
+{m:"transport",en:"Turn right.",pron:"târn rait",pt:"Vire à direita"},
+{m:"transport",en:"Go straight.",pron:"gou streit",pt:"Siga em frente"},
+{m:"transport",en:"Slow down please.",pron:"slou daun pliz",pt:"Devagar por favor"},
+{m:"transport",en:"Stop the car.",pron:"stop de car",pt:"Pare o carro"},
+{m:"transport",en:"Wait here please.",pron:"ueit rir pliz",pt:"Espere aqui"},
+{m:"transport",en:"Can you wait?",pron:"ken iu ueit",pt:"Pode esperar"},
+{m:"transport",en:"Just a minute.",pron:"djâst a mínit",pt:"Só um minuto"},
+{m:"transport",en:"I will be quick.",pron:"ai uil bi kuik",pt:"Serei rápido"},
+{m:"transport",en:"Do you take card?",pron:"du iu teik card",pt:"Aceita cartão"},
+{m:"transport",en:"Do you take cash?",pron:"du iu teik kash",pt:"Aceita dinheiro"},
+{m:"transport",en:"Can I pay with card?",pron:"ken ai pei uith card",pt:"Posso pagar com cartão"},
+{m:"transport",en:"Can I pay cash?",pron:"ken ai pei kash",pt:"Posso pagar em dinheiro"},
+{m:"transport",en:"Is tip included?",pron:"iz tip inclúdid",pt:"A gorjeta está incluída"},
+{m:"transport",en:"Do I need to tip?",pron:"du ai nid tu tip",pt:"Preciso dar gorjeta"},
+{m:"transport",en:"How much tip?",pron:"rau mâtch tip",pt:"Quanto de gorjeta"},
+{m:"transport",en:"Keep the change.",pron:"kip de tcheinj",pt:"Fique com o troco"},
+{m:"transport",en:"Thank you driver.",pron:"thenk iu draiver",pt:"Obrigado motorista"},
+{m:"transport",en:"Which line?",pron:"uich lain",pt:"Qual linha"},
+{m:"transport",en:"Which platform?",pron:"uich platform",pt:"Qual plataforma"},
+{m:"transport",en:"Does this bus stop here?",pron:"dâz dis bâs stop rir",pt:"Esse ônibus para aqui"},
+{m:"transport",en:"Is this the right bus?",pron:"iz dis de rait bâs",pt:"Esse é o ônibus certo"},
+{m:"transport",en:"When is the next bus?",pron:"uen iz de nekst bâs",pt:"Quando é o próximo ônibus"},
+{m:"transport",en:"When is the next train?",pron:"uen iz de nekst trein",pt:"Quando é o próximo trem"},
+{m:"transport",en:"Do I need a ticket?",pron:"du ai nid a tiket",pt:"Preciso de passagem"},
+{m:"transport",en:"Where can I buy a ticket?",pron:"uer ken ai bai a tiket",pt:"Onde compro passagem"},
+{m:"transport",en:"Can I pay here?",pron:"ken ai pei rir",pt:"Posso pagar aqui"},
+{m:"transport",en:"Is this seat free?",pron:"iz dis sit fri",pt:"Esse assento está livre"},
+{m:"transport",en:"Excuse me.",pron:"excus mi",pt:"Com licença"},
+{m:"transport",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
+
+/* SHOPPING */
+
+{m:"shopping",en:"How much is this?",pron:"rau mâtch iz dis",pt:"Quanto custa isso"},
+{m:"shopping",en:"How much is that?",pron:"rau mâtch iz det",pt:"Quanto custa aquilo"},
+{m:"shopping",en:"Is this on sale?",pron:"iz dis on seil",pt:"Isso está em promoção"},
+{m:"shopping",en:"Do you have a discount?",pron:"du iu rav a diskâunt",pt:"Tem desconto"},
+{m:"shopping",en:"Can you give a discount?",pron:"ken iu giv a diskâunt",pt:"Pode dar desconto"},
+{m:"shopping",en:"Is this cheaper?",pron:"iz dis tchiper",pt:"Isso é mais barato"},
+{m:"shopping",en:"This is expensive.",pron:"dis iz expênsiv",pt:"Isso é caro"},
+{m:"shopping",en:"This is cheap.",pron:"dis iz tchip",pt:"Isso é barato"},
+{m:"shopping",en:"Do you have this?",pron:"du iu rav dis",pt:"Você tem isso"},
+{m:"shopping",en:"Do you sell this?",pron:"du iu sel dis",pt:"Você vende isso"},
+{m:"shopping",en:"Can I see that?",pron:"ken ai si det",pt:"Posso ver aquilo"},
+{m:"shopping",en:"Do you have this in black?",pron:"du iu rav dis in blak",pt:"Tem isso em preto"},
+{m:"shopping",en:"Do you have this in blue?",pron:"du iu rav dis in blu",pt:"Tem isso em azul"},
+{m:"shopping",en:"Do you have another color?",pron:"du iu rav anâder câler",pt:"Tem outra cor"},
+{m:"shopping",en:"Do you have a bigger size?",pron:"du iu rav a biger saiz",pt:"Tem tamanho maior"},
+{m:"shopping",en:"Do you have a smaller size?",pron:"du iu rav a smoler saiz",pt:"Tem tamanho menor"},
+{m:"shopping",en:"Can I try this on?",pron:"ken ai trai dis on",pt:"Posso experimentar"},
+{m:"shopping",en:"Where is the fitting room?",pron:"uer iz de fiting rum",pt:"Onde é o provador"},
+{m:"shopping",en:"Where is the store?",pron:"uer iz de stor",pt:"Onde fica a loja"},
+{m:"shopping",en:"Where is the mall?",pron:"uer iz de mol",pt:"Onde fica o shopping"},
+{m:"shopping",en:"I like this.",pron:"ai laik dis",pt:"Eu gostei disso"},
+{m:"shopping",en:"I don't like this.",pron:"ai dont laik dis",pt:"Eu não gostei disso"},
+{m:"shopping",en:"I will take this.",pron:"ai uil teik dis",pt:"Vou levar isso"},
+{m:"shopping",en:"I will take two.",pron:"ai uil teik tu",pt:"Vou levar dois"},
+{m:"shopping",en:"I don't need a bag.",pron:"ai dont nid a bag",pt:"Não preciso de sacola"},
+{m:"shopping",en:"Do you have a bag?",pron:"du iu rav a bag",pt:"Você tem sacola"},
+{m:"shopping",en:"Where is the cashier?",pron:"uer iz de kaxir",pt:"Onde é o caixa"},
+{m:"shopping",en:"Can I pay here?",pron:"ken ai pei rir",pt:"Posso pagar aqui"},
+{m:"shopping",en:"Can I pay with card?",pron:"ken ai pei uith card",pt:"Posso pagar com cartão"},
+{m:"shopping",en:"Can I pay cash?",pron:"ken ai pei kash",pt:"Posso pagar em dinheiro"},
+{m:"shopping",en:"Do you accept credit cards?",pron:"du iu aksept kredit cards",pt:"Aceitam cartão"},
+{m:"shopping",en:"Do you accept debit?",pron:"du iu aksept debit",pt:"Aceitam débito"},
+{m:"shopping",en:"Can I get a receipt?",pron:"ken ai get a risit",pt:"Posso pegar recibo"},
+{m:"shopping",en:"Can I return this?",pron:"ken ai ritârn dis",pt:"Posso devolver isso"},
+{m:"shopping",en:"Can I exchange this?",pron:"ken ai excheinj dis",pt:"Posso trocar isso"},
+{m:"shopping",en:"Is this good quality?",pron:"iz dis gud cuóliti",pt:"Isso é boa qualidade"},
+{m:"shopping",en:"Do you have warranty?",pron:"du iu rav uórenti",pt:"Tem garantia"},
+{m:"shopping",en:"Is this new?",pron:"iz dis nu",pt:"Isso é novo"},
+{m:"shopping",en:"Is this original?",pron:"iz dis oridjinal",pt:"Isso é original"},
+{m:"shopping",en:"I am just looking.",pron:"ai am djâst luking",pt:"Estou só olhando"},
+{m:"shopping",en:"Just looking.",pron:"djâst luking",pt:"Só olhando"},
+{m:"shopping",en:"Maybe later.",pron:"meibi leiter",pt:"Talvez depois"},
+{m:"shopping",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
+{m:"shopping",en:"Thank you very much.",pron:"thenk iu veri mâtch",pt:"Muito obrigado"},
+{m:"shopping",en:"Have a good day.",pron:"rav a gud dei",pt:"Tenha um bom dia"},
+{m:"shopping",en:"See you later.",pron:"si iu leiter",pt:"Até mais"},
+{m:"shopping",en:"Goodbye.",pron:"gud bai",pt:"Tchau"},
+
+/* TOURISM */
+
+{m:"tourism",en:"Where is the beach?",pron:"uer iz de biitch",pt:"Onde fica a praia"},
+{m:"tourism",en:"Where is the museum?",pron:"uer iz de miuziam",pt:"Onde fica o museu"},
+{m:"tourism",en:"Where is downtown?",pron:"uer iz daun taun",pt:"Onde é o centro"},
+{m:"tourism",en:"Where is the park?",pron:"uer iz de park",pt:"Onde é o parque"},
+{m:"tourism",en:"Where is the square?",pron:"uer iz de scuer",pt:"Onde é a praça"},
+{m:"tourism",en:"Where is the restroom?",pron:"uer iz de restrum",pt:"Onde fica o banheiro"},
+{m:"tourism",en:"Where is the entrance?",pron:"uer iz de entrans",pt:"Onde é a entrada"},
+{m:"tourism",en:"Where is the exit?",pron:"uer iz de exit",pt:"Onde é a saída"},
+{m:"tourism",en:"Where can I buy tickets?",pron:"uer ken ai bai tikets",pt:"Onde compro ingressos"},
+{m:"tourism",en:"How much is the ticket?",pron:"rau mâtch iz de tiket",pt:"Quanto custa o ingresso"},
+{m:"tourism",en:"Two tickets please.",pron:"tu tikets pliz",pt:"Dois ingressos por favor"},
+{m:"tourism",en:"One ticket please.",pron:"uan tiket pliz",pt:"Um ingresso por favor"},
+{m:"tourism",en:"Is it open today?",pron:"iz it oupen tudei",pt:"Está aberto hoje"},
+{m:"tourism",en:"What time does it open?",pron:"uat taim dâz it oupen",pt:"Que horas abre"},
+{m:"tourism",en:"What time does it close?",pron:"uat taim dâz it clous",pt:"Que horas fecha"},
+{m:"tourism",en:"Is it far from here?",pron:"iz it far from rir",pt:"É longe daqui"},
+{m:"tourism",en:"Is it near?",pron:"iz it nir",pt:"É perto"},
+{m:"tourism",en:"How do I get there?",pron:"rau du ai get der",pt:"Como chego lá"},
+{m:"tourism",en:"Can we walk there?",pron:"ken ui uok der",pt:"Podemos ir andando"},
+{m:"tourism",en:"Is it safe here?",pron:"iz it seif rir",pt:"É seguro aqui"},
+{m:"tourism",en:"Can you take a picture?",pron:"ken iu teik a pikcher",pt:"Pode tirar uma foto"},
+{m:"tourism",en:"Can you take a photo?",pron:"ken iu teik a foutou",pt:"Pode tirar uma foto"},
+{m:"tourism",en:"Take a picture please.",pron:"teik a pikcher pliz",pt:"Tire uma foto por favor"},
+{m:"tourism",en:"Take another picture.",pron:"teik anâder pikcher",pt:"Tire outra foto"},
+{m:"tourism",en:"This place is beautiful.",pron:"dis pleis iz biutiful",pt:"Esse lugar é lindo"},
+{m:"tourism",en:"This is amazing.",pron:"dis iz ameizing",pt:"Isso é incrível"},
+{m:"tourism",en:"This view is amazing.",pron:"dis viu iz ameizing",pt:"Essa vista é incrível"},
+{m:"tourism",en:"I love this place.",pron:"ai lav dis pleis",pt:"Eu amo esse lugar"},
+{m:"tourism",en:"This city is beautiful.",pron:"dis siti iz biutiful",pt:"Essa cidade é linda"},
+{m:"tourism",en:"This is my first time here.",pron:"dis iz mai fârst taim rir",pt:"É minha primeira vez aqui"},
+{m:"tourism",en:"I am visiting.",pron:"ai am viziting",pt:"Estou visitando"},
+{m:"tourism",en:"I am traveling.",pron:"ai am travelin",pt:"Estou viajando"},
+{m:"tourism",en:"I am on vacation.",pron:"ai am on veikeixon",pt:"Estou de férias"},
+{m:"tourism",en:"Where is the tourist office?",pron:"uer iz de turist ofis",pt:"Onde é o centro turístico"},
+{m:"tourism",en:"Do you have a map?",pron:"du iu rav a map",pt:"Você tem mapa"},
+{m:"tourism",en:"Can I get a map?",pron:"ken ai get a map",pt:"Posso pegar um mapa"},
+{m:"tourism",en:"Show me on the map.",pron:"xou mi on de map",pt:"Mostre no mapa"},
+{m:"tourism",en:"Is there a guide?",pron:"iz der a gaid",pt:"Tem guia"},
+{m:"tourism",en:"Do you have tours?",pron:"du iu rav turs",pt:"Vocês têm passeios"},
+{m:"tourism",en:"How much is the tour?",pron:"rau mâtch iz de tur",pt:"Quanto custa o passeio"},
+{m:"tourism",en:"What time is the tour?",pron:"uat taim iz de tur",pt:"Que horas é o passeio"},
+{m:"tourism",en:"Where does the tour start?",pron:"uer dâz de tur start",pt:"Onde começa o passeio"},
+{m:"tourism",en:"Where does the tour end?",pron:"uer dâz de tur end",pt:"Onde termina o passeio"},
+{m:"tourism",en:"This place is crowded.",pron:"dis pleis iz craudid",pt:"Esse lugar está cheio"},
+{m:"tourism",en:"This place is quiet.",pron:"dis pleis iz kuaiet",pt:"Esse lugar está tranquilo"},
+{m:"tourism",en:"Let's go there.",pron:"lets gou der",pt:"Vamos lá"},
+{m:"tourism",en:"Let's take a picture.",pron:"lets teik a pikcher",pt:"Vamos tirar foto"},
+{m:"tourism",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
+{m:"tourism",en:"See you later.",pron:"si iu leiter",pt:"Até mais"},
+{m:"tourism",en:"Goodbye.",pron:"gud bai",pt:"Tchau"},
+
+/* CONVERSATION */
+
+{m:"conversation",en:"Hello.",pron:"relou",pt:"Olá"},
+{m:"conversation",en:"Hi.",pron:"rai",pt:"Oi"},
+{m:"conversation",en:"Good morning.",pron:"gud morning",pt:"Bom dia"},
+{m:"conversation",en:"Good afternoon.",pron:"gud afternun",pt:"Boa tarde"},
+{m:"conversation",en:"Good evening.",pron:"gud ivning",pt:"Boa noite"},
+{m:"conversation",en:"How are you?",pron:"rau ar iu",pt:"Como você está"},
+{m:"conversation",en:"I am good.",pron:"ai am gud",pt:"Estou bem"},
+{m:"conversation",en:"I am tired.",pron:"ai am taierd",pt:"Estou cansado"},
+{m:"conversation",en:"I am hungry.",pron:"ai am rângri",pt:"Estou com fome"},
+{m:"conversation",en:"I am thirsty.",pron:"ai am thârsti",pt:"Estou com sede"},
+{m:"conversation",en:"Nice to meet you.",pron:"nais tu mit iu",pt:"Prazer em conhecer você"},
+{m:"conversation",en:"Nice to see you.",pron:"nais tu si iu",pt:"Prazer em te ver"},
+{m:"conversation",en:"Where are you from?",pron:"uer ar iu from",pt:"De onde você é"},
+{m:"conversation",en:"I am from Brazil.",pron:"ai am from brazil",pt:"Sou do Brasil"},
+{m:"conversation",en:"I am traveling.",pron:"ai am travelin",pt:"Estou viajando"},
+{m:"conversation",en:"I am on vacation.",pron:"ai am on veikeixon",pt:"Estou de férias"},
+{m:"conversation",en:"This is my first time.",pron:"dis iz mai fârst taim",pt:"É minha primeira vez"},
+{m:"conversation",en:"I love this city.",pron:"ai lav dis siti",pt:"Eu amo essa cidade"},
+{m:"conversation",en:"This place is great.",pron:"dis pleis iz greit",pt:"Esse lugar é ótimo"},
+{m:"conversation",en:"This place is beautiful.",pron:"dis pleis iz biutiful",pt:"Esse lugar é lindo"},
+{m:"conversation",en:"Do you live here?",pron:"du iu liv rir",pt:"Você mora aqui"},
+{m:"conversation",en:"Do you work here?",pron:"du iu uork rir",pt:"Você trabalha aqui"},
+{m:"conversation",en:"How long are you here?",pron:"rau long ar iu rir",pt:"Quanto tempo você está aqui"},
+{m:"conversation",en:"How long is your trip?",pron:"rau long iz ior trip",pt:"Quanto dura sua viagem"},
+{m:"conversation",en:"I arrive today.",pron:"ai araiv tudei",pt:"Cheguei hoje"},
+{m:"conversation",en:"I leave tomorrow.",pron:"ai liv tumórou",pt:"Vou embora amanhã"},
+{m:"conversation",en:"I leave next week.",pron:"ai liv nekst uik",pt:"Vou embora semana que vem"},
+{m:"conversation",en:"I like this place.",pron:"ai laik dis pleis",pt:"Eu gosto desse lugar"},
+{m:"conversation",en:"This city is amazing.",pron:"dis siti iz ameizing",pt:"Essa cidade é incrível"},
+{m:"conversation",en:"This food is amazing.",pron:"dis fud iz ameizing",pt:"Essa comida é incrível"},
+{m:"conversation",en:"Thank you.",pron:"thenk iu",pt:"Obrigado"},
+{m:"conversation",en:"Thank you very much.",pron:"thenk iu veri mâtch",pt:"Muito obrigado"},
+{m:"conversation",en:"You're welcome.",pron:"ior uelcom",pt:"De nada"},
+{m:"conversation",en:"No problem.",pron:"nou problem",pt:"Sem problema"},
+{m:"conversation",en:"Excuse me.",pron:"excus mi",pt:"Com licença"},
+{m:"conversation",en:"Sorry.",pron:"sóri",pt:"Desculpa"},
+{m:"conversation",en:"It's okay.",pron:"its okei",pt:"Tudo bem"},
+{m:"conversation",en:"Of course.",pron:"âv cors",pt:"Claro"},
+{m:"conversation",en:"Maybe.",pron:"meibi",pt:"Talvez"},
+{m:"conversation",en:"I think so.",pron:"ai think sou",pt:"Eu acho que sim"},
+{m:"conversation",en:"I don't think so.",pron:"ai dont think sou",pt:"Eu acho que não"},
+{m:"conversation",en:"Just a moment.",pron:"djâst a moumont",pt:"Só um momento"},
+{m:"conversation",en:"One second.",pron:"uan sekond",pt:"Um segundo"},
+{m:"conversation",en:"Wait here.",pron:"ueit rir",pt:"Espere aqui"},
+{m:"conversation",en:"Come here.",pron:"cam rir",pt:"Venha aqui"},
+{m:"conversation",en:"Let's go.",pron:"lets gou",pt:"Vamos"},
+{m:"conversation",en:"Let's go there.",pron:"lets gou der",pt:"Vamos lá"},
+{m:"conversation",en:"See you later.",pron:"si iu leiter",pt:"Até mais"},
+{m:"conversation",en:"See you tomorrow.",pron:"si iu tumórou",pt:"Até amanhã"},
+{m:"conversation",en:"Goodbye.",pron:"gud bai",pt:"Tchau"},
+
+/* EMERGENCY */
+
+{m:"emergency",en:"Help.",pron:"relp",pt:"Socorro"},
+{m:"emergency",en:"Please help me.",pron:"pliz relp mi",pt:"Por favor me ajude"},
+{m:"emergency",en:"Call the police.",pron:"col de polis",pt:"Chame a polícia"},
+{m:"emergency",en:"Call an ambulance.",pron:"col an embiulans",pt:"Chame uma ambulância"},
+{m:"emergency",en:"I need a doctor.",pron:"ai nid a dâctor",pt:"Preciso de um médico"},
+{m:"emergency",en:"I need help.",pron:"ai nid relp",pt:"Preciso de ajuda"},
+{m:"emergency",en:"I feel sick.",pron:"ai fil sik",pt:"Estou me sentindo mal"},
+{m:"emergency",en:"I am hurt.",pron:"ai am rart",pt:"Estou ferido"},
+{m:"emergency",en:"I can't breathe.",pron:"ai kent brith",pt:"Não consigo respirar"},
+{m:"emergency",en:"I need medicine.",pron:"ai nid medisin",pt:"Preciso de remédio"},
+{m:"emergency",en:"Where is the hospital?",pron:"uer iz de râspital",pt:"Onde fica o hospital"},
+{m:"emergency",en:"Where is the pharmacy?",pron:"uer iz de farmasi",pt:"Onde fica a farmácia"},
+{m:"emergency",en:"Where is the clinic?",pron:"uer iz de clinic",pt:"Onde fica a clínica"},
+{m:"emergency",en:"I need a hospital.",pron:"ai nid a râspital",pt:"Preciso de hospital"},
+{m:"emergency",en:"I need a pharmacy.",pron:"ai nid a farmasi",pt:"Preciso de farmácia"},
+{m:"emergency",en:"I lost my passport.",pron:"ai lost mai passport",pt:"Perdi meu passaporte"},
+{m:"emergency",en:"I lost my phone.",pron:"ai lost mai foun",pt:"Perdi meu celular"},
+{m:"emergency",en:"My bag was stolen.",pron:"mai bag uaz stouln",pt:"Minha bolsa foi roubada"},
+{m:"emergency",en:"I was robbed.",pron:"ai uaz robd",pt:"Fui roubado"},
+{m:"emergency",en:"Someone stole my bag.",pron:"sâmuan stoul mai bag",pt:"Roubaram minha bolsa"},
+{m:"emergency",en:"I am lost.",pron:"ai am lost",pt:"Estou perdido"},
+{m:"emergency",en:"I can't find my hotel.",pron:"ai kent faind mai routel",pt:"Não acho meu hotel"},
+{m:"emergency",en:"I can't find my friends.",pron:"ai kent faind mai frends",pt:"Não acho meus amigos"},
+{m:"emergency",en:"Can you help me?",pron:"ken iu relp mi",pt:"Pode me ajudar"},
+{m:"emergency",en:"I need assistance.",pron:"ai nid asistens",pt:"Preciso de assistência"},
+{m:"emergency",en:"This is urgent.",pron:"dis iz ârdjent",pt:"Isso é urgente"},
+{m:"emergency",en:"Please hurry.",pron:"pliz rari",pt:"Por favor rápido"},
+{m:"emergency",en:"Call security.",pron:"col sicuriti",pt:"Chame a segurança"},
+{m:"emergency",en:"Where is security?",pron:"uer iz sicuriti",pt:"Onde fica a segurança"},
+{m:"emergency",en:"Where is the police station?",pron:"uer iz de polis steixon",pt:"Onde fica a delegacia"},
+{m:"emergency",en:"I need the police.",pron:"ai nid de polis",pt:"Preciso da polícia"},
+{m:"emergency",en:"I need help now.",pron:"ai nid relp nau",pt:"Preciso de ajuda agora"},
+{m:"emergency",en:"I feel dizzy.",pron:"ai fil dizi",pt:"Estou tonto"},
+{m:"emergency",en:"I feel weak.",pron:"ai fil uik",pt:"Estou fraco"},
+{m:"emergency",en:"I have pain.",pron:"ai rav pein",pt:"Estou com dor"},
+{m:"emergency",en:"My head hurts.",pron:"mai red rarts",pt:"Minha cabeça dói"},
+{m:"emergency",en:"My stomach hurts.",pron:"mai stâmak rarts",pt:"Meu estômago dói"},
+{m:"emergency",en:"I have a fever.",pron:"ai rav a fiver",pt:"Estou com febre"},
+{m:"emergency",en:"I need water.",pron:"ai nid uóter",pt:"Preciso de água"},
+{m:"emergency",en:"I need to sit.",pron:"ai nid tu sit",pt:"Preciso sentar"},
+{m:"emergency",en:"I need to rest.",pron:"ai nid tu rest",pt:"Preciso descansar"},
+{m:"emergency",en:"Can you call someone?",pron:"ken iu col sâmuan",pt:"Pode chamar alguém"},
+{m:"emergency",en:"Call my friend.",pron:"col mai frend",pt:"Ligue para meu amigo"},
+{m:"emergency",en:"Call my hotel.",pron:"col mai routel",pt:"Ligue para meu hotel"},
+{m:"emergency",en:"Call a taxi.",pron:"col a taxi",pt:"Chame um taxi"},
+{m:"emergency",en:"I need transportation.",pron:"ai nid transprteixon",pt:"Preciso de transporte"},
+{m:"emergency",en:"Take me to the hospital.",pron:"teik mi tu de râspital",pt:"Me leve ao hospital"},
+{m:"emergency",en:"Take me to a doctor.",pron:"teik mi tu a dâctor",pt:"Me leve a um médico"},
+{m:"emergency",en:"Stay with me.",pron:"stei uith mi",pt:"Fique comigo"},
+{m:"emergency",en:"Thank you for helping.",pron:"thenk iu for relping",pt:"Obrigado por ajudar"}
+];
+
+</script>
 
 <script>
 
 setTimeout(()=>{
-  document.getElementById("splash").style.display="none"
-  document.getElementById("app").style.display="block"
-},1500)
+  document.getElementById("splash").style.display = "none"
+  document.getElementById("app").style.display = "block"
+}, 1500)
 
-let screen="home"
-let module=""
-let index=0
-let quizMode=false
+let screen = "home"
+let module = ""
+let index = 0
+let quizMode = false
 
-let name=localStorage.name||""
-let points=Number(localStorage.points)||0
+let name   = localStorage.name || ""
+let points = Number(localStorage.points) || 0
+
+function getSavedIndex(m){
+  return Number(localStorage.getItem("progress_" + m)) || 0
+}
+
+function saveProgress(m, i){
+  localStorage.setItem("progress_" + m, i)
+}
+
+function clearProgress(m){
+  localStorage.removeItem("progress_" + m)
+}
 
 function render(){
-
-const app=document.getElementById("app")
-
-if(screen=="home"){
-
-app.innerHTML=`
-
-<img src="icon.png" class="logo">
-
-<h1>TripTalk</h1>
-
-<p>O inglês que pode salvar sua primeira viagem ✈️</p>
-
-<div class="divider"></div>
-
-<button class="green" onclick="screen='name';render()">
-COMEÇAR
-</button>
-
-<button class="orange" onclick="reset()">
-Reiniciar progresso
-</button>
-
-`
-
+  renderContent()
 }
 
-if(screen=="name"){
+function renderContent(){
 
-app.innerHTML=`
+  const app = document.getElementById("app")
 
-<h2>Como você se chama?</h2>
-<p>Vamos personalizar sua experiência</p>
+  if(screen == "home"){
+    app.innerHTML = `
+      <img src="icon.png" class="logo">
+      <h1>TripTalk</h1>
+      <p>O inglês que pode salvar sua primeira viagem ✈️</p>
+      <div class="divider"></div>
+      <button class="green" onclick="goStart()">COMEÇAR</button>
+      <button class="orange" onclick="reset()">Reiniciar progresso</button>
+    `
+  }
 
-<input id="nameInput" placeholder="Seu nome" style="padding:13px 16px;width:90%;border:2px solid #e5e7eb;border-radius:12px;font-size:16px;font-family:'Nunito',system-ui,sans-serif;font-weight:700;color:#1e1b4b;outline:none;display:block;margin:12px auto 0;">
+  if(screen == "name"){
+    app.innerHTML = `
+      <h2>Como você se chama?</h2>
+      <p>Vamos personalizar sua experiência</p>
+      <input id="nameInput" placeholder="Seu nome">
+      <button class="green" onclick="saveName()">Continuar →</button>
+    `
+  }
 
-<button class="green" onclick="saveName()">
-Continuar →
-</button>
+  if(screen == "modules"){
 
-`
+    const moduleList = [
+      {id:"airport",     label:"✈️ Airport",      cls:"airport"},
+      {id:"hotel",       label:"🏨 Hotel",         cls:"hotel"},
+      {id:"restaurant",  label:"🍔 Restaurant",    cls:"restaurant"},
+      {id:"transport",   label:"🚕 Transport",     cls:"transport"},
+      {id:"shopping",    label:"🛍️ Shopping",     cls:"shopping"},
+      {id:"tourism",     label:"🗺️ Tourism",      cls:"tourism"},
+      {id:"conversation",label:"💬 Conversation",  cls:"conversation"},
+      {id:"emergency",   label:"🚑 Emergency",     cls:"emergency"},
+    ]
 
-}
+    const cardsHTML = moduleList.map(mod => {
+      const total = phrases.filter(p => p.m == mod.id).length
+      const saved = getSavedIndex(mod.id)
+      const done  = saved >= total
+      const badge = done
+        ? `<span class="resume-badge">✅ Concluído</span>`
+        : saved > 0
+          ? `<span class="resume-badge">▶ Frase ${saved + 1} de ${total}</span>`
+          : ""
+      return `<div class="card ${mod.cls}" onclick="start('${mod.id}')">${mod.label}${badge}</div>`
+    }).join("")
 
-if(screen=="modules"){
+    app.innerHTML = `
+      <img src="icon.png" style="width:70px;margin-bottom:6px;filter:drop-shadow(0 4px 12px rgba(99,102,241,0.3))">
+      <h2>${name}</h2>
+      <div class="points-badge">⭐ ${points} pontos</div>
+      <div class="grid">${cardsHTML}</div>
+      <div class="divider" style="margin-top:16px"></div>
+      <button class="blue"   onclick="screen='help';render()">Ajuda / Suporte</button>
+      <button class="orange" onclick="screen='home';render()">Menu</button>
+    `
+  }
 
-app.innerHTML=`
+  if(screen == "help"){
+    app.innerHTML = `
+      <h2>Suporte</h2>
+      <p>Dúvidas ou problemas:</p>
+      <h3>triptalkenglish@gmail.com</h3>
+      <button class="purple" onclick="screen='modules';render()">← Voltar</button>
+    `
+  }
 
-<img src="icon.png" style="width:70px;margin-bottom:6px;filter:drop-shadow(0 4px 12px rgba(99,102,241,0.3))">
+  if(screen == "lesson"){
 
-<h2>${name}</h2>
+    const list = phrases.filter(p => p.m == module)
+    const p    = list[index]
 
-<div class="points-badge">⭐ ${points} pontos</div>
+    if(!p){
+      screen = "complete"
+      render()
+      return
+    }
 
-<div class="grid">
+    saveProgress(module, index)
 
-<div class="card airport" onclick="start('airport')">✈️ Airport</div>
-<div class="card hotel" onclick="start('hotel')">🏨 Hotel</div>
-<div class="card restaurant" onclick="start('restaurant')">🍔 Restaurant</div>
-<div class="card transport" onclick="start('transport')">🚕 Transport</div>
-<div class="card shopping" onclick="start('shopping')">🛍️ Shopping</div>
-<div class="card tourism" onclick="start('tourism')">🗺️ Tourism</div>
-<div class="card conversation" onclick="start('conversation')">💬 Conversation</div>
-<div class="card emergency" onclick="start('emergency')">🚑 Emergency</div>
+    const progress   = (index / list.length) * 100
+    const phraseNum  = index + 1
+    const phraseTotal= list.length
 
-</div>
+    if(index > 0 && index % 10 == 0 && !quizMode){
+      quizMode = true
+      renderQuiz(p)
+      return
+    }
 
-<div class="divider" style="margin-top:16px"></div>
+    app.innerHTML = `
+      <button class="orange" onclick="screen='modules';render()">← Voltar</button>
+      <div class="module-title">${module.toUpperCase()}</div>
+      <div class="progressBar"><div class="progressFill" style="width:${progress}%"></div></div>
+      <div class="phrase-counter">Frase ${phraseNum} de ${phraseTotal}</div>
+      <div class="phrase-box"><div class="phrase-en">${p.en}</div></div>
+      <button class="blue" onclick="speak('${p.en.replace(/'/g,"\\'")}')">🔊 Ouvir</button>
+      <div class="pron-box">
+        <div class="pron-label">Pronúncia</div>
+        <div class="pron-text">${p.pron}</div>
+      </div>
+      <p class="pt-text">${p.pt}</p>
+      <button class="purple" onclick="next()">Continuar →</button>
+    `
+  }
 
-<button class="blue" onclick="screen='help';render()">
-Ajuda / Suporte
-</button>
+  if(screen == "complete"){
 
-<button class="orange" onclick="screen='home';render()">
-Menu
-</button>
+    const total = phrases.filter(p => p.m == module).length
+    clearProgress(module)
 
-`
+    confetti({ particleCount: 200, spread: 90, origin: {y: 0.5} })
 
-}
-
-if(screen=="help"){
-
-app.innerHTML=`
-
-<h2>Suporte</h2>
-
-<p>Dúvidas ou problemas:</p>
-
-<h3>triptalkenglish@gmail.com</h3>
-
-<button class="purple" onclick="screen='modules';render()">
-← Voltar
-</button>
-
-`
-
-}
-
-if(screen=="lesson"){
-
-let list=phrases.filter(p=>p.m==module)
-let p=list[index] || list[0]
-
-if(!p){
-
-screen="modules"
-render()
-return
-
-}
-
-let progress=(index/list.length)*100
-
-if(index>0 && index%10==0 && !quizMode){
-
-quizMode=true
-renderQuiz(p)
-return
-
-}
-
-app.innerHTML=`
-
-<button class="orange" onclick="screen='modules';render()">
-← Voltar
-</button>
-
-<div class="module-title">${module.toUpperCase()}</div>
-
-<div class="progressBar">
-<div class="progressFill" style="width:${progress}%"></div>
-</div>
-
-<div class="phrase-box">
-<div class="phrase-en">${p.en}</div>
-</div>
-
-<button class="blue" onclick="speak('${p.en}')">
-🔊 Ouvir
-</button>
-
-<div class="pron-box">
-<div class="pron-label">Pronúncia</div>
-<div class="pron-text">${p.pron}</div>
-</div>
-
-<p class="pt-text">${p.pt}</p>
-
-<button class="purple" onclick="next()">
-Continuar →
-</button>
-
-`
-
-}
-
+    app.innerHTML = `
+      <div class="completion-box">
+        <div class="completion-stars">⭐⭐⭐</div>
+        <h1 style="color:#92400e;margin:4px 0">Módulo concluído!</h1>
+        <p style="color:#78350f;font-size:15px;font-weight:700">${module.toUpperCase()} — ${total} frases</p>
+      </div>
+      <div class="points-badge" style="margin:14px auto;display:inline-flex">🏆 ${points} pontos no total</div>
+      <p>Você dominou esse módulo!<br>Continue praticando os outros.</p>
+      <button class="gold"   onclick="screen='modules';render()">Ver todos os módulos</button>
+      <button class="purple" onclick="restartModule()">Repetir módulo</button>
+    `
+  }
 }
 
 function renderQuiz(p){
 
-const app=document.getElementById("app")
+  const app     = document.getElementById("app")
+  const correct = p.pt
 
-let correct=p.pt
+  let list = phrases.filter(x => x.m == module).map(x => x.pt).filter(x => x != correct)
+  let wrong1 = list[Math.floor(Math.random() * list.length)]
+  let wrong2 = list[Math.floor(Math.random() * list.length)]
+  let options = [correct, wrong1, wrong2].sort(() => Math.random() - 0.5)
 
-let list=phrases
-.filter(x=>x.m==module)
-.map(x=>x.pt)
-.filter(x=>x!=correct)
-
-let wrong1=list[Math.floor(Math.random()*list.length)]
-let wrong2=list[Math.floor(Math.random()*list.length)]
-
-let options=[correct,wrong1,wrong2].sort(()=>Math.random()-0.5)
-
-app.innerHTML=`
-
-<div class="module-title">QUIZ</div>
-
-<h2 style="margin-top:8px">${p.en}</h2>
-
-<p style="color:#9ca3af;font-size:13px">O que significa essa frase?</p>
-
-${options.map(o=>`
-
-<div class="quizOption" onclick="answer('${o}','${correct}')">
-${o}
-</div>
-
-`).join("")}
-
-`
-
+  app.innerHTML = `
+    <div class="module-title">QUIZ</div>
+    <h2 style="margin-top:8px">${p.en}</h2>
+    <p style="color:#9ca3af;font-size:13px">O que significa essa frase?</p>
+    ${options.map(o => `
+      <button class="quizOption" onclick="answer(this,'${o.replace(/'/g,"\\'")}','${correct.replace(/'/g,"\\'")}')">
+        ${o}
+      </button>
+    `).join("")}
+  `
 }
 
-function answer(choice,correct){
+function answer(el, choice, correct){
 
-const app=document.getElementById("app")
+  const app = document.getElementById("app")
 
-if(choice==correct){
+  if(choice == correct){
+    points += 10
+    localStorage.points = points
 
-points+=10
-localStorage.points=points
+    confetti({ particleCount: 120, spread: 70, origin: {y: 0.6} })
 
-confetti({
-particleCount:120,
-spread:70,
-origin:{y:0.6}
-})
+    app.innerHTML = `
+      <div class="result-correct">
+        <div style="font-size:48px">🎉</div>
+        <h1 style="color:#16a34a;margin:4px 0">Correto!</h1>
+        <div class="points-badge" style="margin:8px auto">+10 pontos ⭐</div>
+      </div>
+      <button class="blue" onclick="continueLesson()">Continuar →</button>
+    `
 
-app.innerHTML=`
-
-<div class="result-correct">
-<div style="font-size:48px">🎉</div>
-<h1 style="color:#16a34a;margin:4px 0">Correto!</h1>
-<div class="points-badge" style="margin:8px auto">+10 pontos ⭐</div>
-</div>
-
-<button class="blue" onclick="continueLesson()">
-Continuar →
-</button>
-
-`
-
-}else{
-
-app.innerHTML=`
-
-<div class="result-wrong">
-<div style="font-size:48px">😬</div>
-<h1 style="color:#dc2626;margin:4px 0">Errado</h1>
-<p style="color:#991b1b;font-weight:700">Resposta correta:</p>
-<h3 style="color:#1e1b4b">${correct}</h3>
-</div>
-
-<button class="blue" onclick="continueLesson()">
-Continuar →
-</button>
-
-`
-
-}
-
+  } else {
+    app.innerHTML = `
+      <div class="result-wrong">
+        <div style="font-size:48px">😬</div>
+        <h1 style="color:#dc2626;margin:4px 0">Errado</h1>
+        <p style="color:#991b1b;font-weight:700">Resposta correta:</p>
+        <h3 style="color:#1e1b4b">${correct}</h3>
+      </div>
+      <button class="blue" onclick="continueLesson()">Continuar →</button>
+    `
+  }
 }
 
 function continueLesson(){
-
-quizMode=false
-index++
-render()
-
+  quizMode = false
+  index++
+  render()
 }
 
 function speak(text){
+  const msg = new SpeechSynthesisUtterance(text)
+  msg.lang = "en-US"
+  speechSynthesis.speak(msg)
+}
 
-let msg=new SpeechSynthesisUtterance(text)
-msg.lang="en-US"
-speechSynthesis.speak(msg)
-
+function goStart(){
+  screen = name ? "modules" : "name"
+  render()
 }
 
 function saveName(){
-
-name=document.getElementById("nameInput").value
-localStorage.name=name
-
-screen="modules"
-render()
-
+  name = document.getElementById("nameInput").value || "Viajante"
+  localStorage.name = name
+  screen = "modules"
+  render()
 }
 
 function start(m){
+  module   = m
+  index    = getSavedIndex(m)
+  quizMode = false
+  screen   = "lesson"
+  render()
+}
 
-module=m
-index=0
-quizMode=false
-
-screen="lesson"
-render()
-
+function restartModule(){
+  clearProgress(module)
+  index    = 0
+  quizMode = false
+  screen   = "lesson"
+  render()
 }
 
 function next(){
-
-index++
-render()
-
+  index++
+  render()
 }
 
 function reset(){
-
-localStorage.clear()
-
-points=0
-name=""
-
-screen="home"
-render()
-
+  localStorage.clear()
+  points = 0
+  name   = ""
+  screen = "home"
+  render()
 }
 
 render()
@@ -736,5 +1125,4 @@ render()
 </script>
 
 </body>
-
 </html>
