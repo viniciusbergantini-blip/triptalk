@@ -264,7 +264,7 @@ const phrases = [
 
 /* TOURISM */
 
-{m:"tourism",en:"Where is the beach?",pron:"uer iz de bitch",pt:"Onde fica a praia"},
+{m:"tourism",en:"Where is the beach?",pron:"uer iz de biitch",pt:"Onde fica a praia"},
 {m:"tourism",en:"Where is the museum?",pron:"uer iz de miuziam",pt:"Onde fica o museu"},
 {m:"tourism",en:"Where is downtown?",pron:"uer iz daun taun",pt:"Onde é o centro"},
 {m:"tourism",en:"Where is the park?",pron:"uer iz de park",pt:"Onde é o parque"},
