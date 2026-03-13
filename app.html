@@ -645,6 +645,31 @@ input:focus{
   display:block;
 }
 
+/* ══ ACCESS SCREEN ══ */
+.access-box{
+  background: linear-gradient(135deg, #f0f9ff, #dbeafe);
+  border: 1.5px solid #bfdbfe;
+  border-radius: 20px;
+  padding: 22px 18px;
+  margin: 12px 0;
+}
+
+.access-error{
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 8px;
+  display: none;
+}
+
+input.input-access{
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 18px;
+  text-align: center;
+  font-weight: 800;
+}
+
 </style>
 </head>
 <body>
@@ -1100,6 +1125,10 @@ let quizMode = false
 
 let name   = localStorage.name || ""
 let points = Number(localStorage.points) || 0
+let hasAccess = localStorage.hasAccess === "true"
+
+// Se não tem acesso, começa na tela de código
+if(!hasAccess) screen = "access" 
 
 function getSavedIndex(m){
   return Number(localStorage.getItem("progress_" + m)) || 0
@@ -1120,6 +1149,30 @@ function render(){
 function renderContent(){
 
   const app = document.getElementById("app")
+
+  if(screen == "access"){
+    app.style.display = "block"
+    app.style.flexDirection = ""
+    app.style.padding = "24px 18px 28px"
+    app.innerHTML = `
+      <img src="icon.png" class="logo">
+      <h1>TripTalk</h1>
+      <div class="slogan">Inglês para sobreviver na viagem ✈️</div>
+      <div class="access-box">
+        <span style="font-size:36px;display:block;margin-bottom:8px">🔐</span>
+        <h2 style="margin-bottom:4px">Código de acesso</h2>
+        <p>Digite o código que você recebeu<br>após a compra</p>
+        <input class="input-access" id="accessInput" placeholder="TRIP0000" maxlength="10">
+        <div class="access-error" id="accessError">❌ Código inválido. Verifique e tente novamente.</div>
+      </div>
+      <button class="btn-green" onclick="checkAccess()" style="margin-top:4px">Desbloquear →</button>
+      <p style="margin-top:12px;font-size:12px;color:#9ca3af">Ainda não tem o TripTalk?<br><a href="https://pay.kiwify.com.br/pPCzEYj" style="color:var(--indigo);font-weight:700">Clique aqui para adquirir</a></p>
+    `
+    setTimeout(()=>{
+      const inp = document.getElementById("accessInput")
+      if(inp) inp.focus()
+    }, 100)
+  }
 
   if(screen == "home"){
     app.style.display = "block"
@@ -1378,6 +1431,23 @@ function speak(text){
   speechSynthesis.speak(msg)
 }
 
+function checkAccess(){
+  const input = document.getElementById("accessInput")
+  const val = input.value.trim().toUpperCase()
+  const errorEl = document.getElementById("accessError")
+
+  if(val === "TRIP2111"){
+    localStorage.hasAccess = "true"
+    hasAccess = true
+    screen = "home"
+    render()
+  } else {
+    errorEl.style.display = "block"
+    input.style.borderColor = "#ef4444"
+    input.focus()
+  }
+}
+
 function goStart(){
   screen = name ? "modules" : "name"
   render()
@@ -1415,7 +1485,8 @@ function reset(){
   localStorage.clear()
   points = 0
   name   = ""
-  screen = "home"
+  hasAccess = false
+  screen = "access"
   render()
 }
 
