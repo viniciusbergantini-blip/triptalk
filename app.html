@@ -40,7 +40,11 @@
 html,body{
   height:100%;
   font-family:'Nunito',system-ui,sans-serif;
-  background: #ffffff;
+  background: var(--bg1);
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(99,102,241,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(29,78,216,0.3) 0%, transparent 55%),
+    linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
   min-height:100vh;
 }
 
@@ -127,13 +131,23 @@ html,body{
 .app{
   width:100vw;
   min-height:100vh;
-  background:#ffffff;
+  background: linear-gradient(180deg, #1a1040 0%, #312e81 40%, #1d4ed8 100%);
   border-radius:0;
   padding:0;
   box-shadow: none;
   text-align:center;
   display:none;
   overflow-y:auto;
+  margin-top:0;
+}
+
+/* telas com conteúdo branco ficam num card interno */
+.screen-card{
+  background:#ffffff;
+  border-radius:24px 24px 0 0;
+  margin-top:20px;
+  padding:0;
+  min-height:calc(100vh - 20px);
 }
 
 @media (min-width: 500px){
@@ -246,6 +260,7 @@ button:hover { transform:translateY(-2px); filter:brightness(1.05); }
   height:100dvh;
   padding:16px 14px 12px;
   box-sizing:border-box;
+  background:transparent;
 }
 
 .modules-top{
@@ -1153,8 +1168,8 @@ function renderContent(){
   if(screen == "access"){
     app.style.display = "block"
     app.style.flexDirection = ""
-    app.style.padding = "24px 18px 28px"
-    app.innerHTML = `
+    app.style.padding = "0"
+    app.innerHTML = `<div class="screen-card" style="padding:28px 18px 32px">
       <img src="icon.png" class="logo">
       <h1>TripTalk</h1>
       <div class="slogan">Inglês para sobreviver na viagem ✈️</div>
@@ -1177,8 +1192,8 @@ function renderContent(){
   if(screen == "home"){
     app.style.display = "block"
     app.style.flexDirection = ""
-    app.style.padding = "24px 18px 28px"
-    app.innerHTML = `
+    app.style.padding = "0"
+    app.innerHTML = `<div class="screen-card" style="padding:28px 18px 32px">
       <img src="icon.png" class="logo">
       <h1>TripTalk</h1>
       <div class="slogan">Isso não é curso, isso é sobrevivência ✈️</div>
@@ -1186,20 +1201,20 @@ function renderContent(){
       <div class="divider"></div>
       <button class="btn-green" onclick="goStart()">COMEÇAR AGORA</button>
       <button class="btn-orange" onclick="reset()" style="margin-top:8px;opacity:0.85;font-size:13px;padding:11px">Reiniciar progresso</button>
-    `
+    </div>`
   }
 
   if(screen == "name"){
     app.style.display = "block"
     app.style.flexDirection = ""
-    app.style.padding = "24px 18px 28px"
-    app.innerHTML = `
+    app.style.padding = "0"
+    app.innerHTML = `<div class="screen-card" style="padding:28px 18px 32px">
       <span class="name-icon">👋</span>
       <h2>Como você se chama?</h2>
       <p>Vamos personalizar sua experiência</p>
       <input id="nameInput" placeholder="Digite seu nome...">
       <button class="btn-green" onclick="saveName()" style="margin-top:14px">Continuar →</button>
-    `
+    </div>`
     setTimeout(()=>{
       const inp = document.getElementById("nameInput")
       if(inp) inp.focus()
@@ -1242,7 +1257,7 @@ function renderContent(){
       <div class="modules-wrap">
         <div class="modules-top">
           <img src="icon.png" style="width:44px;border-radius:12px;box-shadow:0 3px 12px rgba(79,70,229,0.25)">
-          <h2 style="font-size:16px;margin:3px 0 1px">Olá, ${name}! 👋</h2>
+          <h2 style="font-size:16px;margin:3px 0 1px;color:white">Olá, ${name}! 👋</h2>
           <div class="points-badge" style="margin:0 0 4px">⭐ ${points} pontos</div>
         </div>
         <div class="grid-fill">${cardsHTML}</div>
@@ -1257,14 +1272,14 @@ function renderContent(){
   if(screen == "help"){
     app.style.display = "block"
     app.style.flexDirection = ""
-    app.style.padding = "24px 18px 28px"
-    app.innerHTML = `
+    app.style.padding = "0"
+    app.innerHTML = `<div class="screen-card" style="padding:28px 18px 32px">
       <span style="font-size:48px;display:block;margin-bottom:8px">📧</span>
       <h2>Suporte</h2>
       <p style="margin:10px 0 4px">Dúvidas ou problemas? Fale com a gente:</p>
       <h3 style="color:var(--indigo);font-size:14px;margin:8px 0 16px">triptalkenglish@gmail.com</h3>
       <button class="btn-purple" onclick="screen='modules';render()">← Voltar</button>
-    `
+    </div>`
   }
 
   if(screen == "lesson"){
@@ -1342,7 +1357,7 @@ function renderContent(){
   }
   if(screen == "complete"){
 
-    app.style.padding = "24px 18px 28px"
+    app.style.padding = "0"
     const total = phrases.filter(p => p.m == module).length
     clearProgress(module)
 
@@ -1350,7 +1365,7 @@ function renderContent(){
       confetti({ particleCount:200, spread:90, origin:{y:0.5} })
     }, 200)
 
-    app.innerHTML = `
+    app.innerHTML = `<div class="screen-card" style="padding:28px 18px 32px">
       <div class="completion-box">
         <div class="completion-emoji">🏆</div>
         <h1 style="color:#92400e">Módulo concluído!</h1>
@@ -1360,7 +1375,7 @@ function renderContent(){
       <p style="margin:8px 0 14px">Você dominou esse módulo!<br>Continue praticando os outros. 💪</p>
       <button class="btn-gold"   onclick="screen='modules';render()">Ver todos os módulos</button>
       <button class="btn-purple" onclick="restartModule()" style="font-size:13px;padding:11px;margin-top:8px">Repetir módulo</button>
-    `
+    </div>`
   }
 }
 
