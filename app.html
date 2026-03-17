@@ -1350,7 +1350,10 @@ function renderContent(){
             <div class="pt-icon">🇧🇷</div>
             <div class="pt-text">${p.pt}</div>
           </div>
-          <button class="btn-purple" onclick="next()" style="margin:0">Continuar →</button>
+          <div style="display:flex;gap:8px;margin:0">
+            ${index > 0 ? `<button class="btn-orange" onclick="prev()" style="margin:0;width:auto;padding:14px 18px;font-size:13px">← Anterior</button>` : ''}
+            <button class="btn-purple" onclick="next()" style="margin:0;flex:1">Continuar →</button>
+          </div>
         </div>
       </div>
     `
@@ -1391,8 +1394,8 @@ function renderQuiz(p){
 
   app.innerHTML = `
     <div class="module-title">⚡ QUIZ</div>
-    <h2 style="margin:10px 0 4px;font-size:20px">${p.en}</h2>
-    <p style="color:#94a3b8;font-size:12.5px;margin-bottom:4px">O que significa essa frase?</p>
+    <h2 style="margin:10px 0 4px;font-size:20px;color:white">${p.en}</h2>
+    <p style="color:rgba(255,255,255,0.7);font-size:12.5px;margin-bottom:4px">O que significa essa frase?</p>
     ${options.map(o => `
       <button class="quizOption" onclick="answer(this,'${o.replace(/'/g,"\\'")}','${correct.replace(/'/g,"\\'")}')">
         ${o}
@@ -1409,16 +1412,18 @@ function answer(el, choice, correct){
     points += 10
     localStorage.points = points
     confetti({ particleCount:130, spread:70, origin:{y:0.6} })
-    app.innerHTML = `
+    app.style.padding = "0"
+    app.innerHTML = `<div class="screen-card" style="padding:28px 18px 32px">
       <div class="result-correct">
         <div style="font-size:52px;margin-bottom:4px">🎉</div>
         <h1 style="color:#15803d">Correto!</h1>
         <div class="points-badge" style="margin:10px auto;justify-content:center">+10 pontos ⭐</div>
       </div>
       <button class="btn-blue" onclick="continueLesson()" style="margin-top:14px">Continuar →</button>
-    `
+    </div>`
   } else {
-    app.innerHTML = `
+    app.style.padding = "0"
+    app.innerHTML = `<div class="screen-card" style="padding:28px 18px 32px">
       <div class="result-wrong">
         <div style="font-size:52px;margin-bottom:4px">😬</div>
         <h1 style="color:#b91c1c">Errado</h1>
@@ -1426,7 +1431,7 @@ function answer(el, choice, correct){
         <h3 style="color:var(--text);font-size:15px">${correct}</h3>
       </div>
       <button class="btn-blue" onclick="continueLesson()" style="margin-top:14px">Continuar →</button>
-    `
+    </div>`
   }
 }
 
@@ -1494,6 +1499,13 @@ function restartModule(){
 function next(){
   index++
   render()
+}
+
+function prev(){
+  if(index > 0){
+    index--
+    render()
+  }
 }
 
 function reset(){
